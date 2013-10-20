@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="kmj_toolkit.toolkit.class">KMJ\ToolkitBundle\Service\ToolkitService</parameter>
+    </parameters>
+
+    <services>
+        <service id="kmj_toolkit.toolkit" class="%kmj_toolkit.toolkit.class%">
+            <argument>%kmj.toolkit.service.parameters%</argument>
+            <argument type="service" id="fos_user.user_manager" />
+        </service>
+        <service alias="kmj_toolkit.toolkit" id="toolkit" />
+    </services>
+</container>
