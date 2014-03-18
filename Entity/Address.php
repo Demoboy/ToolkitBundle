@@ -5,6 +5,7 @@ namespace KMJ\ToolkitBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContext;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 
 /**
  * KMJ\ToolkitBundle\Entity\Address
@@ -98,8 +99,9 @@ class Address {
     protected $name;
 
     /**
-     * @ORM\Column(name="phoneNumber", type="string", length=15, nullable=true)
+     * @ORM\Column(name="phoneNumber", type="phone_number", nullable=true)
      * @var string $phoneNumber 
+     * @AssertPhoneNumber(defaultRegion="GB")
      */
     protected $phoneNumber;
 
@@ -122,7 +124,7 @@ class Address {
      * @ORM\Column(name="latitude", type="decimal", scale=7, precision=10, nullable=true)
      */
     protected $latitude;
-    
+
     /**
      *
      * @ORM\Column(name="isResidential", type="boolean")
@@ -375,7 +377,7 @@ class Address {
         } else {
             throw new \InvalidArgumentException;
         }
-        
+
         return $this;
     }
 
@@ -432,7 +434,7 @@ class Address {
             }
         }
     }
-    
+
     public function getIsResidential() {
         return $this->isResidential;
     }
@@ -441,7 +443,5 @@ class Address {
         $this->isResidential = $isResidential;
         return $this;
     }
-
-
 
 }
