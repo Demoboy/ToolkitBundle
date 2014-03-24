@@ -9,7 +9,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 class CountryFixtures extends AbstractFixture implements OrderedFixtureInterface {
 
     public function getOrder() {
-        return 1;
+        return 10;
     }
 
     public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {

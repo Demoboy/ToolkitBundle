@@ -9,12 +9,14 @@ namespace KMJ\ToolkitBundle\Service;
  */
 class ToolkitService {
 
+    private $overrideFixture;
     private $config;
     protected $fosUM;
 
     public function __construct($config, $fosUM) {
         $this->config = $config;
         $this->fosUM = $fosUM;
+        $this->overrideFixture = false;
     }
 
     public function createAdminUser() {
@@ -28,6 +30,14 @@ class ToolkitService {
                 ->setUsername($this->config['administrator']['username']);
 
         return $user;
+    }
+ 
+    public function overrideFixture($overrideFixture = null) {
+        if ($overrideFixture === null) {
+            return $this->overrideFixture;
+        }
+        
+        $this->overrideFixture = $overrideFixture;
     }
 
 }

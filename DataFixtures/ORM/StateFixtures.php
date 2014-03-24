@@ -13,7 +13,7 @@ class StateFixtures extends AbstractFixture implements OrderedFixtureInterface, 
     private $_container;
 
     public function getOrder() {
-        return 2;
+        return 11;
     }
 
     public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {

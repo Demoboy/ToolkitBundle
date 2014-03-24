@@ -4,15 +4,14 @@ namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * User
- *
- * @ORM\Table(name="kmj_toolkit_users")
- * @ORM\Entity()
+ * @ORM\MappedSuperclass
+ * @UniqueEntity(fields="email", message="That email is already in use. Please enter another one")
  */
-class User extends BaseUser {
+abstract class User extends BaseUser {
 
     /**
      * @var integer
@@ -24,9 +23,9 @@ class User extends BaseUser {
     protected $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="KMJ\ToolkitBundle\Entity\Role")
      * @ORM\OrderBy({"displayName" = "ASC"})
-     * @ORM\JoinTable(name="user_roles",
+     * @ORM\JoinTable(name="kmj_user_roles",
      *                  joinColumns={@ORM\JoinColumn(name="userID", referencedColumnName="id")},
      *                  inverseJoinColumns={@ORM\JoinColumn(name="roleID", referencedColumnName="id")}
      *              )
@@ -50,20 +49,13 @@ class User extends BaseUser {
      * @ORM\Column(name="passwordReset", type="boolean")
      */
     protected $passwordReset;
-    
+
     public function addRole($role) {
-        //make sure user doesn't already have the role
-        $hasRole = false;
-
-        foreach ($this->userRoles as $userRole) {
-            if ($userRole == $role) {
-                $hasRole = true;
-            }
-        }
-
-        if (!$hasRole)
+        //make sure user doesn't already have the role        
+        if (!$this->hasRole($role)) {
             $this->userRoles->add($role);
-
+        }
+        
         return $this;
     }
 
@@ -139,13 +131,13 @@ class User extends BaseUser {
     public function __toString() {
         return $this->getFirstName() . ' ' . $this->getLastName();
     }
-  
+
     public function buildUsername() {
         if ($this->firstName != "" && $this->lastName != "") {
-            $this->username = $this->firstName . $this->lastName;
+            $this->username = md5($this->firstName . $this->lastName . time());
         }
     }
-    
+
     public function getPasswordReset() {
         return $this->passwordReset;
     }
@@ -158,4 +150,5 @@ class User extends BaseUser {
     public function isPasswordReset() {
         return $this->getPasswordReset();
     }
+
 }

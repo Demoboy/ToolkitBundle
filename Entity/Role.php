@@ -47,11 +47,6 @@ class Role implements RoleInterface {
     protected $createdOn;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="userRoles")
-     */
-    protected $users;
-
-    /**
      * Get id
      *
      * @return integer 
@@ -94,10 +89,6 @@ class Role implements RoleInterface {
     public function setDescription($description) {
         $this->description = $description;
         return $this;
-    }
-
-    public function getUsers() {
-        return $this->users;
     }
 
     public function __toString() {

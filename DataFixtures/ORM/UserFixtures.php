@@ -10,13 +10,17 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, \
     protected $_container;
 
     public function getOrder() {
-        return 2;
+        return 100;
     }
 
     public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {
         $userManager = $this->_container->get('fos_user.user_manager');
 
         $tk = $this->_container->get("toolkit");
+        
+        if ($tk->overrideFixture() == true) {
+            return;
+        }
 
         $adminUser = $tk->createAdminUser()
                 ->addRole($this->getReference('role_user'))
@@ -32,5 +36,3 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, \
     }
 
 }
-
-?>

@@ -96,6 +96,7 @@ class AddressType extends AbstractType {
                 $validation = array("simple");
                 break;
             case self::FULL:
+            default:
                 $validation = array("full");
                 break;
         }
@@ -121,7 +122,7 @@ class AddressType extends AbstractType {
         }
 
         $form->add('state', 'entity', array(
-            'class' => 'NationwideUserBundle:State',
+            'class' => 'KMJToolkitBundle:State',
             'empty_value' => 'Please select a state',
             'required' => false,
             'query_builder' => function ($repository) use ($country) {
