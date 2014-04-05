@@ -330,7 +330,12 @@ class Address {
     }
 
     public function __toString() {
-        $string = $this->firstName . ' ' . $this->lastName . '<br />';
+        $string = null;
+        
+        if ($this->firstName != null && $this->lastName != null) {
+            $string = $this->firstName . ' ' . $this->lastName . '<br />';
+        }
+        
         $string .= $this->address . '<br />';
 
         if ($this->address2 != "") {
