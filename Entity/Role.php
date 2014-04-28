@@ -47,6 +47,11 @@ class Role implements RoleInterface {
     protected $createdOn;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Role")
+     */
+    protected $parent;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -61,7 +66,7 @@ class Role implements RoleInterface {
 
     public function setName($name) {
         $name = str_replace(' ', '_', strtoupper($name));
-        
+
         if (substr($name, 0, 5) != "ROLE_") {
             $name = 'ROLE_' . $name;
         }
@@ -94,7 +99,7 @@ class Role implements RoleInterface {
     public function __toString() {
         return $this->getDisplayName();
     }
-    
+
     public function getDisplayName() {
         return $this->displayName;
     }
@@ -103,4 +108,14 @@ class Role implements RoleInterface {
         $this->displayName = $displayName;
         return $this;
     }
+
+    public function getParent() {
+        return $this->parent;
+    }
+
+    public function setParent($parent) {
+        $this->parent = $parent;
+        return $this;
+    }
+
 }

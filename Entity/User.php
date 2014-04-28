@@ -34,13 +34,13 @@ abstract class User extends BaseUser {
 
     /**
      *
-     * @ORM\Column(name="firstName", type="string", length=75)
+     * @ORM\Column(name="firstName", type="string", length=75, nullable=true)
      */
     protected $firstName;
 
     /**
      *
-     * @ORM\Column(name="lastName", type="string", length=75)
+     * @ORM\Column(name="lastName", type="string", length=75, nullable=true)
      */
     protected $lastName;
 

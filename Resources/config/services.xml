@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="kmj_toolkit.toolkit.class">KMJ\ToolkitBundle\Service\ToolkitService</parameter>
+        <parameter key="kmj_toolkit.hierarchy">KMJ\ToolkitBundle\Hierarchy\RoleHierarchy</parameter>
     </parameters>
 
     <services>
@@ -14,5 +15,9 @@
             <argument type="service" id="fos_user.user_manager" />
         </service>
         <service alias="kmj_toolkit.toolkit" id="toolkit" />
+        <service id="security.role_hierarchy" class="%kmj_toolkit.hierarchy%" public="false">
+            <argument>%security.role_hierarchy.roles%</argument>
+            <argument type="service" id="doctrine.orm.default_entity_manager"/>
+        </service>
     </services>
 </container>
