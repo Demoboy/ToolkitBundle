@@ -35,7 +35,8 @@ class AddressType extends AbstractType {
                             'label' => 'Address:'
                         ))
                         ->add('address2', null, array(
-                            'label' => "Address (line 2):"
+                            'label' => "Address (line 2):",
+                            "required" => false,
                         ))
                         ->add('city', null, array(
                             'label' => 'City:'
@@ -47,7 +48,8 @@ class AddressType extends AbstractType {
                             'empty_value' => 'Please select a country',
                         ))
                         ->add('zipcode', null, array(
-                            'label' => 'Zipcode:'
+                            'label' => 'Zipcode:',
+                            "required" => !$this->includeCountry,
                 ));
                 break;
             case self::FULL:
@@ -68,7 +70,8 @@ class AddressType extends AbstractType {
                             'label' => 'Address:'
                         ))
                         ->add('address2', null, array(
-                            'label' => "Address (line 2):"
+                            'label' => "Address (line 2):",
+                            "required" => false,
                         ))
                         ->add('city', null, array(
                             'label' => 'City:'
@@ -80,7 +83,8 @@ class AddressType extends AbstractType {
                             'empty_value' => 'Please select a country',
                         ))
                         ->add('zipcode', null, array(
-                            'label' => 'Zipcode:'
+                            'label' => 'Zipcode:',
+                            "required" => !$this->includeCountry,
                 ));
                 break;
         }
