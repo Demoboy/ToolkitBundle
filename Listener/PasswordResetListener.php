@@ -19,7 +19,7 @@ class PasswordResetListener implements \Symfony\Component\EventDispatcher\EventS
     protected $router;
     protected $session;
     
-    const CHANGE_PASSWORD_ROUTE = "nationwide_launchpad_website_user_changepassword";
+    const CHANGE_PASSWORD_ROUTE = "s";
 
     /**
      * @InjectParams({

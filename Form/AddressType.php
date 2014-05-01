@@ -41,7 +41,7 @@ class AddressType extends AbstractType {
                             'label' => 'City:'
                         ))
                         ->add('country', 'entity', array(
-                            'class' => 'NationwideUserBundle:Country',
+                            'class' => 'KMJToolkitBundle:Country',
                             'label' => 'Country:',
                             'required' => true,
                             'empty_value' => 'Please select a country',
@@ -74,7 +74,7 @@ class AddressType extends AbstractType {
                             'label' => 'City:'
                         ))
                         ->add('country', 'entity', array(
-                            'class' => 'NationwideUserBundle:Country',
+                            'class' => 'KMJToolkitBundle:Country',
                             'label' => 'Country:',
                             'required' => true,
                             'empty_value' => 'Please select a country',
