@@ -5,12 +5,14 @@ namespace KMJ\ToolkitBundle\Hierarchy;
 class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy {
 
     private $em;
+    private $existingHierarchy;
 
     /**
      * @param array $hierarchy
      */
     public function __construct(array $hierarchy, \Doctrine\ORM\EntityManager $em) {
-        $this->em = $em;
+        $this->em = $em;       
+        $this->existingHierarchy = $hierarchy;
         parent::__construct($this->buildRolesTree());
     }
 
@@ -21,7 +23,7 @@ class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy 
      */
     private function buildRolesTree() {
         $hierarchy = array();
-        $roles = $this->em->getRepository("KMJToolkitBundle:Role")->findAll();
+        $roles = $this->em->getRepository("NationwideUserBundle:Role")->findAll();
         
         foreach ($roles as $role) {
             /** @var $role Role */
@@ -37,7 +39,7 @@ class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy 
             }
         }
                 
-        return $hierarchy;
+        return array_merge_recursive($hierarchy, $this->existingHierarchy);
     }
 
 }
