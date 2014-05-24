@@ -23,8 +23,7 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, \
         }
 
         $adminUser = $tk->createAdminUser()
-                ->addRole($this->getReference('role_user'))
-                ->addRole($this->getReference('role_admin'));
+                ->addRole($this->getReference('role_super_admin'));
 
         $userManager->updateUser($adminUser);
 
