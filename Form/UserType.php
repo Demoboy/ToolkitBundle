@@ -22,10 +22,26 @@ class UserType extends BaseType {
                 ))
                 ->add('lastName', null, array(
                     "label" => "Last Name:",
-                ));
-               
-                
+        ));
+
+
         parent::buildForm($builder, $options);
+
+
+        $builder->remove("email");
+        $builder->add('email', 'email', array(
+            'label' => 'form.email',
+            'translation_domain' => 'FOSUserBundle',
+            'constraints' => array(
+                new \Symfony\Component\Validator\Constraints\Email(array(
+                    "groups" => array("simple"),
+                    "checkMX" => true,
+                ))
+            )
+        ));
+
+
+
 
         $builder->remove('username');
     }

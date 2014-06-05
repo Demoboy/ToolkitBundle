@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\MappedSuperclass
@@ -25,22 +26,21 @@ abstract class User extends BaseUser {
     /**
      * @ORM\ManyToMany(targetEntity="KMJ\ToolkitBundle\Entity\Role")
      * @ORM\OrderBy({"displayName" = "ASC"})
-     * @ORM\JoinTable(name="kmj_user_roles",
-     *                  joinColumns={@ORM\JoinColumn(name="userID", referencedColumnName="id")},
-     *                  inverseJoinColumns={@ORM\JoinColumn(name="roleID", referencedColumnName="id")}
-     *              )
+     * @ORM\JoinTable(name="kmj_user_roles")
      */
     protected $userRoles;
 
     /**
      *
      * @ORM\Column(name="firstName", type="string", length=75, nullable=true)
+     * @Assert\NotBlank(groups={"simple"})
      */
     protected $firstName;
 
     /**
      *
      * @ORM\Column(name="lastName", type="string", length=75, nullable=true)
+     * @Assert\NotBlank(groups={"simple"})
      */
     protected $lastName;
 
