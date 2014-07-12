@@ -89,11 +89,11 @@ class AddressType extends AbstractType {
                 break;
         }
 
+        $builder->get("country")->addEventListener(FormEvents::POST_SUBMIT, array($this, "onPostSubmit"));
+
         if (!$this->includeCountry) {
             $builder->remove("country");
         }
-
-        $builder->get("state")->addEventListener(FormEvents::POST_SUBMIT, array($this, "onPostSubmit"));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
