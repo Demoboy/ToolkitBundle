@@ -92,6 +92,8 @@ class AddressType extends AbstractType {
         if (!$this->includeCountry) {
             $builder->remove("country");
         }
+
+        $builder->get("state")->addEventListener(FormEvents::POST_SUBMIT, array($this, "onPostSubmit"));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
@@ -116,6 +118,7 @@ class AddressType extends AbstractType {
     }
 
     public function onPreSetData(FormEvent $event) {
+        $country = null;
         $data = $event->getData();
         $form = $event->getForm();
 
@@ -125,6 +128,18 @@ class AddressType extends AbstractType {
             $country = null;
         }
 
+        if ($country == null) {
+            $form->add("state", "choice", array(
+                "label" => "State:",
+                "choices" => array(),
+                "empty_value" => "Please select a state:",
+            ));
+        } else {
+            $this->buildStateField($form, $country);
+        }
+    }
+
+    public function buildStateField($form, $country) {
         $form->add('state', 'entity', array(
             'class' => 'KMJToolkitBundle:State',
             'empty_value' => 'Please select a state',
@@ -142,6 +157,12 @@ class AddressType extends AbstractType {
             'read_only' => false,
             'label' => 'State/Providence:',
         ));
+    }
+
+    public function onPostSubmit(FormEvent $event) {
+        $country = $event->getForm()->getData();
+        $form = $event->getForm()->getParent();
+        $this->buildStateField($form, $country);
     }
 
 }
