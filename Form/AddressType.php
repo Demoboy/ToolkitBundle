@@ -16,10 +16,12 @@ class AddressType extends AbstractType {
 
     protected $includeCountry;
     protected $type;
+    protected $required;
 
-    function __construct($type, $includeCountry = true) {
+    function __construct($type, $includeCountry = true, $required = true) {
         $this->includeCountry = $includeCountry;
         $this->type = $type;
+        $this->required = $required;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
@@ -32,54 +34,62 @@ class AddressType extends AbstractType {
             case self::SIMPLE:
                 $builder
                         ->add('address', null, array(
-                            'label' => 'Address:'
+                            'label' => 'Address:',
+                            "required" => $this->required,
                         ))
                         ->add('address2', null, array(
                             'label' => "Address (line 2):",
                             "required" => false,
                         ))
                         ->add('city', null, array(
-                            'label' => 'City:'
+                            'label' => 'City:',
+                            "required" => $this->required,
                         ))
                         ->add('country', 'entity', array(
                             'class' => 'KMJToolkitBundle:Country',
                             'label' => 'Country:',
-                            'required' => true,
+                            "required" => $this->required,
                             'empty_value' => 'Please select a country',
                         ))
                         ->add('zipcode', null, array(
                             'label' => 'Zipcode:',
-                            "required" => !$this->includeCountry,
+                            "required" => (!$this->includeCountry || $this->required) ? false : true,
                 ));
                 break;
             case self::FULL:
                 $builder
                         ->add('firstName', null, array(
-                            'label' => "First Name:"
+                            'label' => "First Name:",
+                            "required" => $this->required,
                         ))
                         ->add('lastName', null, array(
-                            'label' => 'Last Name:'
+                            'label' => 'Last Name:',
+                            "required" => $this->required,
                         ))
                         ->add('companyName', null, array(
-                            'label' => 'Company Name:'
+                            'label' => 'Company Name:',
+                            "required" => false,
                         ))
                         ->add('phoneNumber', null, array(
-                            'label' => 'Phone Number:'
+                            'label' => 'Phone Number:',
+                            "required" => false,
                         ))
                         ->add('address', null, array(
-                            'label' => 'Address:'
+                            'label' => 'Address:',
+                            "required" => $this->required,
                         ))
                         ->add('address2', null, array(
                             'label' => "Address (line 2):",
                             "required" => false,
                         ))
                         ->add('city', null, array(
-                            'label' => 'City:'
+                            'label' => 'City:',
+                            "required" => $this->required,
                         ))
                         ->add('country', 'entity', array(
                             'class' => 'KMJToolkitBundle:Country',
                             'label' => 'Country:',
-                            'required' => true,
+                            "required" => $this->required,
                             'empty_value' => 'Please select a country',
                         ))
                         ->add('zipcode', null, array(
