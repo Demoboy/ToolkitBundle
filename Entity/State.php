@@ -31,7 +31,7 @@ class State {
     /**
      * @var string $code
      *
-     * @ORM\Column(name="code", type="string", length=2)
+     * @ORM\Column(name="code", type="string", length=2, nullable=true)
      */
     protected $code;
 

@@ -1,0 +1,957 @@
+\KMJ\ToolkitBundle\Entity\Country:
+    country1:
+            name: Afghanistan
+            code: AF
+            zipCodeRequired: 1
+    country2:
+            name: Albania
+            code: AL
+            zipCodeRequired: 0
+    country3:
+            name: Algeria
+            code: DZ
+            zipCodeRequired: 1
+    country4:
+            name: American Samoa
+            code: AS
+            zipCodeRequired: 0
+    country5:
+            name: Andorra
+            code: AD
+            zipCodeRequired: 0
+    country6:
+            name: Angola
+            code: AO
+            zipCodeRequired: 0
+    country7:
+            name: Anguilla
+            code: AI
+            zipCodeRequired: 0
+    country8:
+            name: Antarctica
+            code: AQ
+            zipCodeRequired: 1
+    country9:
+            name: Antigua and Barbuda
+            code: AG
+            zipCodeRequired: 0
+    country10:
+            name: Argentina
+            code: AR
+            zipCodeRequired: 0
+    country11:
+            name: Armenia
+            code: AM
+            zipCodeRequired: 1
+    country12:
+            name: Aruba
+            code: AW
+            zipCodeRequired: 0
+    country13:
+            name: Australia
+            code: AU
+            zipCodeRequired: 1
+    country14:
+            name: Austria
+            code: AT
+            zipCodeRequired: 1
+    country15:
+            name: Azerbaijan
+            code: AZ
+            zipCodeRequired: 1
+    country16:
+            name: Bahamas
+            code: BS
+            zipCodeRequired: 0
+    country17:
+            name: Bahrain
+            code: BH
+            zipCodeRequired: 0
+    country18:
+            name: Bangladesh
+            code: BD
+            zipCodeRequired: 1
+    country19:
+            name: Barbados
+            code: BB
+            zipCodeRequired: 0
+    country20:
+            name: Belarus
+            code: BY
+            zipCodeRequired: 1
+    country21:
+            name: Belgium
+            code: BE
+            zipCodeRequired: 1
+    country22:
+            name: Belize
+            code: BZ
+            zipCodeRequired: 0
+    country23:
+            name: Benin
+            code: BJ
+            zipCodeRequired: 0
+    country24:
+            name: Bermuda
+            code: BM
+            zipCodeRequired: 0
+    country25:
+            name: Bhutan
+            code: BT
+            zipCodeRequired: 0
+    country26:
+            name: Bolivia
+            code: BO
+            zipCodeRequired: 0
+    country27:
+            name: Bosnia and Herzegowina
+            code: BA
+            zipCodeRequired: 1
+    country28:
+            name: Botswana
+            code: BW
+            zipCodeRequired: 0
+    country29:
+            name: Bouvet Island
+            code: BV
+            zipCodeRequired: 1
+    country30:
+            name: Brazil
+            code: BR
+            zipCodeRequired: 1
+    country31:
+            name: British Indian Ocean Territory
+            code: IO
+            zipCodeRequired: 1
+    country32:
+            name: Brunei Darussalam
+            code: BN
+            zipCodeRequired: 0
+    country33:
+            name: Bulgaria
+            code: BG
+            zipCodeRequired: 1
+    country34:
+            name: Burkina Faso
+            code: BF
+            zipCodeRequired: 0
+    country35:
+            name: Burundi
+            code: BI
+            zipCodeRequired: 0
+    country36:
+            name: Cambodia
+            code: KH
+            zipCodeRequired: 0
+    country37:
+            name: Cameroon
+            code: CM
+            zipCodeRequired: 0
+    country38:
+            name: Canada
+            code: CA
+            zipCodeRequired: 1
+    country39:
+            name: Cape Verde
+            code: CV
+            zipCodeRequired: 0
+    country40:
+            name: Cayman Islands
+            code: KY
+            zipCodeRequired: 0
+    country41:
+            name: Central African Republic
+            code: CF
+            zipCodeRequired: 0
+    country42:
+            name: Chad
+            code: TD
+            zipCodeRequired: 0
+    country43:
+            name: Chile
+            code: CL
+            zipCodeRequired: 0
+    country44:
+            name: China
+            code: CN
+            zipCodeRequired: 1
+    country45:
+            name: Christmas Island
+            code: CX
+            zipCodeRequired: 1
+    country46:
+            name: Cocos (Keeling) Islands
+            code: CC
+            zipCodeRequired: 1
+    country47:
+            name: Colombia
+            code: CO
+            zipCodeRequired: 0
+    country48:
+            name: Comoros
+            code: KM
+            zipCodeRequired: 1
+    country49:
+            name: Congo
+            code: CG
+            zipCodeRequired: 0
+    country50:
+            name: Cook Islands
+            code: CK
+            zipCodeRequired: 0
+    country51:
+            name: Costa Rica
+            code: CR
+            zipCodeRequired: 0
+    country52:
+            name: Cote D'Ivoire
+            code: CI
+            zipCodeRequired: 1
+    country53:
+            name: Croatia
+            code: HR
+            zipCodeRequired: 1
+    country54:
+            name: Cuba
+            code: CU
+            zipCodeRequired: 1
+    country55:
+            name: Cyprus
+            code: CY
+            zipCodeRequired: 1
+    country56:
+            name: Czech Republic
+            code: CZ
+            zipCodeRequired: 1
+    country57:
+            name: Denmark
+            code: DK
+            zipCodeRequired: 1
+    country58:
+            name: Djibouti
+            code: DJ
+            zipCodeRequired: 0
+    country59:
+            name: Dominica
+            code: DM
+            zipCodeRequired: 0
+    country60:
+            name: Dominican Republic
+            code: DO
+            zipCodeRequired: 0
+    country61:
+            name: East Timor
+            code: TP
+            zipCodeRequired: 1
+    country62:
+            name: Ecuador
+            code: EC
+            zipCodeRequired: 0
+    country63:
+            name: Egypt
+            code: EG
+            zipCodeRequired: 0
+    country64:
+            name: El Salvador
+            code: SV
+            zipCodeRequired: 0
+    country65:
+            name: Equatorial Guinea
+            code: GQ
+            zipCodeRequired: 0
+    country66:
+            name: Eritrea
+            code: ER
+            zipCodeRequired: 0
+    country67:
+            name: Estonia
+            code: EE
+            zipCodeRequired: 1
+    country68:
+            name: Ethiopia
+            code: ET
+            zipCodeRequired: 0
+    country69:
+            name: Falkland Islands (Malvinas)
+            code: FK
+            zipCodeRequired: 1
+    country70:
+            name: Faroe Islands
+            code: FO
+            zipCodeRequired: 1
+    country71:
+            name: Fiji
+            code: FJ
+            zipCodeRequired: 0
+    country72:
+            name: Finland
+            code: FI
+            zipCodeRequired: 1
+    country73:
+            name: France
+            code: FR
+            zipCodeRequired: 1
+    country74:
+            name: "France, Metropolitan"
+            code: FX
+            zipCodeRequired: 1
+    country75:
+            name: French Guiana
+            code: GF
+            zipCodeRequired: 0
+    country76:
+            name: French Polynesia
+            code: PF
+            zipCodeRequired: 0
+    country77:
+            name: French Southern Territories
+            code: TF
+            zipCodeRequired: 1
+    country78:
+            name: Gabon
+            code: GA
+            zipCodeRequired: 0
+    country79:
+            name: Gambia
+            code: GM
+            zipCodeRequired: 0
+    country80:
+            name: Georgia
+            code: GE
+            zipCodeRequired: 1
+    country81:
+            name: Germany
+            code: DE
+            zipCodeRequired: 1
+    country82:
+            name: Ghana
+            code: GH
+            zipCodeRequired: 0
+    country83:
+            name: Gibraltar
+            code: GI
+            zipCodeRequired: 0
+    country84:
+            name: Greece
+            code: GR
+            zipCodeRequired: 1
+    country85:
+            name: Greenland
+            code: GL
+            zipCodeRequired: 1
+    country86:
+            name: Grenada
+            code: GD
+            zipCodeRequired: 0
+    country87:
+            name: Guadeloupe
+            code: GP
+            zipCodeRequired: 0
+    country88:
+            name: Guam
+            code: GU
+            zipCodeRequired: 0
+    country89:
+            name: Guatemala
+            code: GT
+            zipCodeRequired: 0
+    country90:
+            name: Guinea
+            code: GN
+            zipCodeRequired: 0
+    country91:
+            name: Guinea-bissau
+            code: GW
+            zipCodeRequired: 0
+    country92:
+            name: Guyana
+            code: GY
+            zipCodeRequired: 0
+    country93:
+            name: Haiti
+            code: HT
+            zipCodeRequired: 0
+    country94:
+            name: Heard and Mc Donald Islands
+            code: HM
+            zipCodeRequired: 1
+    country95:
+            name: Honduras
+            code: HN
+            zipCodeRequired: 0
+    country96:
+            name: Hong Kong
+            code: HK
+            zipCodeRequired: 0
+    country97:
+            name: Hungary
+            code: HU
+            zipCodeRequired: 1
+    country98:
+            name: Iceland
+            code: IS
+            zipCodeRequired: 1
+    country99:
+            name: India
+            code: IN
+            zipCodeRequired: 1
+    country100:
+            name: Indonesia
+            code: ID
+            zipCodeRequired: 1
+    country101:
+            name: Iran (Islamic Republic of)
+            code: IR
+            zipCodeRequired: 1
+    country102:
+            name: Iraq
+            code: IQ
+            zipCodeRequired: 0
+    country103:
+            name: Ireland
+            code: IE
+            zipCodeRequired: 0
+    country104:
+            name: Israel
+            code: IL
+            zipCodeRequired: 1
+    country105:
+            name: Italy
+            code: IT
+            zipCodeRequired: 1
+    country106:
+            name: Jamaica
+            code: JM
+            zipCodeRequired: 0
+    country107:
+            name: Japan
+            code: JP
+            zipCodeRequired: 1
+    country108:
+            name: Jordan
+            code: JO
+            zipCodeRequired: 0
+    country109:
+            name: Kazakhstan
+            code: KZ
+            zipCodeRequired: 1
+    country110:
+            name: Kenya
+            code: KE
+            zipCodeRequired: 0
+    country111:
+            name: Kiribati
+            code: KI
+            zipCodeRequired: 0
+    country112:
+            name: North Korea
+            code: KP
+            zipCodeRequired: 1
+    country113:
+            name: "Korea, Republic of"
+            code: KR
+            zipCodeRequired: 1
+    country114:
+            name: Kuwait
+            code: KW
+            zipCodeRequired: 0
+    country115:
+            name: Kyrgyzstan
+            code: KG
+            zipCodeRequired: 1
+    country116:
+            name: Lao People's Democratic Republic
+            code: LA
+            zipCodeRequired: 0
+    country117:
+            name: Latvia
+            code: LV
+            zipCodeRequired: 1
+    country118:
+            name: Lebanon
+            code: LB
+            zipCodeRequired: 0
+    country119:
+            name: Lesotho
+            code: LS
+            zipCodeRequired: 0
+    country120:
+            name: Liberia
+            code: LR
+            zipCodeRequired: 0
+    country121:
+            name: Libyan Arab Jamahiriya
+            code: LY
+            zipCodeRequired: 1
+    country122:
+            name: Liechtenstein
+            code: LI
+            zipCodeRequired: 1
+    country123:
+            name: Lithuania
+            code: LT
+            zipCodeRequired: 1
+    country124:
+            name: Luxembourg
+            code: LU
+            zipCodeRequired: 1
+    country125:
+            name: Macau
+            code: MO
+            zipCodeRequired: 0
+    country126:
+            name: Macedonia
+            code: MK
+            zipCodeRequired: 1
+    country127:
+            name: Madagascar
+            code: MG
+            zipCodeRequired: 0
+    country128:
+            name: Malawi
+            code: MW
+            zipCodeRequired: 1
+    country129:
+            name: Malaysia
+            code: MY
+            zipCodeRequired: 1
+    country130:
+            name: Maldives
+            code: MV
+            zipCodeRequired: 0
+    country131:
+            name: Mali
+            code: ML
+            zipCodeRequired: 0
+    country132:
+            name: Malta
+            code: MT
+            zipCodeRequired: 0
+    country133:
+            name: Marshall Islands
+            code: MH
+            zipCodeRequired: 1
+    country134:
+            name: Martinique
+            code: MQ
+            zipCodeRequired: 1
+    country135:
+            name: Mauritania
+            code: MR
+            zipCodeRequired: 0
+    country136:
+            name: Mauritius
+            code: MU
+            zipCodeRequired: 0
+    country137:
+            name: Mayotte
+            code: YT
+            zipCodeRequired: 1
+    country138:
+            name: Mexico
+            code: MX
+            zipCodeRequired: 1
+    country139:
+            name: "Micronesia, Federated States of"
+            code: FM
+            zipCodeRequired: 1
+    country140:
+            name: "Moldova, Republic of"
+            code: MD
+            zipCodeRequired: 1
+    country141:
+            name: Monaco
+            code: MC
+            zipCodeRequired: 1
+    country142:
+            name: Mongolia
+            code: MN
+            zipCodeRequired: 1
+    country143:
+            name: Montserrat
+            code: MS
+            zipCodeRequired: 0
+    country144:
+            name: Morocco
+            code: MA
+            zipCodeRequired: 0
+    country145:
+            name: Mozambique
+            code: MZ
+            zipCodeRequired: 0
+    country146:
+            name: Myanmar
+            code: MM
+            zipCodeRequired: 1
+    country147:
+            name: Namibia
+            code: NA
+            zipCodeRequired: 0
+    country148:
+            name: Nauru
+            code: NR
+            zipCodeRequired: 1
+    country149:
+            name: Nepal
+            code: NP
+            zipCodeRequired: 0
+    country150:
+            name: Netherlands
+            code: NL
+            zipCodeRequired: 1
+    country151:
+            name: Netherlands Antilles
+            code: AN
+            zipCodeRequired: 0
+    country152:
+            name: New Caledonia
+            code: NC
+            zipCodeRequired: 0
+    country153:
+            name: New Zealand
+            code: NZ
+            zipCodeRequired: 1
+    country154:
+            name: Nicaragua
+            code: NI
+            zipCodeRequired: 0
+    country155:
+            name: Niger
+            code: NE
+            zipCodeRequired: 0
+    country156:
+            name: Nigeria
+            code: NG
+            zipCodeRequired: 0
+    country157:
+            name: Niue
+            code: NU
+            zipCodeRequired: 1
+    country158:
+            name: Norfolk Island
+            code: NF
+            zipCodeRequired: 0
+    country159:
+            name: Northern Mariana Islands
+            code: MP
+            zipCodeRequired: 0
+    country160:
+            name: Norway
+            code: NO
+            zipCodeRequired: 1
+    country161:
+            name: Oman
+            code: OM
+            zipCodeRequired: 0
+    country162:
+            name: Pakistan
+            code: PK
+            zipCodeRequired: 1
+    country163:
+            name: Palau
+            code: PW
+            zipCodeRequired: 1
+    country164:
+            name: Panama
+            code: PA
+            zipCodeRequired: 0
+    country165:
+            name: Papua New Guinea
+            code: PG
+            zipCodeRequired: 0
+    country166:
+            name: Paraguay
+            code: PY
+            zipCodeRequired: 0
+    country167:
+            name: Peru
+            code: PE
+            zipCodeRequired: 0
+    country168:
+            name: Philippines
+            code: PH
+            zipCodeRequired: 1
+    country169:
+            name: Pitcairn
+            code: PN
+            zipCodeRequired: 1
+    country170:
+            name: Poland
+            code: PL
+            zipCodeRequired: 1
+    country171:
+            name: Portugal
+            code: PT
+            zipCodeRequired: 1
+    country172:
+            name: Puerto Rico
+            code: PR
+            zipCodeRequired: 1
+    country173:
+            name: Qatar
+            code: QA
+            zipCodeRequired: 0
+    country174:
+            name: Reunion
+            code: RE
+            zipCodeRequired: 1
+    country175:
+            name: Romania
+            code: RO
+            zipCodeRequired: 1
+    country176:
+            name: Russian Federation
+            code: RU
+            zipCodeRequired: 1
+    country177:
+            name: Rwanda
+            code: RW
+            zipCodeRequired: 0
+    country178:
+            name: Saint Kitts and Nevis
+            code: KN
+            zipCodeRequired: 1
+    country179:
+            name: Saint Lucia
+            code: LC
+            zipCodeRequired: 1
+    country180:
+            name: Saint Vincent and the Grenadines
+            code: VC
+            zipCodeRequired: 1
+    country181:
+            name: Samoa
+            code: WS
+            zipCodeRequired: 1
+    country182:
+            name: San Marino
+            code: SM
+            zipCodeRequired: 1
+    country183:
+            name: Sao Tome and Principe
+            code: ST
+            zipCodeRequired: 1
+    country184:
+            name: Saudi Arabia
+            code: SA
+            zipCodeRequired: 1
+    country185:
+            name: Senegal
+            code: SN
+            zipCodeRequired: 0
+    country186:
+            name: Seychelles
+            code: SC
+            zipCodeRequired: 0
+    country187:
+            name: Sierra Leone
+            code: SL
+            zipCodeRequired: 0
+    country188:
+            name: Singapore
+            code: SG
+            zipCodeRequired: 1
+    country189:
+            name: Slovak Republic
+            code: SK
+            zipCodeRequired: 1
+    country190:
+            name: Slovenia
+            code: SI
+            zipCodeRequired: 1
+    country191:
+            name: Solomon Islands
+            code: SB
+            zipCodeRequired: 0
+    country192:
+            name: Somalia
+            code: SO
+            zipCodeRequired: 1
+    country193:
+            name: South Africa
+            code: ZA
+            zipCodeRequired: 1
+    country194:
+            name: "South Georgia & South Sandwich Islands"
+            code: GS
+            zipCodeRequired: 1
+    country195:
+            name: Spain
+            code: ES
+            zipCodeRequired: 1
+    country196:
+            name: Sri Lanka
+            code: LK
+            zipCodeRequired: 1
+    country197:
+            name: St. Helena
+            code: SH
+            zipCodeRequired: 1
+    country198:
+            name: St. Pierre and Miquelon
+            code: PM
+            zipCodeRequired: 1
+    country199:
+            name: Sudan
+            code: SD
+            zipCodeRequired: 1
+    country200:
+            name: Suriname
+            code: SR
+            zipCodeRequired: 0
+    country201:
+            name: Svalbard and Jan Mayen Islands
+            code: SJ
+            zipCodeRequired: 1
+    country202:
+            name: Swaziland
+            code: SZ
+            zipCodeRequired: 0
+    country203:
+            name: Sweden
+            code: SE
+            zipCodeRequired: 1
+    country204:
+            name: Switzerland
+            code: CH
+            zipCodeRequired: 1
+    country205:
+            name: Syrian Arab Republic
+            code: SY
+            zipCodeRequired: 0
+    country206:
+            name: Taiwan
+            code: TW
+            zipCodeRequired: 1
+    country207:
+            name: Tajikistan
+            code: TJ
+            zipCodeRequired: 1
+    country208:
+            name: "Tanzania, United Republic of"
+            code: TZ
+            zipCodeRequired: 0
+    country209:
+            name: Thailand
+            code: TH
+            zipCodeRequired: 1
+    country210:
+            name: Togo
+            code: TG
+            zipCodeRequired: 0
+    country211:
+            name: Tokelau
+            code: TK
+            zipCodeRequired: 1
+    country212:
+            name: Tonga
+            code: TO
+            zipCodeRequired: 0
+    country213:
+            name: Trinidad and Tobago
+            code: TT
+            zipCodeRequired: 0
+    country214:
+            name: Tunisia
+            code: TN
+            zipCodeRequired: 0
+    country215:
+            name: Turkey
+            code: TR
+            zipCodeRequired: 1
+    country216:
+            name: Turkmenistan
+            code: TM
+            zipCodeRequired: 1
+    country217:
+            name: Turks and Caicos Islands
+            code: TC
+            zipCodeRequired: 0
+    country218:
+            name: Tuvalu
+            code: TV
+            zipCodeRequired: 0
+    country219:
+            name: Uganda
+            code: UG
+            zipCodeRequired: 0
+    country220:
+            name: Ukraine
+            code: UA
+            zipCodeRequired: 1
+    country221:
+            name: United Arab Emirates
+            code: AE
+            zipCodeRequired: 0
+    country222:
+            name: United Kingdom
+            code: GB
+            zipCodeRequired: 1
+    country223:
+            name: United States
+            code: US
+            zipCodeRequired: 1
+    country224:
+            name: United States Minor Outlying Islands
+            code: UM
+            zipCodeRequired: 1
+    country225:
+            name: Uruguay
+            code: UY
+            zipCodeRequired: 1
+    country226:
+            name: Uzbekistan
+            code: UZ
+            zipCodeRequired: 1
+    country227:
+            name: Vanuatu
+            code: VU
+            zipCodeRequired: 0
+    country228:
+            name: Vatican City State (Holy See)
+            code: VA
+            zipCodeRequired: 1
+    country229:
+            name: Venezuela
+            code: VE
+            zipCodeRequired: 0
+    country230:
+            name: Viet Nam
+            code: VN
+            zipCodeRequired: 1
+    country231:
+            name: Virgin Islands (British)
+            code: VG
+            zipCodeRequired: 0
+    country232:
+            name: Virgin Islands (U.S.)
+            code: VI
+            zipCodeRequired: 1
+    country233:
+            name: Wallis and Futuna Islands
+            code: WF
+            zipCodeRequired: 0
+    country234:
+            name: Western Sahara
+            code: EH
+            zipCodeRequired: 1
+    country235:
+            name: Yemen
+            code: YE
+            zipCodeRequired: 0
+    country236:
+            name: Yugoslavia
+            code: YU
+            zipCodeRequired: 1
+    country237:
+            name: Democratic Republic of Congo
+            code: CD
+            zipCodeRequired: 1
+    country238:
+            name: Zambia
+            code: ZM
+            zipCodeRequired: 0
+    country239:
+            name: Zimbabwe
+            code: ZW
+            zipCodeRequired: 0
