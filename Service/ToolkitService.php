@@ -21,7 +21,7 @@ class ToolkitService {
 
     public function createAdminUser() {
         $user = $this->fosUM->createUser();
-        
+
         $user->setFirstName($this->config['administrator']['firstname'])
                 ->setLastName($this->config['administrator']['lastname'])
                 ->setEmail($this->config['administrator']['email'])
@@ -31,12 +31,23 @@ class ToolkitService {
 
         return $user;
     }
- 
+
+    public function createAdminUserArray() {
+        return array(
+            "firstName" => $this->config['administrator']['firstname'],
+            "lastName" => $this->config['administrator']['lastname'],
+            "email" => $this->config['administrator']['email'],
+            "plainPassword" => $this->config['administrator']['password'],
+            "enabled" => true,
+            "username" => $this->config['administrator']['username'],
+        );
+    }
+
     public function overrideFixture($overrideFixture = null) {
         if ($overrideFixture === null) {
             return $this->overrideFixture;
         }
-        
+
         $this->overrideFixture = $overrideFixture;
     }
 

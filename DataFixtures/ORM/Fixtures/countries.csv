@@ -1,0 +1,239 @@
+1,"Afghanistan","AF",1
+2,"Albania","AL",0
+3,"Algeria","DZ",1
+4,"American Samoa","AS",0
+5,"Andorra","AD",0
+6,"Angola","AO",0
+7,"Anguilla","AI",0
+8,"Antarctica","AQ",1
+9,"Antigua and Barbuda","AG",0
+10,"Argentina","AR",0
+11,"Armenia","AM",1
+12,"Aruba","AW",0
+13,"Australia","AU",1
+14,"Austria","AT",1
+15,"Azerbaijan","AZ",1
+16,"Bahamas","BS",0
+17,"Bahrain","BH",0
+18,"Bangladesh","BD",1
+19,"Barbados","BB",0
+20,"Belarus","BY",1
+21,"Belgium","BE",1
+22,"Belize","BZ",0
+23,"Benin","BJ",0
+24,"Bermuda","BM",0
+25,"Bhutan","BT",0
+26,"Bolivia","BO",0
+27,"Bosnia and Herzegowina","BA",1
+28,"Botswana","BW",0
+29,"Bouvet Island","BV",1
+30,"Brazil","BR",1
+31,"British Indian Ocean Territory","IO",1
+32,"Brunei Darussalam","BN",0
+33,"Bulgaria","BG",1
+34,"Burkina Faso","BF",0
+35,"Burundi","BI",0
+36,"Cambodia","KH",0
+37,"Cameroon","CM",0
+38,"Canada","CA",1
+39,"Cape Verde","CV",0
+40,"Cayman Islands","KY",0
+41,"Central African Republic","CF",0
+42,"Chad","TD",0
+43,"Chile","CL",0
+44,"China","CN",1
+45,"Christmas Island","CX",1
+46,"Cocos (Keeling) Islands","CC",1
+47,"Colombia","CO",0
+48,"Comoros","KM",1
+49,"Congo","CG",0
+50,"Cook Islands","CK",0
+51,"Costa Rica","CR",0
+52,"Cote D'Ivoire","CI",1
+53,"Croatia","HR",1
+54,"Cuba","CU",1
+55,"Cyprus","CY",1
+56,"Czech Republic","CZ",1
+57,"Denmark","DK",1
+58,"Djibouti","DJ",0
+59,"Dominica","DM",0
+60,"Dominican Republic","DO",0
+61,"East Timor","TP",1
+62,"Ecuador","EC",0
+63,"Egypt","EG",0
+64,"El Salvador","SV",0
+65,"Equatorial Guinea","GQ",0
+66,"Eritrea","ER",0
+67,"Estonia","EE",1
+68,"Ethiopia","ET",0
+69,"Falkland Islands (Malvinas)","FK",1
+70,"Faroe Islands","FO",1
+71,"Fiji","FJ",0
+72,"Finland","FI",1
+73,"France","FR",1
+74,"France, Metropolitan","FX",1
+75,"French Guiana","GF",0
+76,"French Polynesia","PF",0
+77,"French Southern Territories","TF",1
+78,"Gabon","GA",0
+79,"Gambia","GM",0
+80,"Georgia","GE",1
+81,"Germany","DE",1
+82,"Ghana","GH",0
+83,"Gibraltar","GI",0
+84,"Greece","GR",1
+85,"Greenland","GL",1
+86,"Grenada","GD",0
+87,"Guadeloupe","GP",0
+88,"Guam","GU",0
+89,"Guatemala","GT",0
+90,"Guinea","GN",0
+91,"Guinea-bissau","GW",0
+92,"Guyana","GY",0
+93,"Haiti","HT",0
+94,"Heard and Mc Donald Islands","HM",1
+95,"Honduras","HN",0
+96,"Hong Kong","HK",0
+97,"Hungary","HU",1
+98,"Iceland","IS",1
+99,"India","IN",1
+100,"Indonesia","ID",1
+101,"Iran (Islamic Republic of)","IR",1
+102,"Iraq","IQ",0
+103,"Ireland","IE",0
+104,"Israel","IL",1
+105,"Italy","IT",1
+106,"Jamaica","JM",0
+107,"Japan","JP",1
+108,"Jordan","JO",0
+109,"Kazakhstan","KZ",1
+110,"Kenya","KE",0
+111,"Kiribati","KI",0
+112,"North Korea","KP",1
+113,"Korea, Republic of","KR",1
+114,"Kuwait","KW",0
+115,"Kyrgyzstan","KG",1
+116,"Lao People's Democratic Republic","LA",0
+117,"Latvia","LV",1
+118,"Lebanon","LB",0
+119,"Lesotho","LS",0
+120,"Liberia","LR",0
+121,"Libyan Arab Jamahiriya","LY",1
+122,"Liechtenstein","LI",1
+123,"Lithuania","LT",1
+124,"Luxembourg","LU",1
+125,"Macau","MO",0
+126,"Macedonia","MK",1
+127,"Madagascar","MG",0
+128,"Malawi","MW",1
+129,"Malaysia","MY",1
+130,"Maldives","MV",0
+131,"Mali","ML",0
+132,"Malta","MT",0
+133,"Marshall Islands","MH",1
+134,"Martinique","MQ",1
+135,"Mauritania","MR",0
+136,"Mauritius","MU",0
+137,"Mayotte","YT",1
+138,"Mexico","MX",1
+139,"Micronesia, Federated States of","FM",1
+140,"Moldova, Republic of","MD",1
+141,"Monaco","MC",1
+142,"Mongolia","MN",1
+143,"Montserrat","MS",0
+144,"Morocco","MA",0
+145,"Mozambique","MZ",0
+146,"Myanmar","MM",1
+147,"Namibia","NA",0
+148,"Nauru","NR",1
+149,"Nepal","NP",0
+150,"Netherlands","NL",1
+151,"Netherlands Antilles","AN",0
+152,"New Caledonia","NC",0
+153,"New Zealand","NZ",1
+154,"Nicaragua","NI",0
+155,"Niger","NE",0
+156,"Nigeria","NG",0
+157,"Niue","NU",1
+158,"Norfolk Island","NF",0
+159,"Northern Mariana Islands","MP",0
+160,"Norway","NO",1
+161,"Oman","OM",0
+162,"Pakistan","PK",1
+163,"Palau","PW",1
+164,"Panama","PA",0
+165,"Papua New Guinea","PG",0
+166,"Paraguay","PY",0
+167,"Peru","PE",0
+168,"Philippines","PH",1
+169,"Pitcairn","PN",1
+170,"Poland","PL",1
+171,"Portugal","PT",1
+172,"Puerto Rico","PR",1
+173,"Qatar","QA",0
+174,"Reunion","RE",1
+175,"Romania","RO",1
+176,"Russian Federation","RU",1
+177,"Rwanda","RW",0
+178,"Saint Kitts and Nevis","KN",1
+179,"Saint Lucia","LC",1
+180,"Saint Vincent and the Grenadines","VC",1
+181,"Samoa","WS",1
+182,"San Marino","SM",1
+183,"Sao Tome and Principe","ST",1
+184,"Saudi Arabia","SA",1
+185,"Senegal","SN",0
+186,"Seychelles","SC",0
+187,"Sierra Leone","SL",0
+188,"Singapore","SG",1
+189,"Slovak Republic","SK",1
+190,"Slovenia","SI",1
+191,"Solomon Islands","SB",0
+192,"Somalia","SO",1
+193,"South Africa","ZA",1
+194,"South Georgia &amp; South Sandwich Islands","GS",1
+195,"Spain","ES",1
+196,"Sri Lanka","LK",1
+197,"St. Helena","SH",1
+198,"St. Pierre and Miquelon","PM",1
+199,"Sudan","SD",1
+200,"Suriname","SR",0
+201,"Svalbard and Jan Mayen Islands","SJ",1
+202,"Swaziland","SZ",0
+203,"Sweden","SE",1
+204,"Switzerland","CH",1
+205,"Syrian Arab Republic","SY",0
+206,"Taiwan","TW",1
+207,"Tajikistan","TJ",1
+208,"Tanzania, United Republic of","TZ",0
+209,"Thailand","TH",1
+210,"Togo","TG",0
+211,"Tokelau","TK",1
+212,"Tonga","TO",0
+213,"Trinidad and Tobago","TT",0
+214,"Tunisia","TN",0
+215,"Turkey","TR",1
+216,"Turkmenistan","TM",1
+217,"Turks and Caicos Islands","TC",0
+218,"Tuvalu","TV",0
+219,"Uganda","UG",0
+220,"Ukraine","UA",1
+221,"United Arab Emirates","AE",0
+222,"United Kingdom","GB",1
+223,"United States","US",1
+224,"United States Minor Outlying Islands","UM",1
+225,"Uruguay","UY",1
+226,"Uzbekistan","UZ",1
+227,"Vanuatu","VU",0
+228,"Vatican City State (Holy See)","VA",1
+229,"Venezuela","VE",0
+230,"Viet Nam","VN",1
+231,"Virgin Islands (British)","VG",0
+232,"Virgin Islands (U.S.)","VI",1
+233,"Wallis and Futuna Islands","WF",0
+234,"Western Sahara","EH",1
+235,"Yemen","YE",0
+236,"Yugoslavia","YU",1
+237,"Democratic Republic of Congo","CD",1
+238,"Zambia","ZM",0
+239,"Zimbabwe","ZW",0

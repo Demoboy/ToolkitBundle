@@ -1,0 +1,16 @@
+\KMJ\ToolkitBundle\Entity\Role:
+    superadmin:
+        name: role_super_admin
+        displayName: "Super Admin"
+        description: "Role for developer. Use with caution"
+    admin: 
+        name: role_admin
+        parent: @superadmin
+        displayName: "Administrator"
+        description: "Role for site administrator. Allows the user that has the role to change site settings"
+    user:
+        name: role_user
+        parent: @admin
+        displayName: "Standard User"
+        description: "Role for standard user level access."
+       

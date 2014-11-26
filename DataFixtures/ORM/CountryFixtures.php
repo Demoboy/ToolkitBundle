@@ -1,19 +1,38 @@
 <?php
 
+/**
+ * This file is part of the KMJToolkitBundle
+ * @copyright (c) 2014, Kaelin Jacobson
+ */
+
 namespace KMJ\ToolkitBundle\DataFixtures\ORM;
 
 use KMJ\ToolkitBundle\Entity\Country;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
+/**
+ * Loads \KMJ\ToolkitBundle\Entity\Country from csv file
+ * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ */
 class CountryFixtures extends AbstractFixture implements OrderedFixtureInterface {
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @return int The order to execute the fixture
+     */
     public function getOrder() {
         return 10;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @param \Doctrine\Common\Persistence\ObjectManager $manager entity manager
+     */
     public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {
-        $fh = fopen('app/csvDumps/countries.csv', 'r');
+        $fh = fopen(__DIR__ . '/Fixtures/countries.csv', 'r');
 
         $country = array();
         while (($data = fgetcsv($fh)) !== false) {
@@ -29,5 +48,3 @@ class CountryFixtures extends AbstractFixture implements OrderedFixtureInterface
     }
 
 }
-
-?>

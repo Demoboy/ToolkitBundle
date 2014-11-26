@@ -1,39 +1,54 @@
 <?php
 
+/**
+ * This file is part of the KMJToolkitBundle
+ * @copyright (c) 2014, Kaelin Jacobson
+ */
+
 namespace KMJ\ToolkitBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
+/**
+ * Loads a super user into the system to allow logins. It pulls the information from the serivce configuration.
+ * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ */
 class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, \Symfony\Component\DependencyInjection\ContainerAwareInterface {
 
-    protected $_container;
+    use \Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @return int The order to execute the fixture
+     */
     public function getOrder() {
         return 100;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @param \Doctrine\Common\Persistence\ObjectManager $manager entity manager
+     */
     public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {
-        $userManager = $this->_container->get('fos_user.user_manager');
+        $userManager = $this->container->get('fos_user.user_manager');
 
-        $tk = $this->_container->get("toolkit");
-        
+        $tk = $this->container->get("toolkit");
+
         if ($tk->overrideFixture() == true) {
             return;
         }
 
         $adminUser = $tk->createAdminUser()
                 ->addRole($this->getReference('role_super_admin'));
-        
+
         $this->setReference("superuser", $adminUser);
 
         $userManager->updateUser($adminUser);
 
         $manager->flush();
-    }
-
-    public function setContainer(\Symfony\Component\DependencyInjection\ContainerInterface $container = null) {
-        $this->_container = $container;
     }
 
 }

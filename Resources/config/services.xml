@@ -1,15 +1,20 @@
 <?xml version="1.0" ?>
 
 <container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
         <parameter key="kmj_toolkit.toolkit.class">KMJ\ToolkitBundle\Service\ToolkitService</parameter>
         <parameter key="kmj_toolkit.hierarchy">KMJ\ToolkitBundle\Hierarchy\RoleHierarchy</parameter>
+        <parameter key="kmj_toolkit.alice.user.processor.class">KMJ\ToolkitBundle\DataFixtures\Alice\Processor\UserProcessor</parameter>
     </parameters>
 
     <services>
+        <service id="kmj_toolkit.alice.user.processor" class="%kmj_toolkit.alice.user.processor.class%">
+            <tag name="h4cc_alice_fixtures.processor" />
+            <argument type="service" id="fos_user.user_manager" />
+        </service>
         <service id="kmj_toolkit.toolkit" class="%kmj_toolkit.toolkit.class%">
             <argument>%kmj.toolkit.service.parameters%</argument>
             <argument type="service" id="fos_user.user_manager" />
