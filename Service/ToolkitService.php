@@ -1,24 +1,56 @@
 <?php
 
+/**
+ * This file is part of the KMJToolkitBundle
+ * @copyright (c) 2014, Kaelin Jacobson
+ */
+
 namespace KMJ\ToolkitBundle\Service;
 
 /**
- * Description of ToolkitService
+ * Service class that creates FOSUser based on Symfony configs
  *
- * @author kaelinjacobson
+ * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
 class ToolkitService {
 
+    /**
+     * Used for Doctrine Fixtures, if set to true the default fixture is not loaded
+     *
+     * @var boolean 
+     */
     private $overrideFixture;
+
+    /**
+     * The configs
+     * 
+     * @var array 
+     */
     private $config;
+
+    /**
+     * The FOS user manager
+     * @var FOS\UserBundle\Model\UserManager
+     */
     protected $fosUM;
 
-    public function __construct($config, $fosUM) {
+    /**
+     * Basic constructor
+     * @param array $config The configs
+     * @param \FOS\UserBundle\Model\UserManager $fosUM The FOS User manager
+     */
+    public function __construct(array $config, \FOS\UserBundle\Model\UserManager $fosUM) {
         $this->config = $config;
         $this->fosUM = $fosUM;
         $this->overrideFixture = false;
     }
 
+    /**
+     * Creates a new user and returns it populated with
+     * data from the configs
+     * 
+     * @return mixed
+     */
     public function createAdminUser() {
         $user = $this->fosUM->createUser();
 
@@ -32,6 +64,10 @@ class ToolkitService {
         return $user;
     }
 
+    /**
+     * Creates an array with user data for Alice fixtures
+     * @return array
+     */
     public function createAdminUserArray() {
         return array(
             "firstName" => $this->config['administrator']['firstname'],
@@ -43,6 +79,12 @@ class ToolkitService {
         );
     }
 
+    /**
+     * Determines if a Doctrine Fixtures loading user accounts has already be loaded.
+     * 
+     * @param null|boolean $overrideFixture if boolean overridefixtures will be set to the value
+     * @return boolean
+     */
     public function overrideFixture($overrideFixture = null) {
         if ($overrideFixture === null) {
             return $this->overrideFixture;

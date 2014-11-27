@@ -1,14 +1,21 @@
 <?php
 
+/**
+ * This file is part of the KMJToolkitBundle
+ * @copyright (c) 2014, Kaelin Jacobson
+ */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\ExecutionContext;
+use Symfony\Component\Validator\Context\ExecutionContext;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 
 /**
- * KMJ\ToolkitBundle\Entity\Address
+ * Entity that handles Addresses
+ *
+ * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
  * @ORM\Table(name="kmj_toolkit_addresses")
  * @ORM\Entity()
@@ -18,7 +25,9 @@ use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumbe
 class Address {
 
     /**
-     * @var integer $id
+     * id for the address
+     *
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -27,40 +36,47 @@ class Address {
     protected $id;
 
     /**
+     * The first name for the address
+     *
      * @ORM\Column(name="firstName", type="string", length=50, nullable=true)
      * @Assert\NotBlank(message="Please enter a first name")
-     * @var string $firstName
+     * @var string
      */
     protected $firstName;
 
     /**
+     * The last name for the address
+     *
      * @ORM\Column(name="lastName", type="string", length=50, nullable=true)
      * @Assert\NotBlank(message="Please enter a last name")
-     * @var string $lastName 
+     * @var string
      */
     protected $lastName;
 
     /**
-     * @var string $address
+     * The street address
+     * @var string
      *
      * @ORM\Column(name="address", type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Please enter a street address")
      * @Assert\Length(
      *          min="3", minMessage="Your address must have at least {{ limit }} characters",
      *          max="255", maxMessage="Your address cannont have at more than {{ limit }} characters"
-     * )     
+     * )
      */
     protected $address;
 
     /**
-     * @var string $address2
+     * The street address line 2
+     * @var string
      *
      * @ORM\Column(name="address2", type="string", length=255, nullable=true)
      */
     protected $address2;
 
     /**
-     * @var string $city
+     * The city
+     * @var string
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Please enter a city")
@@ -68,7 +84,8 @@ class Address {
     protected $city;
 
     /**
-     * @var string $state
+     * The state
+     * @var \KMJ\ToolkitBundle\Entity\State
      *
      * @ORM\ManyToOne(targetEntity="State", fetch="EAGER")
      * @ORM\JoinColumn(name="stateID", referencedColumnName="id", nullable=true)
@@ -76,7 +93,8 @@ class Address {
     protected $state;
 
     /**
-     * @var string $country
+     * The country
+     * @var \KMJ\ToolkitBundle\Entity\Country
      *
      * @ORM\ManyToOne(targetEntity="Country",  fetch="EAGER")
      * @ORM\JoinColumn(name="countryID", referencedColumnName="id", nullable=true)
@@ -85,257 +103,432 @@ class Address {
     protected $country;
 
     /**
-     * @var string $zipcode
+     * The zipcode
+     * @var string
      *
      * @ORM\Column(name="zipcode", type="string", length=12, nullable=true)
      */
     protected $zipcode;
 
     /**
-     * @var string $name
+     * The short name of the address (for address books)
+     * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     protected $name;
 
     /**
+     * The phone number for the address
+     *
      * @ORM\Column(name="phoneNumber", type="phone_number", nullable=true)
-     * @var string $phoneNumber 
+     * @var libphonenumber\PhoneNumber
      * @AssertPhoneNumber(defaultRegion="GB")
      */
     protected $phoneNumber;
 
     /**
+     * The company name for the address
      * @ORM\Column(name="companyName", type="string", length=255, nullable=true)
-     * @var string $companyName 
+     * @var string
      */
     protected $companyName;
 
     /**
-     * @var decimal $longitude
+     * The longitude of the address
+     *
+     * @var float
      *
      * @ORM\Column(name="longitude", type="decimal", scale=7, precision=10, nullable=true)
      */
     protected $longitude;
 
     /**
-     * @var decimal $latutude
+     * The latitude of the address
+     *
+     * @var float
      *
      * @ORM\Column(name="latitude", type="decimal", scale=7, precision=10, nullable=true)
      */
     protected $latitude;
 
     /**
-     *
+     * The latitude of the address
+     * @var boolean
      * @ORM\Column(name="isResidential", type="boolean")
      */
     protected $isResidential;
 
     /**
-     * Get id
+     * Get the value of id for the address
      *
-     * @return integer 
+     * @return int
      */
     public function getId() {
         return $this->id;
     }
 
     /**
-     * Set address
+     * Set the value of id for the address
      *
-     * @param string $address
+     * @param int $value id
+     *
+     * @return self
      */
-    public function setAddress($address) {
-        if ($address != $this->address) {
-            $this->resetGeoCoordinates();
-        }
-        $this->address = $address;
+    public function setId($value) {
+        $this->id = $value;
+
         return $this;
     }
 
     /**
-     * Get address
+     * Get the value of The first name for the address
      *
-     * @return string 
+     * @return string
+     */
+    public function getFirstName() {
+        return $this->firstName;
+    }
+
+    /**
+     * Set the value of The first name for the address
+     *
+     * @param string $value firstName
+     *
+     * @return self
+     */
+    public function setFirstName($value) {
+        $this->firstName = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of The last name for the address
+     *
+     * @return string
+     */
+    public function getLastName() {
+        return $this->lastName;
+    }
+
+    /**
+     * Set the value of The last name for the address
+     *
+     * @param string $value lastName
+     *
+     * @return self
+     */
+    public function setLastName($value) {
+        $this->lastName = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of The street address
+     *
+     * @return string
      */
     public function getAddress() {
         return $this->address;
     }
 
     /**
-     * Set address2
+     * Set the value of The street address
      *
-     * @param string $address2
+     * @param string $value address
+     *
+     * @return self
      */
-    public function setAddress2($address2) {
-        if ($address2 != $this->address2) {
+    public function setAddress($value) {
+        if ($value != $this->address) {
             $this->resetGeoCoordinates();
         }
-        $this->address2 = $address2;
+
+        $this->address = $value;
+
         return $this;
     }
 
     /**
-     * Get address2
+     * Get the value of The street address line 2
      *
-     * @return string 
+     * @return string
      */
     public function getAddress2() {
         return $this->address2;
     }
 
     /**
-     * Set city
+     * Set the value of The street address line 2
      *
-     * @param string $city
+     * @param string $value address2
+     *
+     * @return self
      */
-    public function setCity($city) {
-        if ($city != $this->city) {
+    public function setAddress2($value) {
+        if ($value != $this->address2) {
             $this->resetGeoCoordinates();
         }
-        $this->city = $city;
+        
+        $this->address2 = $value;
+
         return $this;
     }
 
     /**
-     * Get city
+     * Get the value of The city
      *
-     * @return string 
+     * @return string
      */
     public function getCity() {
         return $this->city;
     }
 
     /**
-     * Set state
+     * Set the value of The city
      *
-     * @param string $state
+     * @param string $value city
+     *
+     * @return self
      */
-    public function setState($state) {
-        if ($state != $this->state) {
+    public function setCity($value) {
+        if ($value != $this->city) {
             $this->resetGeoCoordinates();
         }
-        $this->state = $state;
+        
+        $this->city = $value;
+
         return $this;
     }
 
     /**
-     * Get state
+     * Get the value of The state
      *
-     * @return string 
+     * @return \KMJ\ToolkitBundle\Entity\State
      */
     public function getState() {
         return $this->state;
     }
 
     /**
-     * Set country
+     * Set the value of The state
      *
-     * @param string $country
+     * @param \KMJ\ToolkitBundle\Entity\State $value state
+     *
+     * @return self
      */
-    public function setCountry($country) {
-        if ($country != $this->country) {
+    public function setState(\KMJ\ToolkitBundle\Entity\State $value) {
+        if ($value != $this->state) {
             $this->resetGeoCoordinates();
         }
-        $this->country = $country;
+        
+        $this->state = $value;
+
         return $this;
     }
 
     /**
-     * Get country
+     * Get the value of The country
      *
-     * @return string 
+     * @return \KMJ\ToolkitBundle\Entity\Country
      */
     public function getCountry() {
         return $this->country;
     }
 
     /**
-     * Set zipcode
+     * Set the value of The country
      *
-     * @param string $zipcode
+     * @param \KMJ\ToolkitBundle\Entity\Country $value country
+     *
+     * @return self
      */
-    public function setZipcode($zipcode) {
-        $this->zipcode = $zipcode;
+    public function setCountry(\KMJ\ToolkitBundle\Entity\Country $value) {
+        if ($value != $this->country) {
+            $this->resetGeoCoordinates();
+        }
+        
+        $this->country = $value;
+
         return $this;
     }
 
     /**
-     * Get zipcode
+     * Get the value of The zipcode
      *
-     * @return string 
+     * @return string
      */
     public function getZipcode() {
         return $this->zipcode;
     }
 
     /**
-     * Set name
+     * Set the value of The zipcode
      *
-     * @param string $name
+     * @param string $value zipcode
+     *
+     * @return self
      */
-    public function setName($name) {
-        $this->name = $name;
+    public function setZipcode($value) {
+        $this->zipcode = $value;
+
         return $this;
     }
 
     /**
-     * Get name
+     * Get the value of The short name of the address (for address books)
      *
-     * @return string 
+     * @return string
      */
     public function getName() {
         return $this->name;
     }
 
-    public function getFirstName() {
-        return $this->firstName;
-    }
+    /**
+     * Set the value of The short name of the address (for address books)
+     *
+     * @param string $value name
+     *
+     * @return self
+     */
+    public function setName($value) {
+        $this->name = $value;
 
-    public function getLastName() {
-        return $this->lastName;
-    }
-
-    public function setFirstName($firstName) {
-        $this->firstName = $firstName;
         return $this;
     }
 
-    public function setLastName($lastName) {
-        $this->lastName = $lastName;
+    /**
+     * Get the value of The phone number for the address
+     *
+     * @return libphonenumber\PhoneNumber
+     */
+    public function getPhoneNumber() {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * Set the value of The phone number for the address
+     *
+     * @param libphonenumber\PhoneNumber $value phoneNumber
+     *
+     * @return self
+     */
+    public function setPhoneNumber(libphonenumber\PhoneNumber $value) {
+        $this->phoneNumber = $value;
+
         return $this;
     }
 
+    /**
+     * Get the value of The company name for the address
+     *
+     * @return string
+     */
+    public function getCompanyName() {
+        return $this->companyName;
+    }
+
+    /**
+     * Set the value of The company name for the address
+     *
+     * @param string $value companyName
+     *
+     * @return self
+     */
+    public function setCompanyName($value) {
+        $this->companyName = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of The longitude of the address
+     *
+     * @return float
+     */
+    public function getLongitude() {
+        return $this->longitude;
+    }
+
+    /**
+     * Set the value of The longitude of the address
+     *
+     * @param float $value longitude
+     *
+     * @return self
+     */
+    public function setLongitude($value) {
+        $this->longitude = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of The latitude of the address
+     *
+     * @return float
+     */
+    public function getLatitude() {
+        return $this->latitude;
+    }
+
+    /**
+     * Set the value of The latitude of the address
+     *
+     * @param float $value latitude
+     *
+     * @return self
+     */
+    public function setLatitude($value) {
+        $this->latitude = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of The latitude of the address
+     *
+     * @return boolean
+     */
+    public function getIsResidential() {
+        return $this->isResidential;
+    }
+
+    /**
+     * Set the value of The latitude of the address
+     *
+     * @param boolean $value isResidential
+     *
+     * @return self
+     */
+    public function setIsResidential($value) {
+        $this->isResidential = $value;
+
+        return $this;
+    }
+
+    /**
+     * Basic constructor
+     */
     public function __construct() {
         $this->name = "Default";
         $this->isResidential = true;
     }
 
-    public function getPhoneNumber() {
-        return $this->phoneNumber;
-    }
-
-    public function setPhoneNumber($phoneNumber) {
-        $this->phoneNumber = $phoneNumber;
-        return $this;
-    }
-
-    public function getCompanyName() {
-        return $this->companyName;
-    }
-
-    public function setCompanyName($companyName) {
-        $this->companyName = $companyName;
-        return $this;
-    }
-
+    /**
+     * Translates the address into a string (with html formating)
+     * 
+     * @return string
+     */
     public function __toString() {
         $string = null;
-        
+
         if ($this->firstName != null && $this->lastName != null) {
             $string = $this->firstName . ' ' . $this->lastName . '<br />';
         }
-        
+
         $string .= $this->address . '<br />';
 
         if ($this->address2 != "") {
@@ -345,37 +538,29 @@ class Address {
         if ($this->getState() != null) {
             $string .= $this->city . ', ' . $this->getState()->getCode() . ' ' . $this->getCountry()->getCode() . ' ' . $this->zipcode;
         } else {
-            $string .= $this->city . ' ' . $this->getCountry()->getCode() . ' ' . $this->zipcode;
+            $string .= $this->city . ' ' . (isset($this->getCountry())) ? $this->getCountry()->getCode() : "". ' ' . $this->zipcode;
         }
 
         return $string;
     }
 
+    /**
+     * Allows cloning of this class
+     */
     public function __clone() {
         if ($this->id) {
             $this->id = null;
         }
     }
 
-    public function getLongitude() {
-        return $this->longitude;
-    }
-
-    public function setLongitude($longitude) {
-        $this->longitude = $longitude;
-        return $this;
-    }
-
-    public function getLatitude() {
-        return $this->latitude;
-    }
-
-    public function setLatitude($latitude) {
-        $this->latitude = $latitude;
-        return $this;
-    }
-
-    public function setGeoCoordinates($coordinates) {
+    /**
+     * Sets the Geocoordinates for the address
+     * 
+     * @param array $coordinates The geocoordintates
+     * @return \KMJ\ToolkitBundle\Entity\Address
+     * @throws \InvalidArgumentException 
+     */
+    public function setGeoCoordinates(array $coordinates) {
         if (isset($coordinates['lat']) && isset($coordinates['lng'])) {
             $this->latitude = $coordinates['lat'];
             $this->longitude = $coordinates['lng'];
@@ -386,11 +571,19 @@ class Address {
         return $this;
     }
 
+    /**
+     * Clears the geo coordintates
+     */
     private function resetGeoCoordinates() {
         $this->latitude = null;
         $this->longitude = null;
     }
 
+    /**
+     * Determines if the class is a valid address
+     * 
+     * @return boolean
+     */
     public function isValid() {
         if ($this->address == "" || $this->city == "" || $this->country == "") {
             return false;
@@ -399,6 +592,11 @@ class Address {
         }
     }
 
+    /**
+     * Duplicates the address without cloning
+     * 
+     * @return \KMJ\ToolkitBundle\Entity\Address
+     */
     public function cloneAddress() {
         $newAddress = new Address();
         $newAddress->setCompanyName($this->getCompanyName());
@@ -417,6 +615,12 @@ class Address {
         return $newAddress;
     }
 
+    /**
+     * Determines if a state is valid based on the current country
+     * 
+     * @param ExecutionContext $context The form context
+     * @return boolean
+     */
     public function isStateValid(ExecutionContext $context) {
         $propertyPath = $context->getPropertyPath() . '.state';
 
@@ -429,6 +633,12 @@ class Address {
         }
     }
 
+    /**
+     * Determines if a zipcode is valid based on the current country
+     * 
+     * @param ExecutionContext $context The form context
+     * @return boolean
+     */
     public function isZipcodeValid(ExecutionContext $context) {
         if ($this->getCountry() != null) {
             if ($this->getCountry()->getZipCodeRequired() && $this->getZipcode() == null) {
@@ -438,15 +648,6 @@ class Address {
                 return FALSE;
             }
         }
-    }
-
-    public function getIsResidential() {
-        return $this->isResidential;
-    }
-
-    public function setIsResidential($isResidential) {
-        $this->isResidential = $isResidential;
-        return $this;
     }
 
 }

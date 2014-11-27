@@ -18,6 +18,9 @@ $set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet(array(
         )
 );
 
+echo get_class($this->getContainer()->get('libphonenumber.phone_number_util')->parse("4805102601", 'US'));
+die();
+
 $appDir = $this->getContainer()->get("kernel")->getRootDir();
 $bundlePath = "/Resources/KMJToolKit/DataFixtures/Alice/Fixtures";
 

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file is part of the KMJToolkitBundle
+ * @copyright (c) 2014, Kaelin Jacobson
+ */
+
 namespace KMJ\ToolkitBundle\Form;
 
 use KMJ\ToolkitBundle\Entity\Address;
@@ -9,21 +14,59 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Address form for address entity
+ * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ */
 class AddressType extends AbstractType {
 
+    /**
+     * Constant for the simple form
+     */
     const SIMPLE = 1;
+
+    /**
+     * Constant fot the full form
+     */
     const FULL = 2;
 
+    /**
+     * Should the form include the country
+     * 
+     * @var boolean
+     */
     protected $includeCountry;
+
+    /**
+     * The type of form to be used
+     * 
+     * @var int
+     */
     protected $type;
+
+    /**
+     * Should the fields be marked as required
+     *
+     * @var boolean 
+     */
     protected $required;
 
+    /**
+     * Basic constructor
+     * 
+     * @param int $type The type of form to use
+     * @param boolean $includeCountry Should the form include a country dropdown
+     * @param boolean $required Should fields be marked as required
+     */
     function __construct($type, $includeCountry = true, $required = true) {
         $this->includeCountry = $includeCountry;
         $this->type = $type;
         $this->required = $required;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         // initialize country to null if the order is unable to pull the address information
         // key relationship may be damaged from cloning the original database
@@ -106,6 +149,9 @@ class AddressType extends AbstractType {
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         switch ($this->type) {
             case self::SIMPLE:
@@ -123,10 +169,16 @@ class AddressType extends AbstractType {
         ));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName() {
         return "kmj_toolkit_address";
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onPreSetData(FormEvent $event) {
         $country = null;
         $data = $event->getData();
@@ -149,26 +201,35 @@ class AddressType extends AbstractType {
         }
     }
 
-    public function buildStateField($form, $country) {
+    /**
+     * Builds the state field
+     * 
+     * @param \Symfony\Component\Form\FormBuilder $form The form to add the field to
+     * @param \KMJ\ToolkitBundle\Entity\Country $country The country to add the states of
+     */
+    public function buildStateField(\Symfony\Component\Form\FormBuilder $form, \KMJ\ToolkitBundle\Entity\Country $country) {
         $form->add('state', 'entity', array(
             'class' => 'KMJToolkitBundle:State',
             'empty_value' => 'Please select a state',
             'required' => false,
             'query_builder' => function ($repository) use ($country) {
-        $queryBuilder = $repository->createQueryBuilder('s');
+                $queryBuilder = $repository->createQueryBuilder('s');
 
-        if ($country != null) {
-            $queryBuilder->where('s.country = :country')
-                    ->setParameter("country", $country);
-        }
+                if ($country != null) {
+                    $queryBuilder->where('s.country = :country')
+                            ->setParameter("country", $country);
+                }
 
-        return $queryBuilder;
-    },
+                return $queryBuilder;
+            },
             'read_only' => false,
             'label' => 'State/Providence:',
         ));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function onPostSubmit(FormEvent $event) {
         $country = $event->getForm()->getData();
         $form = $event->getForm()->getParent();

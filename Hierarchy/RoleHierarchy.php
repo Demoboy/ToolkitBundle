@@ -1,30 +1,51 @@
 <?php
 
+/**
+ * This file is part of the KMJToolkitBundle
+ * @copyright (c) 2014, Kaelin Jacobson
+ */
+
 namespace KMJ\ToolkitBundle\Hierarchy;
 
+/**
+ * Determines role hierarchy
+ * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ */
 class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy {
 
+    /**
+     * The entity manager
+     *
+     * @var \Doctrine\ORM\EntityManager 
+     */
     private $em;
+    
+    /**
+     * Current role hierarchy, usually provided from configs
+     * 
+     * @var array 
+     */
     private $existingHierarchy;
 
     /**
-     * @param array $hierarchy
+     * Basic constructor
+     * @param array $hierarchy The current role hierarchy
+     * @param \Doctrine\ORM\EntityManager $em The entity manager to use
      */
     public function __construct(array $hierarchy, \Doctrine\ORM\EntityManager $em) {
-        $this->em = $em;       
+        $this->em = $em;
         $this->existingHierarchy = $hierarchy;
         parent::__construct($this->buildRolesTree());
     }
 
     /**
-     * Here we build an array with roles. It looks like a two-levelled tree - just 
-     * like original Symfony roles are stored in security.yml
+     * Organize the roles into a hierarchal array
      * @return array
      */
     private function buildRolesTree() {
         $hierarchy = array();
         $roles = $this->em->getRepository("KMJToolkitBundle:Role")->findAll();
-        
+
         foreach ($roles as $role) {
             /** @var $role Role */
             if ($role->getParent()) {
@@ -38,7 +59,7 @@ class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy 
                 }
             }
         }
-                
+
         return array_merge_recursive($hierarchy, $this->existingHierarchy);
     }
 

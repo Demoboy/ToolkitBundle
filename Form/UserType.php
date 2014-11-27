@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file is part of the KMJToolkitBundle
+ * @copyright (c) 2014, Kaelin Jacobson
+ */
+
 namespace KMJ\ToolkitBundle\Form;
 
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
@@ -8,14 +13,22 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use JMS\DiExtraBundle\Annotation\FormType;
 
 /**
+ * User form for user entity
+ * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @FormType("kmj_toolkit_usertype")
  */
 class UserType extends BaseType {
 
+    /**
+     * Basic Constructor
+     */
     public function __construct() {
         parent::__construct($this);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('firstName', null, array(
                     "label" => "First Name:",
@@ -24,9 +37,7 @@ class UserType extends BaseType {
                     "label" => "Last Name:",
         ));
 
-
         parent::buildForm($builder, $options);
-
 
         $builder->remove("email");
         $builder->add('email', 'email', array(
@@ -36,22 +47,25 @@ class UserType extends BaseType {
                 new \Symfony\Component\Validator\Constraints\Email(array(
                     "groups" => array("simple"),
                     "checkMX" => true,
-                ))
+                        ))
             )
         ));
-
-
-
 
         $builder->remove('username');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
             'data_class' => 'KMJ\ToolkitBundle\Entity\User'
         ));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getName() {
         return 'kmj_toolkitbundle_usertype';
     }
