@@ -10,6 +10,7 @@ namespace KMJ\ToolkitBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContext;
+use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 
 /**
@@ -153,11 +154,11 @@ class Address {
     protected $latitude;
 
     /**
-     * The latitude of the address
+     * Boolean to determine if the address is a residental address
      * @var boolean
      * @ORM\Column(name="isResidential", type="boolean")
      */
-    protected $isResidential;
+    protected $residential;
 
     /**
      * Get the value of id for the address
@@ -415,7 +416,7 @@ class Address {
      *
      * @return self
      */
-    public function setPhoneNumber(libphonenumber\PhoneNumber $value) {
+    public function setPhoneNumber(PhoneNumber $value) {
         $this->phoneNumber = $value;
 
         return $this;
@@ -488,33 +489,11 @@ class Address {
     }
 
     /**
-     * Get the value of The latitude of the address
-     *
-     * @return boolean
-     */
-    public function getIsResidential() {
-        return $this->isResidential;
-    }
-
-    /**
-     * Set the value of The latitude of the address
-     *
-     * @param boolean $value isResidential
-     *
-     * @return self
-     */
-    public function setIsResidential($value) {
-        $this->isResidential = $value;
-
-        return $this;
-    }
-
-    /**
      * Basic constructor
      */
     public function __construct() {
         $this->name = "Default";
-        $this->isResidential = true;
+        $this->residential = true;
     }
 
     /**
@@ -591,6 +570,15 @@ class Address {
             return true;
         }
     }
+    
+    /**
+     * Get residential
+     * 
+     * @return boolean
+     */
+    public function isResidential() {
+        return $this->residential;
+    }
 
     /**
      * Duplicates the address without cloning
@@ -611,7 +599,7 @@ class Address {
         $newAddress->setState($this->getState());
         $newAddress->setCountry($this->getCountry());
         $newAddress->setZipcode($this->getZipcode());
-        $newAddress->setIsResidential($this->getIsResidential());
+        $newAddress->setResidential($this->isRes());
         return $newAddress;
     }
 
