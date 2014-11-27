@@ -190,7 +190,7 @@ class AddressType extends AbstractType {
             $country = null;
         }
 
-        if ($country == null) {
+        if ($country === null) {
             $form->add("state", "choice", array(
                 "label" => "State:",
                 "choices" => array(),
@@ -215,7 +215,7 @@ class AddressType extends AbstractType {
             'query_builder' => function ($repository) use ($country) {
                 $queryBuilder = $repository->createQueryBuilder('s');
 
-                if ($country != null) {
+                if ($country !== null) {
                     $queryBuilder->where('s.country = :country')
                             ->setParameter("country", $country);
                 }

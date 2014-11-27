@@ -525,7 +525,7 @@ class Address {
     public function __toString() {
         $string = null;
 
-        if ($this->firstName != null && $this->lastName != null) {
+        if ($this->firstName !== null && $this->lastName !== null) {
             $string = $this->firstName . ' ' . $this->lastName . '<br />';
         }
 
@@ -535,10 +535,10 @@ class Address {
             $string .= $this->address2 . '<br />';
         }
 
-        if ($this->getState() != null) {
+        if ($this->getState() instanceof State) {
             $string .= $this->city . ', ' . $this->getState()->getCode() . ' ' . $this->getCountry()->getCode() . ' ' . $this->zipcode;
         } else {
-            $string .= $this->city . ' ' . (isset($this->getCountry())) ? $this->getCountry()->getCode() : "". ' ' . $this->zipcode;
+            $string .= $this->city . ' ' . ($this->getCountry() instanceof Country) ? $this->getCountry()->getCode() : "". ' ' . $this->zipcode;
         }
 
         return $string;
@@ -624,8 +624,8 @@ class Address {
     public function isStateValid(ExecutionContext $context) {
         $propertyPath = $context->getPropertyPath() . '.state';
 
-        if ($this->getCountry() != null) {
-            if (($this->getCountry()->getCode() == "US" || $this->getCountry()->getCode() == "CA") && $this->getState() == null) {
+        if ($this->getCountry() !== null) {
+            if (($this->getCountry()->getCode() === "US" || $this->getCountry()->getCode() === "CA") && $this->getState() === null) {
                 $context->setPropertyPath($propertyPath);
                 $context->addViolation('Please select a state', array(), null);
                 return FALSE;
@@ -640,8 +640,8 @@ class Address {
      * @return boolean
      */
     public function isZipcodeValid(ExecutionContext $context) {
-        if ($this->getCountry() != null) {
-            if ($this->getCountry()->getZipCodeRequired() && $this->getZipcode() == null) {
+        if ($this->getCountry() !== null) {
+            if ($this->getCountry()->getZipCodeRequired() && $this->getZipcode() === null) {
                 $propertyPath = $context->getPropertyPath() . '.zipcode';
                 $context->setPropertyPath($propertyPath);
                 $context->addViolation('Please enter a zipcode', array(), null);

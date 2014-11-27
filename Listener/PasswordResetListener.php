@@ -80,12 +80,12 @@ class PasswordResetListener implements EventSubscriberInterface {
      * @return null
      */
     public function isPasswordReset(GetResponseEvent $event) {
-        if (stristr($event->getRequest()->get('_route'), '_assetic') !== false || stristr($event->getRequest()->get('_route'), self::CHANGE_PASSWORD_ROUTE) !== false || $event->getRequest()->get('_route') == null || stristr($event->getRequest()->get('_route'), '_wdt') !== false) {
+        if (stristr($event->getRequest()->get('_route'), '_assetic') !== false || stristr($event->getRequest()->get('_route'), self::CHANGE_PASSWORD_ROUTE) !== false || $event->getRequest()->get('_route') === null || stristr($event->getRequest()->get('_route'), '_wdt') !== false) {
             // don't do anything if it's not the master request or is requested by assetic or is the tool bar
             return;
         }
 
-        if ($this->security->getToken() != null) {
+        if ($this->security->getToken() !== null) {
             if ($this->security->getToken()->getUser() instanceof User) {
                 $user = $this->security->getToken()->getUser();
 
