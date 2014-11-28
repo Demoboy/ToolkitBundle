@@ -13,14 +13,14 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
-    },
-    "require-dev": {
-        "symfony/framework-bundle": ">=2.0"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "doctrine/collections": "1.2.*",
+        "misd/phone-number-bundle": "1.0.*",
+        "symfony/validator": "2.5.*"
     },
     "autoload": {
         "psr-0": { "KMJ\\ToolkitBundle": "" }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "target-dir": "KMJ/ToolkitBundle"
 }
