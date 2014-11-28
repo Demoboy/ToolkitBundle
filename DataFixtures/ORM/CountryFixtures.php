@@ -19,7 +19,7 @@ class CountryFixtures extends AbstractFixture implements OrderedFixtureInterface
 
     /**
      * {@inheritDoc}
-     * @codeCoverageIgnore
+     * 
      * @return int The order to execute the fixture
      */
     public function getOrder() {

@@ -5,13 +5,10 @@
  * @copyright (c) 2014, Kaelin Jacobson
  */
 
-namespace KMJ\ToolkitBundle\Form\Type;
+namespace KMJ\ToolkitBundle\Form;
 
-use Doctrine\ORM\EntityRepository;
 use KMJ\ToolkitBundle\Entity\Address;
-use KMJ\ToolkitBundle\Entity\Country;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -207,15 +204,15 @@ class AddressType extends AbstractType {
     /**
      * Builds the state field
      * 
-     * @param FormBuilder $form The form to add the field to
-     * @param Country $country The country to add the states of
+     * @param \Symfony\Component\Form\FormBuilder $form The form to add the field to
+     * @param \KMJ\ToolkitBundle\Entity\Country $country The country to add the states of
      */
-    public function buildStateField(FormBuilder $form, Country $country) {
+    public function buildStateField(\Symfony\Component\Form\FormBuilder $form, \KMJ\ToolkitBundle\Entity\Country $country) {
         $form->add('state', 'entity', array(
             'class' => 'KMJToolkitBundle:State',
             'empty_value' => 'Please select a state',
             'required' => false,
-            'query_builder' => function (EntityRepository $repository) use ($country) {
+            'query_builder' => function ($repository) use ($country) {
                 $queryBuilder = $repository->createQueryBuilder('s');
 
                 if ($country !== null) {
