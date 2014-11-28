@@ -69,7 +69,6 @@ class Country {
      */
     public function __construct() {
         $this->states = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->zipCodeRequired = false;
     }
 
     /**
@@ -82,7 +81,7 @@ class Country {
 
     /**
      * Get the value of Id
-     * @codeCoverageIgnore
+     *
      * @return integer
      */
     public function getId() {
@@ -138,7 +137,7 @@ class Country {
      *
      * @return boolean
      */
-    public function isZipCodeRequired() {
+    public function getZipCodeRequired() {
         return $this->zipCodeRequired;
     }
 
@@ -163,4 +162,18 @@ class Country {
     public function getStates() {
         return $this->states;
     }
+
+    /**
+     * Set the value of States in the country
+     *
+     * @param \Doctrine\Common\Collections\ArrayCollection $value states
+     *
+     * @return self
+     */
+    public function setStates(\Doctrine\Common\Collections\ArrayCollection $value) {
+        $this->states = $value;
+
+        return $this;
+    }
+
 }

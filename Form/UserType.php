@@ -5,7 +5,7 @@
  * @copyright (c) 2014, Kaelin Jacobson
  */
 
-namespace KMJ\ToolkitBundle\Form\Type;
+namespace KMJ\ToolkitBundle\Form;
 
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
 use Symfony\Component\Form\FormBuilderInterface;

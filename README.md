@@ -1,7 +1,6 @@
 KMJToolkitBundle
 ================================
 [ ![Codeship Status for Demoboy/ToolkitBundle](https://codeship.com/projects/07fa0450-5696-0132-90cb-0ea30a431f2b/status)](https://codeship.com/projects/49576)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f368f3d0-9d20-478d-ab00-ed96e9d1d976/mini.png)](https://insight.sensiolabs.com/projects/f368f3d0-9d20-478d-ab00-ed96e9d1d976)
 
 1) Installation
 ----------------------------------
