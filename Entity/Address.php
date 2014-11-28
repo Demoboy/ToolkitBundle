@@ -8,9 +8,10 @@
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContext;
+use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Entity that handles Addresses
@@ -57,22 +58,22 @@ class Address {
      * The street address
      * @var string
      *
-     * @ORM\Column(name="address", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="Please enter a street address")
      * @Assert\Length(
      *          min="3", minMessage="Your address must have at least {{ limit }} characters",
      *          max="255", maxMessage="Your address cannont have at more than {{ limit }} characters"
      * )
      */
-    protected $address;
+    protected $street;
 
     /**
-     * The street address line 2
+     * The street address (line 2)
      * @var string
      *
-     * @ORM\Column(name="address2", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    protected $address2;
+    protected $unit;
 
     /**
      * The city
@@ -85,7 +86,7 @@ class Address {
 
     /**
      * The state
-     * @var \KMJ\ToolkitBundle\Entity\State
+     * @var State
      *
      * @ORM\ManyToOne(targetEntity="State", fetch="EAGER")
      * @ORM\JoinColumn(name="stateID", referencedColumnName="id", nullable=true)
@@ -94,7 +95,7 @@ class Address {
 
     /**
      * The country
-     * @var \KMJ\ToolkitBundle\Entity\Country
+     * @var Country
      *
      * @ORM\ManyToOne(targetEntity="Country",  fetch="EAGER")
      * @ORM\JoinColumn(name="countryID", referencedColumnName="id", nullable=true)
@@ -153,32 +154,19 @@ class Address {
     protected $latitude;
 
     /**
-     * The latitude of the address
+     * Boolean to determine if the address is a residental address
      * @var boolean
-     * @ORM\Column(name="isResidential", type="boolean")
+     * @ORM\Column(name="isResidential", type="boolean", nullable=true)
      */
-    protected $isResidential;
+    protected $residential;
 
     /**
      * Get the value of id for the address
-     *
+     * @codeCoverageIgnore
      * @return int
      */
     public function getId() {
         return $this->id;
-    }
-
-    /**
-     * Set the value of id for the address
-     *
-     * @param int $value id
-     *
-     * @return self
-     */
-    public function setId($value) {
-        $this->id = $value;
-
-        return $this;
     }
 
     /**
@@ -230,23 +218,19 @@ class Address {
      *
      * @return string
      */
-    public function getAddress() {
-        return $this->address;
+    public function getStreet() {
+        return $this->street;
     }
 
     /**
      * Set the value of The street address
      *
-     * @param string $value address
+     * @param string $value street address
      *
      * @return self
      */
-    public function setAddress($value) {
-        if ($value != $this->address) {
-            $this->resetGeoCoordinates();
-        }
-
-        $this->address = $value;
+    public function setStreet($value) {
+        $this->street = $value;
 
         return $this;
     }
@@ -256,23 +240,19 @@ class Address {
      *
      * @return string
      */
-    public function getAddress2() {
-        return $this->address2;
+    public function getUnit() {
+        return $this->unit;
     }
 
     /**
-     * Set the value of The street address line 2
+     * Set the value of The street address (line 2)
      *
-     * @param string $value address2
+     * @param string $value unit
      *
      * @return self
      */
-    public function setAddress2($value) {
-        if ($value != $this->address2) {
-            $this->resetGeoCoordinates();
-        }
-        
-        $this->address2 = $value;
+    public function setUnit($value) {
+        $this->unit = $value;
 
         return $this;
     }
@@ -294,10 +274,6 @@ class Address {
      * @return self
      */
     public function setCity($value) {
-        if ($value != $this->city) {
-            $this->resetGeoCoordinates();
-        }
-        
         $this->city = $value;
 
         return $this;
@@ -306,7 +282,7 @@ class Address {
     /**
      * Get the value of The state
      *
-     * @return \KMJ\ToolkitBundle\Entity\State
+     * @return State
      */
     public function getState() {
         return $this->state;
@@ -315,15 +291,11 @@ class Address {
     /**
      * Set the value of The state
      *
-     * @param \KMJ\ToolkitBundle\Entity\State $value state
+     * @param State $value state
      *
      * @return self
      */
-    public function setState(\KMJ\ToolkitBundle\Entity\State $value) {
-        if ($value != $this->state) {
-            $this->resetGeoCoordinates();
-        }
-        
+    public function setState(State $value) {
         $this->state = $value;
 
         return $this;
@@ -332,7 +304,7 @@ class Address {
     /**
      * Get the value of The country
      *
-     * @return \KMJ\ToolkitBundle\Entity\Country
+     * @return Country
      */
     public function getCountry() {
         return $this->country;
@@ -341,15 +313,11 @@ class Address {
     /**
      * Set the value of The country
      *
-     * @param \KMJ\ToolkitBundle\Entity\Country $value country
+     * @param Country $value country
      *
      * @return self
      */
-    public function setCountry(\KMJ\ToolkitBundle\Entity\Country $value) {
-        if ($value != $this->country) {
-            $this->resetGeoCoordinates();
-        }
-        
+    public function setCountry(Country $value) {
         $this->country = $value;
 
         return $this;
@@ -415,7 +383,7 @@ class Address {
      *
      * @return self
      */
-    public function setPhoneNumber(libphonenumber\PhoneNumber $value) {
+    public function setPhoneNumber(PhoneNumber $value) {
         $this->phoneNumber = $value;
 
         return $this;
@@ -488,38 +456,15 @@ class Address {
     }
 
     /**
-     * Get the value of The latitude of the address
-     *
-     * @return boolean
-     */
-    public function getIsResidential() {
-        return $this->isResidential;
-    }
-
-    /**
-     * Set the value of The latitude of the address
-     *
-     * @param boolean $value isResidential
-     *
-     * @return self
-     */
-    public function setIsResidential($value) {
-        $this->isResidential = $value;
-
-        return $this;
-    }
-
-    /**
      * Basic constructor
      */
     public function __construct() {
         $this->name = "Default";
-        $this->isResidential = true;
     }
 
     /**
      * Translates the address into a string (with html formating)
-     * 
+     *
      * @return string
      */
     public function __toString() {
@@ -529,16 +474,16 @@ class Address {
             $string = $this->firstName . ' ' . $this->lastName . '<br />';
         }
 
-        $string .= $this->address . '<br />';
+        $string .= $this->street . '<br />';
 
-        if ($this->address2 != "") {
-            $string .= $this->address2 . '<br />';
+        if ($this->unit != "") {
+            $string .= $this->unit . '<br />';
         }
 
         if ($this->getState() instanceof State) {
             $string .= $this->city . ', ' . $this->getState()->getCode() . ' ' . $this->getCountry()->getCode() . ' ' . $this->zipcode;
         } else {
-            $string .= $this->city . ' ' . ($this->getCountry() instanceof Country) ? $this->getCountry()->getCode() : "". ' ' . $this->zipcode;
+            $string .= $this->city . ($this->getCountry() instanceof Country ? ", " . $this->getCountry()->getCode() : "") . ' ' . $this->zipcode;
         }
 
         return $string;
@@ -546,6 +491,7 @@ class Address {
 
     /**
      * Allows cloning of this class
+     * @codeCoverageIgnore
      */
     public function __clone() {
         if ($this->id) {
@@ -554,38 +500,12 @@ class Address {
     }
 
     /**
-     * Sets the Geocoordinates for the address
-     * 
-     * @param array $coordinates The geocoordintates
-     * @return \KMJ\ToolkitBundle\Entity\Address
-     * @throws \InvalidArgumentException 
-     */
-    public function setGeoCoordinates(array $coordinates) {
-        if (isset($coordinates['lat']) && isset($coordinates['lng'])) {
-            $this->latitude = $coordinates['lat'];
-            $this->longitude = $coordinates['lng'];
-        } else {
-            throw new \InvalidArgumentException;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Clears the geo coordintates
-     */
-    private function resetGeoCoordinates() {
-        $this->latitude = null;
-        $this->longitude = null;
-    }
-
-    /**
      * Determines if the class is a valid address
-     * 
+     *
      * @return boolean
      */
     public function isValid() {
-        if ($this->address == "" || $this->city == "" || $this->country == "") {
+        if ($this->street === null || $this->city === null || $this->country === null) {
             return false;
         } else {
             return true;
@@ -593,59 +513,57 @@ class Address {
     }
 
     /**
-     * Duplicates the address without cloning
-     * 
-     * @return \KMJ\ToolkitBundle\Entity\Address
+     * Set the value of Boolean to determine if the address is a residental address
+     *
+     * @param boolean $value residential
+     *
+     * @return self
      */
-    public function cloneAddress() {
-        $newAddress = new Address();
-        $newAddress->setCompanyName($this->getCompanyName());
-        $newAddress->setFirstName($this->getFirstName());
-        $newAddress->setLastName($this->getLastName());
-        $newAddress->setCompanyName($this->getCompanyName());
-        $newAddress->setLatitude($this->getLatitude());
-        $newAddress->setLongitude($this->getLongitude());
-        $newAddress->setAddress($this->getAddress());
-        $newAddress->setAddress2($this->getAddress2());
-        $newAddress->setCity($this->getCity());
-        $newAddress->setState($this->getState());
-        $newAddress->setCountry($this->getCountry());
-        $newAddress->setZipcode($this->getZipcode());
-        $newAddress->setIsResidential($this->getIsResidential());
-        return $newAddress;
+    public function setResidential($value) {
+        $this->residential = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get residential
+     *
+     * @return boolean
+     */
+    public function isResidential() {
+        return $this->residential;
     }
 
     /**
      * Determines if a state is valid based on the current country
-     * 
-     * @param ExecutionContext $context The form context
+     *
+     * @param ExecutionContextInterface $context The form context
      * @return boolean
      */
-    public function isStateValid(ExecutionContext $context) {
-        $propertyPath = $context->getPropertyPath() . '.state';
-
-        if ($this->getCountry() !== null) {
-            if (($this->getCountry()->getCode() === "US" || $this->getCountry()->getCode() === "CA") && $this->getState() === null) {
-                $context->setPropertyPath($propertyPath);
-                $context->addViolation('Please select a state', array(), null);
-                return FALSE;
+    public function isStateValid(ExecutionContextInterface $context) {
+        if ($this->getCountry() != null) {
+            if (($this->getCountry()->getCode() == "US" || $this->getCountry()->getCode() == "CA") && $this->getState() == null) {
+                $context->addViolationAt("state", "Please select a state");
+                return false;
+            } else {
+                return true;
             }
         }
     }
 
     /**
      * Determines if a zipcode is valid based on the current country
-     * 
-     * @param ExecutionContext $context The form context
+     *
+     * @param ExecutionContextInterface $context The form context
      * @return boolean
      */
-    public function isZipcodeValid(ExecutionContext $context) {
-        if ($this->getCountry() !== null) {
-            if ($this->getCountry()->getZipCodeRequired() && $this->getZipcode() === null) {
-                $propertyPath = $context->getPropertyPath() . '.zipcode';
-                $context->setPropertyPath($propertyPath);
-                $context->addViolation('Please enter a zipcode', array(), null);
-                return FALSE;
+    public function isZipcodeValid(ExecutionContextInterface $context) {
+        if ($this->getCountry() != null) {
+            if ($this->getCountry()->isZipCodeRequired() && $this->getZipcode() == null) {
+                $context->addViolationAt("zipcode", "Please enter a zipcode");
+                return false;
+            } else {
+                return true;
             }
         }
     }
