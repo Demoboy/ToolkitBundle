@@ -53,14 +53,6 @@ class State {
     protected $country;
 
     /**
-     * The tax rate for the country
-     * @ORM\Column(name="taxRate", type="decimal", scale=2)
-     * @var float
-     * @deprecated deprecated since version 1.0
-     */
-    protected $taxRate;
-
-    /**
      * Translates the state into a string
      * @return string
      */
@@ -70,7 +62,7 @@ class State {
 
     /**
      * Get the value of Id
-     *
+     * @codeCoverageIgnore
      * @return integer
      */
     public function getId() {
@@ -139,28 +131,6 @@ class State {
      */
     public function setCountry(Country $value) {
         $this->country = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of The tax rate for the country
-     *
-     * @return float
-     */
-    public function getTaxRate() {
-        return $this->taxRate;
-    }
-
-    /**
-     * Set the value of The tax rate for the country
-     *
-     * @param float $value taxRate
-     *
-     * @return self
-     */
-    public function setTaxRate($value) {
-        $this->taxRate = $value;
 
         return $this;
     }

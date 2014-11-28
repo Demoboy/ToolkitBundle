@@ -7,8 +7,9 @@
 
 namespace KMJ\ToolkitBundle\Entity;
 
-use Symfony\Component\Security\Core\Role\RoleInterface;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
  * Entity class that handles roles for users
@@ -55,7 +56,7 @@ class Role implements RoleInterface {
      * Date role was created on
      *
      * @ORM\Column(type="datetime")
-     * @var \DateTime
+     * @var DateTime
      */
     protected $createdOn;
 
@@ -78,7 +79,7 @@ class Role implements RoleInterface {
      * Basic constructor
      */
     function __construct() {
-        $this->createdOn = new \DateTime('NOW');
+        $this->createdOn = new DateTime('NOW');
     }
 
     /**
@@ -92,7 +93,7 @@ class Role implements RoleInterface {
 
     /**
      * Get the value of Id
-     *
+     * @codeCoverageIgnore
      * @return integer
      */
     public function getId() {
@@ -173,23 +174,10 @@ class Role implements RoleInterface {
     /**
      * Get the value of Date role was created on
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getCreatedOn() {
         return $this->createdOn;
-    }
-
-    /**
-     * Set the value of Date role was created on
-     *
-     * @param \DateTime $value createdOn
-     *
-     * @return self
-     */
-    public function setCreatedOn(\DateTime $value) {
-        $this->createdOn = $value;
-
-        return $this;
     }
 
     /**

@@ -70,10 +70,10 @@ abstract class User extends BaseUser {
     /**
      * {@inheritDoc}
      *
-     * @param Role $role The role to add
+     * @param mixed $role The role to add
      * @return \KMJ\ToolkitBundle\Entity\User
      */
-    public function addRole(Role $role) {
+    public function addRole($role) {
         //make sure user doesn't already have the role
         if (!$this->hasRole($role)) {
             $this->userRoles->add($role);
@@ -93,10 +93,10 @@ abstract class User extends BaseUser {
 
     /**
      * Determines if a user has a specified role
-     * @param Role $role The role to check against
+     * @param mixed $role The role to check against
      * @return boolean
      */
-    public function hasRole(Role $role) {
+    public function hasRole($role) {
         foreach ($this->userRoles as $userRole) {
             if ($userRole == $role) {
                 return true;
@@ -162,7 +162,7 @@ abstract class User extends BaseUser {
 
     /**
      * Get the value of Id
-     *
+     * @codeCoverageIgnore
      * @return integer
      */
     public function getId() {
@@ -176,19 +176,6 @@ abstract class User extends BaseUser {
      */
     public function getUserRoles() {
         return $this->userRoles;
-    }
-
-    /**
-     * Set the value of The roles for the user
-     *
-     * @param ArrayCollection $value userRoles
-     *
-     * @return self
-     */
-    public function setUserRoles(ArrayCollection $value) {
-        $this->userRoles = $value;
-
-        return $this;
     }
 
     /**
@@ -209,6 +196,7 @@ abstract class User extends BaseUser {
      */
     public function setFirstName($value) {
         $this->firstName = $value;
+        $this->buildUsername();
 
         return $this;
     }
@@ -231,6 +219,7 @@ abstract class User extends BaseUser {
      */
     public function setLastName($value) {
         $this->lastName = $value;
+        $this->buildUsername();
 
         return $this;
     }
