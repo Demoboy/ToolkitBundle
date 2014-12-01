@@ -8,30 +8,31 @@
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use Doctrine\ORM\EntityRepository;
+use InvalidArgumentException;
 use KMJ\ToolkitBundle\Entity\Address;
 use KMJ\ToolkitBundle\Entity\Country;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 /**
  * Address form for address entity
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ * @codeCoverageIgnore
  */
 class AddressType extends AbstractType {
 
     /**
      * Constant for the simple form
      */
-    const SIMPLE = 1;
+    const SIMPLE = "simple";
 
     /**
      * Constant fot the full form
      */
-    const FULL = 2;
+    const FULL = "full";
 
     /**
      * Should the form include the country
@@ -62,6 +63,10 @@ class AddressType extends AbstractType {
      * @param boolean $required Should fields be marked as required
      */
     function __construct($type, $includeCountry = true, $required = true) {
+        if ($type != self::SIMPLE && $type != self::FULL) {
+            throw new InvalidArgumentException("Type {$type} is unknown");
+        }
+        
         $this->includeCountry = $includeCountry;
         $this->type = $type;
         $this->required = $required;
@@ -207,10 +212,10 @@ class AddressType extends AbstractType {
     /**
      * Builds the state field
      * 
-     * @param FormBuilder $form The form to add the field to
+     * @param Form $form The form to add the field to
      * @param Country $country The country to add the states of
      */
-    public function buildStateField(FormBuilder $form, Country $country) {
+    public function buildStateField(Form $form, Country $country) {
         $form->add('state', 'entity', array(
             'class' => 'KMJToolkitBundle:State',
             'empty_value' => 'Please select a state',
@@ -234,6 +239,7 @@ class AddressType extends AbstractType {
      * {@inheritdoc}
      */
     public function onPostSubmit(FormEvent $event) {
+        debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         $country = $event->getForm()->getData();
         $form = $event->getForm()->getParent();
         $this->buildStateField($form, $country);

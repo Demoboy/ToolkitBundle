@@ -7,6 +7,8 @@
 
 namespace KMJ\ToolkitBundle\Service;
 
+use FOS\UserBundle\Model\UserManagerInterface;
+
 /**
  * Service class that creates FOSUser based on Symfony configs
  *
@@ -30,16 +32,17 @@ class ToolkitService {
 
     /**
      * The FOS user manager
-     * @var FOS\UserBundle\Model\UserManager
+     * @var UserManagerInterface
+     * 
      */
     protected $fosUM;
 
     /**
      * Basic constructor
      * @param array $config The configs
-     * @param \FOS\UserBundle\Model\UserManager $fosUM The FOS User manager
+     * @param UserManagerInterface $fosUM The FOS User manager
      */
-    public function __construct(array $config, \FOS\UserBundle\Model\UserManager $fosUM) {
+    public function __construct(array $config, UserManagerInterface $fosUM) {
         $this->config = $config;
         $this->fosUM = $fosUM;
         $this->overrideFixture = false;

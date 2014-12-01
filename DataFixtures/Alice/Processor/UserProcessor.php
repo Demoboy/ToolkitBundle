@@ -36,7 +36,7 @@ class UserProcessor implements ProcessorInterface {
 
     /**
      * {@inheritDoc}
-     * 
+     * @codeCoverageIgnore
      * @param object $object instance to process
      */
     public function preProcess($object) {
@@ -50,10 +50,11 @@ class UserProcessor implements ProcessorInterface {
      */
     public function postProcess($object) {
         if (!$object instanceof User) {
-            return;
+            return false;
         }
 
         $this->fosUser->updateUser($object, true);
+        return true;
     }
 
 }

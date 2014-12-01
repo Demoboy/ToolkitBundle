@@ -12,12 +12,12 @@ use JMS\DiExtraBundle\Annotation\InjectParams;
 use JMS\DiExtraBundle\Annotation\Service;
 use JMS\DiExtraBundle\Annotation\Tag;
 use KMJ\ToolkitBundle\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Listens for a page load and checks the database to determine if a user needs to have
@@ -39,13 +39,13 @@ class PasswordResetListener implements EventSubscriberInterface {
      * @var SecurityContext 
      */
     protected $security;
-    
+
     /**
      * The routing component
      * @var Router 
      */
     protected $router;
-    
+
     /**
      * The session component
      * @var Session 
@@ -56,16 +56,16 @@ class PasswordResetListener implements EventSubscriberInterface {
      * Basic constructor
      * 
      * @InjectParams({
-     *      "security" = @Inject("security.context"),
+     *      "security" = @Inject("security.token_storage"),
      *      "router" = @Inject("router"),
      *      "session" = @Inject("session"),
      * })
      * 
-     * @param SecurityContext $security The security component
-     * @param Router $router The router component
-     * @param Session $session The session component
+     * @param TokenStorageInterface $security The security component
+     * @param RouterInterface $router The router component
+     * @param SessionInterface $session The session component
      */
-    public function __construct(SecurityContext $security, Router $router, Session $session) {
+    public function __construct(TokenStorageInterface $security, RouterInterface $router, SessionInterface $session) {
         $this->security = $security;
         $this->router = $router;
         $this->session = $session;
@@ -84,8 +84,10 @@ class PasswordResetListener implements EventSubscriberInterface {
             // don't do anything if it's not the master request or is requested by assetic or is the tool bar
             return;
         }
+        
 
         if ($this->security->getToken() !== null) {
+            
             if ($this->security->getToken()->getUser() instanceof User) {
                 $user = $this->security->getToken()->getUser();
 

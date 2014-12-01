@@ -16,6 +16,7 @@ use JMS\DiExtraBundle\Annotation\FormType;
  * User form for user entity
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @FormType("kmj_toolkit_usertype")
+ * @codeCoverageIgnore
  */
 class UserType extends BaseType {
 

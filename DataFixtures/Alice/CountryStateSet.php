@@ -26,7 +26,7 @@ $loadFile = function ($filename) use ($set, $appDir) {
 };
 
 $set->setSeed(42);
-$set->setOrder(99);
+$set->setOrder(50);
 
 //look for files in app/Resources/KMJToolKit/DataFixtures/Alice/Fixtures/
 $loadFile("countries");

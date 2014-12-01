@@ -42,7 +42,7 @@ class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy 
      * Organize the roles into a hierarchal array
      * @return array
      */
-    private function buildRolesTree() {
+    public function buildRolesTree() {
         $hierarchy = array();
         $roles = $this->em->getRepository("KMJToolkitBundle:Role")->findAll();
 

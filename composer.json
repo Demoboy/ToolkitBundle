@@ -13,13 +13,23 @@
     ],
     "require": {
         "php": ">=5.4.0",
+        "symfony/form": "2.6.*",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "doctrine/collections": "1.2.*",
+        "doctrine/orm": "2.4.*",
         "misd/phone-number-bundle": "1.0.*",
-        "symfony/validator": "2.5.*"
+        "symfony/validator": "2.6.*",
+        "twig/twig": "1.16.*",
+        "symfony/doctrine-bridge": "2.6.*",
+        "symfony/expression-language": "2.6.*"
+    },
+    "require-dev": {
+        "h4cc/alice-fixtures-bundle": "0.5.x",
+        "matthiasnoback/symfony-config-test": "0.4.*"
     },
     "autoload": {
-        "psr-0": { "KMJ\\ToolkitBundle": "" }
+        "psr-0": {
+            "KMJ\\ToolkitBundle": ""
+        }
     },
     "minimum-stability": "stable",
     "target-dir": "KMJ/ToolkitBundle"
