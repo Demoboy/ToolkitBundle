@@ -70,10 +70,10 @@ abstract class User extends BaseUser {
     /**
      * {@inheritDoc}
      *
-     * @param Role $role The role to add
+     * @param mixed $role The role to add
      * @return \KMJ\ToolkitBundle\Entity\User
      */
-    public function addRole(Role $role) {
+    public function addRole($role) {
         //make sure user doesn't already have the role
         if (!$this->hasRole($role)) {
             $this->userRoles->add($role);
@@ -93,10 +93,10 @@ abstract class User extends BaseUser {
 
     /**
      * Determines if a user has a specified role
-     * @param Role $role The role to check against
+     * @param mixed $role The role to check against
      * @return boolean
      */
-    public function hasRole(Role $role) {
+    public function hasRole($role) {
         foreach ($this->userRoles as $userRole) {
             if ($userRole == $role) {
                 return true;

@@ -8,9 +8,10 @@
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
+use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContext;
-use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 
 /**
  * Entity that handles Addresses
@@ -85,7 +86,7 @@ class Address {
 
     /**
      * The state
-     * @var \KMJ\ToolkitBundle\Entity\State
+     * @var State
      *
      * @ORM\ManyToOne(targetEntity="State", fetch="EAGER")
      * @ORM\JoinColumn(name="stateID", referencedColumnName="id", nullable=true)
@@ -94,7 +95,7 @@ class Address {
 
     /**
      * The country
-     * @var \KMJ\ToolkitBundle\Entity\Country
+     * @var Country
      *
      * @ORM\ManyToOne(targetEntity="Country",  fetch="EAGER")
      * @ORM\JoinColumn(name="countryID", referencedColumnName="id", nullable=true)
@@ -122,7 +123,7 @@ class Address {
      * The phone number for the address
      *
      * @ORM\Column(name="phoneNumber", type="phone_number", nullable=true)
-     * @var libphonenumber\PhoneNumber
+     * @var PhoneNumber
      * @AssertPhoneNumber(defaultRegion="GB")
      */
     protected $phoneNumber;
@@ -306,7 +307,7 @@ class Address {
     /**
      * Get the value of The state
      *
-     * @return \KMJ\ToolkitBundle\Entity\State
+     * @return State
      */
     public function getState() {
         return $this->state;
@@ -315,11 +316,11 @@ class Address {
     /**
      * Set the value of The state
      *
-     * @param \KMJ\ToolkitBundle\Entity\State $value state
+     * @param State $value state
      *
      * @return self
      */
-    public function setState(\KMJ\ToolkitBundle\Entity\State $value) {
+    public function setState(State $value = null) {
         if ($value != $this->state) {
             $this->resetGeoCoordinates();
         }
@@ -332,7 +333,7 @@ class Address {
     /**
      * Get the value of The country
      *
-     * @return \KMJ\ToolkitBundle\Entity\Country
+     * @return Country
      */
     public function getCountry() {
         return $this->country;
@@ -341,11 +342,11 @@ class Address {
     /**
      * Set the value of The country
      *
-     * @param \KMJ\ToolkitBundle\Entity\Country $value country
+     * @param Country $value country
      *
      * @return self
      */
-    public function setCountry(\KMJ\ToolkitBundle\Entity\Country $value) {
+    public function setCountry(Country $value = null) {
         if ($value != $this->country) {
             $this->resetGeoCoordinates();
         }
@@ -402,7 +403,7 @@ class Address {
     /**
      * Get the value of The phone number for the address
      *
-     * @return libphonenumber\PhoneNumber
+     * @return PhoneNumber
      */
     public function getPhoneNumber() {
         return $this->phoneNumber;
@@ -411,11 +412,11 @@ class Address {
     /**
      * Set the value of The phone number for the address
      *
-     * @param libphonenumber\PhoneNumber $value phoneNumber
+     * @param PhoneNumber $value phoneNumber
      *
      * @return self
      */
-    public function setPhoneNumber(libphonenumber\PhoneNumber $value) {
+    public function setPhoneNumber(PhoneNumber $value = null) {
         $this->phoneNumber = $value;
 
         return $this;
@@ -557,15 +558,15 @@ class Address {
      * Sets the Geocoordinates for the address
      * 
      * @param array $coordinates The geocoordintates
-     * @return \KMJ\ToolkitBundle\Entity\Address
-     * @throws \InvalidArgumentException 
+     * @return Address
+     * @throws InvalidArgumentException 
      */
     public function setGeoCoordinates(array $coordinates) {
         if (isset($coordinates['lat']) && isset($coordinates['lng'])) {
             $this->latitude = $coordinates['lat'];
             $this->longitude = $coordinates['lng'];
         } else {
-            throw new \InvalidArgumentException;
+            throw new InvalidArgumentException;
         }
 
         return $this;
@@ -595,7 +596,7 @@ class Address {
     /**
      * Duplicates the address without cloning
      * 
-     * @return \KMJ\ToolkitBundle\Entity\Address
+     * @return Address
      */
     public function cloneAddress() {
         $newAddress = new Address();

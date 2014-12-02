@@ -34,6 +34,10 @@ class KMJToolkitExtension extends Extension {
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');
+        
+        if (true === class_exists("Nelmio\Alice\ProcessorInterface")) {
+            $loader->load('alice.xml');
+        }
 
         $container->setParameter('kmj.toolkit.service.parameters', $config);
     }
