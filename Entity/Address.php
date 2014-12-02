@@ -12,6 +12,7 @@ use InvalidArgumentException;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContext;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 
 /**
  * Entity that handles Addresses
@@ -272,7 +273,7 @@ class Address {
         if ($value != $this->address2) {
             $this->resetGeoCoordinates();
         }
-        
+
         $this->address2 = $value;
 
         return $this;
@@ -298,7 +299,7 @@ class Address {
         if ($value != $this->city) {
             $this->resetGeoCoordinates();
         }
-        
+
         $this->city = $value;
 
         return $this;
@@ -324,7 +325,7 @@ class Address {
         if ($value != $this->state) {
             $this->resetGeoCoordinates();
         }
-        
+
         $this->state = $value;
 
         return $this;
@@ -350,7 +351,7 @@ class Address {
         if ($value != $this->country) {
             $this->resetGeoCoordinates();
         }
-        
+
         $this->country = $value;
 
         return $this;
@@ -520,7 +521,7 @@ class Address {
 
     /**
      * Translates the address into a string (with html formating)
-     * 
+     *
      * @return string
      */
     public function __toString() {
@@ -556,10 +557,10 @@ class Address {
 
     /**
      * Sets the Geocoordinates for the address
-     * 
+     *
      * @param array $coordinates The geocoordintates
      * @return Address
-     * @throws InvalidArgumentException 
+     * @throws InvalidArgumentException
      */
     public function setGeoCoordinates(array $coordinates) {
         if (isset($coordinates['lat']) && isset($coordinates['lng'])) {
@@ -582,7 +583,7 @@ class Address {
 
     /**
      * Determines if the class is a valid address
-     * 
+     *
      * @return boolean
      */
     public function isValid() {
@@ -595,7 +596,7 @@ class Address {
 
     /**
      * Duplicates the address without cloning
-     * 
+     *
      * @return Address
      */
     public function cloneAddress() {
@@ -618,7 +619,7 @@ class Address {
 
     /**
      * Determines if a state is valid based on the current country
-     * 
+     *
      * @param ExecutionContext $context The form context
      * @return boolean
      */
@@ -636,7 +637,7 @@ class Address {
 
     /**
      * Determines if a zipcode is valid based on the current country
-     * 
+     *
      * @param ExecutionContext $context The form context
      * @return boolean
      */
