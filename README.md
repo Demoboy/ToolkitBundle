@@ -1,6 +1,5 @@
 KMJToolkitBundle
 ================================
-[ ![Codeship Status for Demoboy/ToolkitBundle](https://codeship.com/projects/07fa0450-5696-0132-90cb-0ea30a431f2b/status)](https://codeship.com/projects/49576)
 
 1) Installation
 ----------------------------------
