@@ -541,8 +541,8 @@ class Address {
      * @return boolean
      */
     public function isStateValid(ExecutionContextInterface $context) {
-        if ($this->getCountry() != null) {
-            if (($this->getCountry()->getCode() == "US" || $this->getCountry()->getCode() == "CA") && $this->getState() == null) {
+        if ($this->getCountry() !== null) {
+            if (($this->getCountry()->getCode() === "US" || $this->getCountry()->getCode() === "CA") && $this->getState() === null) {
                 $context->addViolationAt("state", "Please select a state");
                 return false;
             } else {
@@ -558,8 +558,8 @@ class Address {
      * @return boolean
      */
     public function isZipcodeValid(ExecutionContextInterface $context) {
-        if ($this->getCountry() != null) {
-            if ($this->getCountry()->isZipCodeRequired() && $this->getZipcode() == null) {
+        if ($this->getCountry() !== null) {
+            if ($this->getCountry()->isZipCodeRequired() && $this->getZipcode() === null) {
                 $context->addViolationAt("zipcode", "Please enter a zipcode");
                 return false;
             } else {

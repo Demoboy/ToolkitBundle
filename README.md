@@ -65,4 +65,4 @@ This bundle's goal is to provide quick setup of a Symfony2 project. These featur
     * User type for registering users
     * Role Hierarchy
     * Quick setup of a super user in the db
-    
+  
