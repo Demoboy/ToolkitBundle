@@ -15,7 +15,7 @@ use Nelmio\Alice\ProcessorInterface;
  * Looks at all items that are being persisted through Alice Fixtures
  * and if is an object is an instance of FOS\UserBundle\Model\User, the object
  * will have the fos user manager called to update the object
- * 
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
 class UserProcessor implements ProcessorInterface {
@@ -27,7 +27,7 @@ class UserProcessor implements ProcessorInterface {
 
     /**
      * Basic Constructor
-     * 
+     *
      * @param UserManagerInterface $fosUser The User Manager
      */
     public function __construct(UserManagerInterface $fosUser) {
@@ -40,12 +40,12 @@ class UserProcessor implements ProcessorInterface {
      * @param object $object instance to process
      */
     public function preProcess($object) {
-        
+
     }
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @param object $object instance to process
      */
     public function postProcess($object) {

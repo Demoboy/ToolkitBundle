@@ -24,7 +24,8 @@
     },
     "require-dev": {
         "h4cc/alice-fixtures-bundle": "0.5.x",
-        "matthiasnoback/symfony-config-test": "0.4.*"
+        "matthiasnoback/symfony-config-test": "0.4.*",
+        "satooshi/php-coveralls": "0.6.*"
     },
     "autoload": {
         "psr-0": {
