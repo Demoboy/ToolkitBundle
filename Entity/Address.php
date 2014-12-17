@@ -295,7 +295,7 @@ class Address {
      *
      * @return self
      */
-    public function setState(State $value) {
+    public function setState(State $value = null) {
         $this->state = $value;
 
         return $this;
@@ -317,7 +317,7 @@ class Address {
      *
      * @return self
      */
-    public function setCountry(Country $value) {
+    public function setCountry(Country $value = null) {
         $this->country = $value;
 
         return $this;
@@ -383,7 +383,7 @@ class Address {
      *
      * @return self
      */
-    public function setPhoneNumber(PhoneNumber $value) {
+    public function setPhoneNumber(PhoneNumber $value = null) {
         $this->phoneNumber = $value;
 
         return $this;

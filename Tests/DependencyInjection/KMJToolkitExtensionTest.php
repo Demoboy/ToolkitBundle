@@ -15,9 +15,7 @@ class KMJToolkitExtensionTest extends PHPUnit_Framework_TestCase {
                 ->getMock();
 
         $extension = new KMJToolkitExtension(array(), $containerBuilder);
-        
-        
-        var_dump($containerBuilder);
+
     }
 
 }
