@@ -13,7 +13,7 @@ use JMS\DiExtraBundle\Annotation\Service;
 use JMS\DiExtraBundle\Annotation\Tag;
 use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
-use Twig_SimpleFunction;
+use Twig_SimpleExtension;
 
 /**
  * Creates absolute urls in twig
@@ -25,7 +25,7 @@ class AssetUrlExtension extends Twig_Extension {
 
     /**
      * The router component
-     * @var RouterInterface 
+     * @var RouterInterface
      */
     protected $router;
 
@@ -34,7 +34,7 @@ class AssetUrlExtension extends Twig_Extension {
      * @InjectParams({
      *     "router" = @Inject("router"),
      * })
-     * 
+     *
      * @param RouterInterface $router The router component
      */
     public function __construct(RouterInterface $router) {
@@ -46,7 +46,7 @@ class AssetUrlExtension extends Twig_Extension {
      */
     public function getFunctions() {
         return array(
-            'asset_url' => new Twig_SimpleFunction($this, 'assetUrl'),
+            'asset_url' => new Twig_SimpleExtension($this, 'assetUrl'),
         );
     }
 
