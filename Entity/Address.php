@@ -540,7 +540,6 @@ class Address {
   * @Assert\Callback(groups={"simple", "full"})
   */
   public function isStateValid(ExecutionContextInterface $context) {
-    dump($this);
     if ($this->getCountry() !== null) {
       if (($this->getCountry()->getCode() === "US" || $this->getCountry()->getCode() === "CA") && $this->getState() === null) {
         $context->addViolationAt("state", "Please select a state");
