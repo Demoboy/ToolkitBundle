@@ -36,14 +36,14 @@ class AddressType extends AbstractType {
 
     /**
      * Should the form include the country
-     * 
+     *
      * @var boolean
      */
     protected $includeCountry;
 
     /**
      * The type of form to be used
-     * 
+     *
      * @var int
      */
     protected $type;
@@ -51,13 +51,13 @@ class AddressType extends AbstractType {
     /**
      * Should the fields be marked as required
      *
-     * @var boolean 
+     * @var boolean
      */
     protected $required;
 
     /**
      * Basic constructor
-     * 
+     *
      * @param int $type The type of form to use
      * @param boolean $includeCountry Should the form include a country dropdown
      * @param boolean $required Should fields be marked as required
@@ -66,7 +66,7 @@ class AddressType extends AbstractType {
         if ($type != self::SIMPLE && $type != self::FULL) {
             throw new InvalidArgumentException("Type {$type} is unknown");
         }
-        
+
         $this->includeCountry = $includeCountry;
         $this->type = $type;
         $this->required = $required;
@@ -84,11 +84,11 @@ class AddressType extends AbstractType {
         switch ($this->type) {
             case self::SIMPLE:
                 $builder
-                        ->add('address', null, array(
+                        ->add('street', null, array(
                             'label' => 'Address:',
                             "required" => $this->required,
                         ))
-                        ->add('address2', null, array(
+                        ->add('unit', null, array(
                             'label' => "Address (line 2):",
                             "required" => false,
                         ))
@@ -211,7 +211,7 @@ class AddressType extends AbstractType {
 
     /**
      * Builds the state field
-     * 
+     *
      * @param Form $form The form to add the field to
      * @param Country $country The country to add the states of
      */
@@ -239,7 +239,6 @@ class AddressType extends AbstractType {
      * {@inheritdoc}
      */
     public function onPostSubmit(FormEvent $event) {
-        debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         $country = $event->getForm()->getData();
         $form = $event->getForm()->getParent();
         $this->buildStateField($form, $country);
