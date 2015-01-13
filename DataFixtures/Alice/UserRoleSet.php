@@ -10,22 +10,22 @@
  * 
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
+if ($this->getContainer()->get("toolkit")->overrideFixture() == true) {
+   return new h4cc\AliceFixturesBundle\Fixtures\FixtureSet();
+}
+
 $set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet(array(
     'seed' => rand(),
     'do_drop' => true,
     'do_persist' => true,
-    'order' => 50,
+    'order' => 100,
         )
 );
-
-echo get_class($this->getContainer()->get('libphonenumber.phone_number_util')->parse("4805102601", 'US'));
-die();
 
 $appDir = $this->getContainer()->get("kernel")->getRootDir();
 $bundlePath = "/Resources/KMJToolKit/DataFixtures/Alice/Fixtures";
 
 $loadFile = function ($filename) use ($set, $appDir, $bundlePath) {
-
     if (file_exists($appDir . $bundlePath . "/{$filename}.yml")) {
         $set->addFile($appDir . $bundlePath . "/{$filename}.yml", 'yaml');
     } else {
@@ -33,7 +33,7 @@ $loadFile = function ($filename) use ($set, $appDir, $bundlePath) {
     }
 };
 
-        $loadFile("roles");
+$loadFile("roles");
 
 /**
  * This code will search for a user yml file. If the file is not found, then a file
@@ -61,8 +61,8 @@ if (file_exists($appDir . $bundlePath . "/users.yml")) {
     );
 
     $cacheDir = $this->getContainer()->get("kernel")->getCacheDir();
-    
-    $tmpFile = fopen($cacheDir."/users.yml", "w");
+
+    $tmpFile = fopen($cacheDir . "/users.yml", "w");
     fwrite($tmpFile, $yml);
     $fileMeta = stream_get_meta_data($tmpFile);
     fclose($tmpFile);

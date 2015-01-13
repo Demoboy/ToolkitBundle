@@ -12,7 +12,13 @@
  */
 $manager = $this->getContainer()->get('h4cc_alice_fixtures.manager');
 
-$set = $manager->createFixtureSet();
+$set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet(array(
+    'seed' => rand(),
+    'do_drop' => true,
+    'do_persist' => true,
+    'order' => 50,
+        )
+);
 $appDir = $this->getContainer()->get("kernel")->getRootDir();
 
 $loadFile = function ($filename) use ($set, $appDir) {
@@ -25,8 +31,6 @@ $loadFile = function ($filename) use ($set, $appDir) {
     }
 };
 
-$set->setSeed(42);
-$set->setOrder(99);
 
 //look for files in app/Resources/KMJToolKit/DataFixtures/Alice/Fixtures/
 $loadFile("countries");
