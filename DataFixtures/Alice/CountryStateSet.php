@@ -14,7 +14,7 @@ $manager = $this->getContainer()->get('h4cc_alice_fixtures.manager');
 
 $set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet(array(
     'seed' => rand(),
-    'do_drop' => false,
+    'do_drop' => true,
     'do_persist' => true,
     'order' => 50,
         )
