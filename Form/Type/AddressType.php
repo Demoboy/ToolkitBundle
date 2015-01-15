@@ -17,6 +17,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
 /**
  * Address form for address entity
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
@@ -85,48 +86,48 @@ class AddressType extends AbstractType {
             case self::SIMPLE:
                 $builder
                         ->add('street', null, array(
-                            'label' => 'Address:',
+                            'label' => 'Address',
                             "required" => $this->required,
                         ))
                         ->add('unit', null, array(
-                            'label' => "Address (line 2):",
+                            'label' => "Address (line 2)",
                             "required" => false,
                         ))
                         ->add('city', null, array(
-                            'label' => 'City:',
+                            'label' => 'City',
                             "required" => $this->required,
                         ))
                         ->add('country', 'entity', array(
                             'class' => 'KMJToolkitBundle:Country',
-                            'label' => 'Country:',
+                            'label' => 'Country',
                             "required" => $this->required,
                             'empty_value' => 'Please select a country',
                         ))
                         ->add('zipcode', null, array(
-                            'label' => 'Zipcode:',
+                            'label' => 'Zipcode',
                             "required" => (!$this->includeCountry || $this->required) ? false : true,
                 ));
                 break;
             case self::FULL:
                 $builder
                         ->add('firstName', null, array(
-                            'label' => "First Name:",
+                            'label' => "First Name",
                             "required" => $this->required,
                         ))
                         ->add('lastName', null, array(
-                            'label' => 'Last Name:',
+                            'label' => 'Last Name',
                             "required" => $this->required,
                         ))
                         ->add('companyName', null, array(
-                            'label' => 'Company Name:',
+                            'label' => 'Company Name',
                             "required" => false,
                         ))
                         ->add('phoneNumber', null, array(
-                            'label' => 'Phone Number:',
+                            'label' => 'Phone Number',
                             "required" => false,
                         ))
                         ->add('address', null, array(
-                            'label' => 'Address:',
+                            'label' => 'Address',
                             "required" => $this->required,
                         ))
                         ->add('address2', null, array(
@@ -134,17 +135,17 @@ class AddressType extends AbstractType {
                             "required" => false,
                         ))
                         ->add('city', null, array(
-                            'label' => 'City:',
+                            'label' => 'City',
                             "required" => $this->required,
                         ))
                         ->add('country', 'entity', array(
                             'class' => 'KMJToolkitBundle:Country',
-                            'label' => 'Country:',
+                            'label' => 'Country',
                             "required" => $this->required,
                             'empty_value' => 'Please select a country',
                         ))
                         ->add('zipcode', null, array(
-                            'label' => 'Zipcode:',
+                            'label' => 'Zipcode',
                             "required" => !$this->includeCountry,
                 ));
                 break;
@@ -194,13 +195,17 @@ class AddressType extends AbstractType {
 
         if ($data instanceof Address) {
             $country = $data->getCountry();
+
+            if ($country === null && $data->getState() !== null) {
+                $country = $data->getState()->getCountry();
+            }
         } else {
             $country = null;
         }
 
         if ($country === null) {
             $form->add("state", "choice", array(
-                "label" => "State:",
+                "label" => "State",
                 "choices" => array(),
                 "empty_value" => "Please select a state:",
             ));
@@ -231,7 +236,7 @@ class AddressType extends AbstractType {
                 return $queryBuilder;
             },
             'read_only' => false,
-            'label' => 'State/Providence:',
+            'label' => 'State/Providence',
         ));
     }
 
