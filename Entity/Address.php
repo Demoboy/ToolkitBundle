@@ -296,7 +296,7 @@ class Address {
     public function setState(State $value = null) {
         $this->state = $value;
 
-        if ($this->country === null) {
+        if ($this->country === null && $value !== null) {
             $this->country = $this->state->getCountry();
         }
 
