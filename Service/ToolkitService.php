@@ -46,6 +46,10 @@ class ToolkitService {
         $this->config = $config;
         $this->fosUM = $fosUM;
         $this->overrideFixture = false;
+        
+        if (!defined("KMJTK_ROOT_DIR")) {
+            define("KMJTK_ROOT_DIR", $this->config['rootdir']);
+        }
     }
 
     /**
