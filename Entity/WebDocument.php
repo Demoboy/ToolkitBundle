@@ -21,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM;
 class WebDocument extends BaseDocument {
 
     public function rootPath() {
-        return KMJTK_ROOT_DIR.'/../web/uploads/';
+        return KMJTK_ROOT_DIR.'../web/uploads/';
     }
 
     public function getUploadDir() {

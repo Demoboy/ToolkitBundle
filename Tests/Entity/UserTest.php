@@ -19,9 +19,6 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class UserTest extends PHPUnit_Framework_TestCase {
 
-    /**
-     * 
-     */
     public function testFirstName() {
         $user = $this->getUser();
         $this->assertNull($user->getFirstName());

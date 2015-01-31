@@ -41,6 +41,7 @@ class ToolkitService {
      * Basic constructor
      * @param array $config The configs
      * @param UserManagerInterface $fosUM The FOS User manager
+     * @codeCoverageIgnore
      */
     public function __construct(array $config, UserManagerInterface $fosUM) {
         $this->config = $config;
@@ -49,6 +50,10 @@ class ToolkitService {
         
         if (!defined("KMJTK_ROOT_DIR")) {
             define("KMJTK_ROOT_DIR", $this->config['rootdir']);
+        }
+        
+        if (!defined("KMJTK_DOC_ENC_KEY")) {
+            define("KMJTK_DOC_ENC_KEY", $this->config['enckey']);
         }
     }
 

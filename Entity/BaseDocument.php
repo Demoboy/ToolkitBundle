@@ -105,6 +105,7 @@ abstract class BaseDocument {
      * Get id
      *
      * @return integer
+     * @codeCoverageIgnore
      */
     public function getId() {
         return $this->id;
@@ -177,11 +178,11 @@ abstract class BaseDocument {
         $this->mimeType = $file->getMimeType();
         $this->checksum = md5(file_get_contents($file->getPath()));
         $this->extension = $file->guessExtension();
-        
+
         if ($this->extension === null) {
             $this->extension = $file->getClientOriginalExtension();
         }
-        
+
         return $this;
     }
 
@@ -222,7 +223,7 @@ abstract class BaseDocument {
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
-    public function uploadPath() {
+    public function uploadFile() {
         if ($this->getFile() == null) {
             return;
         }
@@ -275,6 +276,8 @@ abstract class BaseDocument {
             $date = date("Y-m-d");
             @mkdir($this->getUploadRootDir() . "/" . $date, 0777, true);
 
+            
+            
             $this->path = $date . "/" . $filename . '.' . $this->getFile()->guessExtension();
         }
     }
@@ -351,17 +354,24 @@ abstract class BaseDocument {
 
     public function slug() {
 
-        // Lower case the string and remove whitespace from the beginning or end
-        $str = trim(strtolower($this->name));
-
-        // Remove single quotes from the string
-        $str = str_replace("'", "", $str);
-
-        // Every character other than a-z, 0-9 will be replaced with a single dash (-)
-        $str = preg_replace("/[^a-z0-9]+/", "-", $str);
-
-        // Remove any beginning or trailing dashes
-        return  trim($str);
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\\pL\d]+~u', '-', $this->name);
+        // trim
+        $text = trim($text, '-');
+        // transliterate
+        if (function_exists('iconv')) {
+            $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        }
+        // lowercase
+        $text = strtolower($text);
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+        
+        if (empty($text)) {
+            return 'n-a';
+        }
+        
+        return $text;
     }
 
 }

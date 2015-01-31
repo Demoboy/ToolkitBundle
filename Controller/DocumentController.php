@@ -9,6 +9,7 @@ namespace KMJ\ToolkitBundle\Controller;
 
 use Ironman\SecurityBundle\Entity\Document;
 use KMJ\ToolkitBundle\Entity\BaseDocument;
+use KMJ\ToolkitBundle\Entity\EncryptedDocument;
 use KMJ\ToolkitBundle\Entity\HiddenDocument;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -25,7 +26,7 @@ class DocumentController extends Controller {
 
     /**
      * Provides a response to download a HiddenDocument
-     * @Route("/download/{document}")
+     * @Route("/download/hidden/{document}")
      * @Method({"GET"})
      * @param Document $document
      */
@@ -36,14 +37,14 @@ class DocumentController extends Controller {
 
         return new BinaryFileResponse($document->getAbsolutePath());
     }
-
+    
     /**
      * Creates a download type response for the decrypted file a secure document 
      * @Route("/download/encrypted/{document}")
      * @Method({"GET"})
      * @param SecureDocument $document
      */
-    public function downloadEncryptedAction(\Ironman\SecurityBundle\Entity\EncryptedDocument $document) {
+    public function downloadEncryptedAction(EncryptedDocument $document) {
         $response = new Response();
         
         $doc = $this->getDecryptedDocument($document);
@@ -63,7 +64,7 @@ class DocumentController extends Controller {
      * @Method({"GET"})
      * @param SecureDocument $document
      */
-    public function viewEncryptedAction(\Ironman\SecurityBundle\Entity\EncryptedDocument $document) {
+    public function viewEncryptedAction(EncryptedDocument $document) {
         $response = new Response();
         
         $doc = $this->getDecryptedDocument($document);

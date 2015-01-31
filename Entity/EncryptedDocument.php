@@ -42,9 +42,14 @@ class EncryptedDocument extends BaseDocument {
      * Basic Constructor
      * @param string $key The key to use to encrypt the file
      */
-    public function __construct($key) {
+    public function __construct($key = null) {
         parent::__construct();
-        $this->key = $key;
+        
+        if ($key === null && define('KMJTK_DOC_ENC_KEY')) {
+            $this->key = KMJTK_DOC_ENC_KEY;
+        } else {
+            $this->key = $key;
+        }
     }
 
     /**

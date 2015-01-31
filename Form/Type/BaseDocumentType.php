@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * This file is part of the KMJToolkitBundle
+ * @copyright (c) 2014, Kaelin Jacobson
+ */
+
+namespace KMJ\ToolkitBundle\Form\Type;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+/**
+ * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ */
+abstract class BaseDocumentType extends AbstractType {
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options) {
+        $builder->add('file', 'file', array(
+                    'label' => "File",
+                    'required' => false,
+                    'invalid_message' => "Please enter a valid file",
+                ))
+                ->add('name', 'text', array(
+                    'label' => "Name",
+                    'required' => false,
+                    'invalid_message' => "Please enter a valid name",
+        ));
+    }
+
+}
