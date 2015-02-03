@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
 use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContext;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 
 /**
@@ -21,8 +21,6 @@ use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumbe
  *
  * @ORM\Table(name="kmj_toolkit_addresses")
  * @ORM\Entity()
- * @Assert\Callback(methods={"isZipcodeValid"})
- * @Assert\Callback(methods={"isStateValid"})
  */
 class Address {
 
@@ -41,7 +39,7 @@ class Address {
      * The first name for the address
      *
      * @ORM\Column(name="firstName", type="string", length=50, nullable=true)
-     * @Assert\NotBlank(message="Please enter a first name")
+     * @Assert\NotBlank(message="Please enter a first name", groups={"full"})
      * @var string
      */
     protected $firstName;
@@ -50,7 +48,7 @@ class Address {
      * The last name for the address
      *
      * @ORM\Column(name="lastName", type="string", length=50, nullable=true)
-     * @Assert\NotBlank(message="Please enter a last name")
+     * @Assert\NotBlank(message="Please enter a last name", groups={"full"})
      * @var string
      */
     protected $lastName;
@@ -60,7 +58,7 @@ class Address {
      * @var string
      *
      * @ORM\Column(name="address", type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Please enter a street address")
+     * @Assert\NotBlank(message="Please enter a street address", groups={"address"})
      * @Assert\Length(
      *          min="3", minMessage="Your address must have at least {{ limit }} characters",
      *          max="255", maxMessage="Your address cannont have at more than {{ limit }} characters"
@@ -81,7 +79,7 @@ class Address {
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Please enter a city")
+     * @Assert\NotBlank(message="Please enter a city", groups={"address"})
      */
     protected $city;
 
@@ -100,7 +98,7 @@ class Address {
      *
      * @ORM\ManyToOne(targetEntity="Country",  fetch="EAGER")
      * @ORM\JoinColumn(name="countryID", referencedColumnName="id", nullable=true)
-     * @Assert\NotBlank(message="Please select a country")
+     * @Assert\NotBlank(message="Please select a country", groups={"address"})
      */
     protected $country;
 
@@ -327,6 +325,10 @@ class Address {
         }
 
         $this->state = $value;
+        
+        if ($this->country === null && $value !== null) {
+            $this->country = $value->getCountry();
+        }
 
         return $this;
     }
@@ -617,20 +619,20 @@ class Address {
         return $newAddress;
     }
 
-    /**
+     /**
      * Determines if a state is valid based on the current country
      *
-     * @param ExecutionContext $context The form context
+     * @param ExecutionContextInterface $context The form context
      * @return boolean
+     * @Assert\Callback(groups={"simple", "full"})
      */
-    public function isStateValid(ExecutionContext $context) {
-        $propertyPath = $context->getPropertyPath() . '.state';
-
+    public function isStateValid(ExecutionContextInterface $context) {
         if ($this->getCountry() !== null) {
             if (($this->getCountry()->getCode() === "US" || $this->getCountry()->getCode() === "CA") && $this->getState() === null) {
-                $context->setPropertyPath($propertyPath);
-                $context->addViolation('Please select a state', array(), null);
-                return FALSE;
+                $context->addViolationAt("state", "Please select a state");
+                return false;
+            } else {
+                return true;
             }
         }
     }
@@ -638,16 +640,17 @@ class Address {
     /**
      * Determines if a zipcode is valid based on the current country
      *
-     * @param ExecutionContext $context The form context
+     * @param ExecutionContextInterface $context The form context
      * @return boolean
+     * @Assert\Callback(groups={"simple", "full"})
      */
-    public function isZipcodeValid(ExecutionContext $context) {
+    public function isZipcodeValid($context) {
         if ($this->getCountry() !== null) {
-            if ($this->getCountry()->getZipCodeRequired() && $this->getZipcode() === null) {
-                $propertyPath = $context->getPropertyPath() . '.zipcode';
-                $context->setPropertyPath($propertyPath);
-                $context->addViolation('Please enter a zipcode', array(), null);
-                return FALSE;
+            if ($this->getCountry()->isZipCodeRequired() && $this->getZipcode() === null) {
+                $context->addViolationAt("zipcode", "Please enter a zipcode");
+                return false;
+            } else {
+                return true;
             }
         }
     }
