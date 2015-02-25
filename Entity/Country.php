@@ -153,6 +153,15 @@ class Country {
 
         return $this;
     }
+    
+    /**
+     * True if the country requires zipcodes
+     * 
+     * @return boolean
+     */
+    public function isZipcodeRequired() {
+        return $this->getZipCodeRequired();
+    }
 
     /**
      * Get the value of States in the country
