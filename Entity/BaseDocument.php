@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Generic entity to hold fields to store files locally on the server's hard
  * disk.
  *
- * @ORM\MappedSuperClass
+ * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
