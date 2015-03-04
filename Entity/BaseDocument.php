@@ -66,12 +66,6 @@ abstract class BaseDocument {
     protected $name;
 
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="Ironman\SecurityBundle\Entity\User")
-     */
-    protected $uploadedBy;
-
-    /**
      * @var DateTime
      * @ORM\Column(name="uploadedDate", type="datetime")
      */
@@ -139,15 +133,6 @@ abstract class BaseDocument {
     }
 
     /**
-     * Get uploadedBy
-     *
-     * @return User
-     */
-    public function getUploadedBy() {
-        return $this->uploadedBy;
-    }
-
-    /**
      * Get uploadedDate
      *
      * @return DateTime
@@ -194,17 +179,6 @@ abstract class BaseDocument {
      */
     public function setName($name) {
         $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * Set uploadedBy
-     *
-     * @param User $uploadedBy
-     * @return Document
-     */
-    public function setUploadedBy(User $uploadedBy) {
-        $this->uploadedBy = $uploadedBy;
         return $this;
     }
 
