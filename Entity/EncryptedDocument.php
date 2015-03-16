@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
@@ -28,7 +29,7 @@ class EncryptedDocument extends BaseDocument {
     const ALGORITHM = "twofish";
 
     public function rootPath() {
-        return KMJTK_ROOT_DIR.'/Resources/protectedUploads/';
+        return KMJTK_ROOT_DIR . '/Resources/protectedUploads/';
     }
 
     /**
@@ -44,11 +45,13 @@ class EncryptedDocument extends BaseDocument {
      */
     public function __construct($key = null) {
         parent::__construct();
-        
-        if ($key === null && define('KMJTK_DOC_ENC_KEY')) {
+
+        if ($key === null && defined('KMJTK_DOC_ENC_KEY')) {
             $this->key = KMJTK_DOC_ENC_KEY;
-        } else {
+        } elseif ($key != null) {
             $this->key = $key;
+        } else {
+            throw new \InvalidArgumentException("Encryption key was not initalized");
         }
     }
 
@@ -66,18 +69,16 @@ class EncryptedDocument extends BaseDocument {
         if ($this->key === null) {
             throw new InvalidArgumentException("Key must be set before attempting to decrypt");
         }
-       
+
         $decrypt = new Decrypt($this->getZendEncryptOptions());
-        $x =  $decrypt->filter(file_get_contents($this->getAbsolutePath()));
-        dump($x);
-        return $x;
+        return $decrypt->filter(file_get_contents($this->getAbsolutePath()));
     }
 
     /**
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
-    public function uploadPath() {
+    public function uploadFile() {
         if ($this->getFile() == null) {
             return;
         }
@@ -89,22 +90,19 @@ class EncryptedDocument extends BaseDocument {
         );
 
         $encrypt = new Encrypt($this->getZendEncryptOptions());
-        dump($encrypt->filter($this->getAbsolutePath()));
+        $encrypt->filter($this->getAbsolutePath());
 
         $this->file = null;
     }
 
     private function getZendEncryptOptions() {
-        $x = array(
+        return array(
             "adapter" => "BlockCipher",
             "vector" => $this->getChecksum(),
             "algorithm" => self::ALGORITHM,
             "key" => $this->key,
             "compression" => "bz2",
         );
-
-        dump($x);
-        return $x;
     }
 
     public function setKey($key) {

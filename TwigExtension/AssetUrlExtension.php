@@ -13,7 +13,7 @@ use JMS\DiExtraBundle\Annotation\Service;
 use JMS\DiExtraBundle\Annotation\Tag;
 use Symfony\Component\Routing\RouterInterface;
 use Twig_Extension;
-use Twig_SimpleFilter;
+use Twig_SimpleFunction;
 
 /**
  * Creates absolute urls in twig
@@ -46,7 +46,7 @@ class AssetUrlExtension extends Twig_Extension {
      */
     public function getFunctions() {
         return array(
-            'asset_url' => new Twig_SimpleFilter($this, 'assetUrl'),
+            'asset_url' => new Twig_SimpleFunction($this, 'assetUrl'),
         );
     }
 

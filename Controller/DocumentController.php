@@ -84,7 +84,8 @@ class DocumentController extends Controller {
      * @return string the decrypted document
      */
     private function getDecryptedDocument(BaseDocument $document) {
-        $document->setKey($this->container->getParameter("ironman.documents.encryptionkey"));
+        $tk = $this->get("toolkit");
+        $document->setKey(KMJTK_DOC_ENC_KEY);
         return $document->decrypt();
     }
 

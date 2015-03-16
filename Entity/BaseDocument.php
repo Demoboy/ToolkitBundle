@@ -161,7 +161,7 @@ abstract class BaseDocument {
     public function setFile(UploadedFile $file) {
         $this->file = $file;
         $this->mimeType = $file->getMimeType();
-        $this->checksum = md5(file_get_contents($file->getPath()));
+        $this->checksum = md5(file_get_contents($file->getRealPath()));
         $this->extension = $file->guessExtension();
 
         if ($this->extension === null) {
@@ -250,8 +250,6 @@ abstract class BaseDocument {
             $date = date("Y-m-d");
             @mkdir($this->getUploadRootDir() . "/" . $date, 0777, true);
 
-            
-            
             $this->path = $date . "/" . $filename . '.' . $this->getFile()->guessExtension();
         }
     }
