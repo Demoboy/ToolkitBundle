@@ -7,7 +7,6 @@
 
 namespace KMJ\ToolkitBundle\Form\Type;
 
-use Ironman\SecurityBundle\Form\Type\BaseDocumentType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**

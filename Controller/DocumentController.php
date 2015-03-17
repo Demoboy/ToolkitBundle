@@ -7,7 +7,6 @@
 
 namespace KMJ\ToolkitBundle\Controller;
 
-use Ironman\SecurityBundle\Entity\Document;
 use KMJ\ToolkitBundle\Entity\BaseDocument;
 use KMJ\ToolkitBundle\Entity\EncryptedDocument;
 use KMJ\ToolkitBundle\Entity\HiddenDocument;
