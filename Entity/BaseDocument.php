@@ -251,6 +251,10 @@ abstract class BaseDocument {
             @mkdir($this->getUploadRootDir() . "/" . $date, 0777, true);
 
             $this->path = $date . "/" . $filename . '.' . $this->getFile()->guessExtension();
+
+            if ($this->getName() === null) {
+                $this->name = $this->file->getClientOriginalName();
+            }
         }
     }
 
@@ -325,7 +329,6 @@ abstract class BaseDocument {
     }
 
     public function slug() {
-
         // replace non letter or digits by -
         $text = preg_replace('~[^\\pL\d]+~u', '-', $this->name);
         // trim
@@ -338,11 +341,11 @@ abstract class BaseDocument {
         $text = strtolower($text);
         // remove unwanted characters
         $text = preg_replace('~[^-\w]+~', '', $text);
-        
+
         if (empty($text)) {
             return 'n-a';
         }
-        
+
         return $text;
     }
 

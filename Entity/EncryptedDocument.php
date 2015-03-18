@@ -79,20 +79,10 @@ class EncryptedDocument extends BaseDocument {
      * @ORM\PostUpdate()
      */
     public function uploadFile() {
-        if ($this->getFile() == null) {
-            return;
-        }
-
-        $date = date("Y-m-d");
-
-        $this->getFile()->move(
-                $this->getUploadRootDir() . "/{$date}", $this->path
-        );
-
+        parent::uploadFile();
+        
         $encrypt = new Encrypt($this->getZendEncryptOptions());
         $encrypt->filter($this->getAbsolutePath());
-
-        $this->file = null;
     }
 
     private function getZendEncryptOptions() {
@@ -108,20 +98,6 @@ class EncryptedDocument extends BaseDocument {
     public function setKey($key) {
         $this->key = $key;
         return $this;
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function preUpload() {
-        if (null !== $this->getFile()) {
-            $filename = sha1(uniqid(mt_rand(), true));
-            $date = date("Y-m-d");
-            @mkdir($this->getUploadRootDir() . "/" . $date, 0777, true);
-
-            $this->path = $date . "/" . $filename;
-        }
     }
 
 }
