@@ -46,7 +46,7 @@ class AssetUrlExtension extends Twig_Extension {
      */
     public function getFunctions() {
         return array(
-            'asset_url' => new Twig_SimpleFunction($this, 'assetUrl'),
+            new \Twig_SimpleFunction("asset_url", array($this, "assetUrl")),
         );
     }
 
