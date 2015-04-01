@@ -39,14 +39,6 @@ class KMJToolkitExtension extends Extension {
             $loader->load('alice.xml');
         }
 
-        if (!defined("KMJTK_ROOT_DIR")) {
-            define("KMJTK_ROOT_DIR", $config['rootdir']);
-        }
-
-        if (!defined("KMJTK_DOC_ENC_KEY")) {
-            define("KMJTK_DOC_ENC_KEY", $config['enckey']);
-        }
-
         $container->setParameter('kmj.toolkit.service.parameters', $config);
     }
 

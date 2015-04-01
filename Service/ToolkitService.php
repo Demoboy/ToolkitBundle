@@ -104,5 +104,9 @@ class ToolkitService {
 
         $this->overrideFixture = $overrideFixture;
     }
+    
+    public function onKernelRequest() {
+        return;
+    }
 
 }

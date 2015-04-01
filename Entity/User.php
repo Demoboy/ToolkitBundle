@@ -83,6 +83,30 @@ abstract class User extends BaseUser {
     }
 
     /**
+     * Removes a users role by role
+     * @param Role $role
+     */
+    public function removeUserRole(Role $role) {
+        foreach ($this->userRoles as $k => $r) {
+            if ($r->getId() === $role->getId()) {
+                $this->userRoles->remove($k);
+            }
+        }
+    }
+
+    /**
+     * Removes a users role by name
+     * @param string $role
+     */
+    public function removeUserRoleByName($role) {
+        foreach ($this->userRoles as $key => $r) {
+            if ($r->getName() === $role) {
+                $this->userRoles->remove($key);
+            }
+        }
+    }
+
+    /**
      * Gets the user roles as an array
      *
      * @return array
@@ -98,7 +122,7 @@ abstract class User extends BaseUser {
      */
     public function hasRole($role) {
         foreach ($this->userRoles as $userRole) {
-            if ($userRole == $role) {
+            if ($userRole === $role) {
                 return true;
             }
         }
@@ -115,7 +139,7 @@ abstract class User extends BaseUser {
      */
     public function hasRoleByName($role) {
         foreach ($this->userRoles as $userRole) {
-            if ($userRole->getName() == $role) {
+            if ($userRole->getName() === $role) {
                 return true;
             }
         }
