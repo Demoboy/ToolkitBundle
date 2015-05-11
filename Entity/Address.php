@@ -8,8 +8,6 @@
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use libphonenumber\PhoneNumber;
-use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -33,24 +31,6 @@ class Address {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
-     * The first name for the address
-     *
-     * @ORM\Column(name="firstName", type="string", length=50, nullable=true)
-     * @Assert\NotBlank(message="Please enter a first name", groups={"full"})
-     * @var string
-     */
-    protected $firstName;
-
-    /**
-     * The last name for the address
-     *
-     * @ORM\Column(name="lastName", type="string", length=50, nullable=true)
-     * @Assert\NotBlank(message="Please enter a last name", groups={"full"})
-     * @var string
-     */
-    protected $lastName;
 
     /**
      * The street address
@@ -118,22 +98,6 @@ class Address {
     protected $name;
 
     /**
-     * The phone number for the address
-     *
-     * @ORM\Column(name="phoneNumber", type="phone_number", nullable=true)
-     * @var libphonenumber\PhoneNumber
-     * @AssertPhoneNumber(defaultRegion="US", groups={"full"})
-     */
-    protected $phoneNumber;
-
-    /**
-     * The company name for the address
-     * @ORM\Column(name="companyName", type="string", length=255, nullable=true)
-     * @var string
-     */
-    protected $companyName;
-
-    /**
      * The longitude of the address
      *
      * @var float
@@ -165,50 +129,6 @@ class Address {
      */
     public function getId() {
         return $this->id;
-    }
-
-    /**
-     * Get the value of The first name for the address
-     *
-     * @return string
-     */
-    public function getFirstName() {
-        return $this->firstName;
-    }
-
-    /**
-     * Set the value of The first name for the address
-     *
-     * @param string $value firstName
-     *
-     * @return self
-     */
-    public function setFirstName($value) {
-        $this->firstName = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of The last name for the address
-     *
-     * @return string
-     */
-    public function getLastName() {
-        return $this->lastName;
-    }
-
-    /**
-     * Set the value of The last name for the address
-     *
-     * @param string $value lastName
-     *
-     * @return self
-     */
-    public function setLastName($value) {
-        $this->lastName = $value;
-
-        return $this;
     }
 
     /**
@@ -368,51 +288,7 @@ class Address {
 
         return $this;
     }
-
-    /**
-     * Get the value of The phone number for the address
-     *
-     * @return libphonenumber\PhoneNumber
-     */
-    public function getPhoneNumber() {
-        return $this->phoneNumber;
-    }
-
-    /**
-     * Set the value of The phone number for the address
-     *
-     * @param libphonenumber\PhoneNumber $value phoneNumber
-     *
-     * @return self
-     */
-    public function setPhoneNumber(PhoneNumber $value = null) {
-        $this->phoneNumber = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of The company name for the address
-     *
-     * @return string
-     */
-    public function getCompanyName() {
-        return $this->companyName;
-    }
-
-    /**
-     * Set the value of The company name for the address
-     *
-     * @param string $value companyName
-     *
-     * @return self
-     */
-    public function setCompanyName($value) {
-        $this->companyName = $value;
-
-        return $this;
-    }
-
+    
     /**
      * Get the value of The longitude of the address
      *
@@ -471,10 +347,6 @@ class Address {
      */
     public function __toString() {
         $string = null;
-
-        if ($this->firstName !== null && $this->lastName !== null) {
-            $string = $this->firstName . ' ' . $this->lastName . '<br />';
-        }
 
         $string .= $this->street . '<br />';
 

@@ -16,21 +16,30 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 abstract class BaseDocumentType extends AbstractType {
 
+    private $includeName;
+
+    public function __construct($includeName = true) {
+        $this->includeName = $includeName;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('file', 'file', array(
-                    'label' => "File",
-                    'required' => false,
-                    'invalid_message' => "Please enter a valid file",
-                ))
-                ->add('name', 'text', array(
-                    'label' => "Name",
-                    'required' => false,
-                    'invalid_message' => "Please enter a valid name",
+            'label' => "File",
+            'required' => false,
+            'invalid_message' => "Please enter a valid file",
         ));
+
+        if ($this->includeName) {
+            $builder->add('name', 'text', array(
+                'label' => "Name",
+                'required' => false,
+                'invalid_message' => "Please enter a valid name",
+            ));
+        }
     }
 
 }
