@@ -13,14 +13,14 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "symfony/form": "2.6.*",
+        "symfony/form": "2.*,>=2.6",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "doctrine/orm": "2.4.*",
+        "doctrine/orm": "2.*",
         "misd/phone-number-bundle": "1.0.*",
         "symfony/validator": "2.*",
         "twig/twig": "1.*",
-        "symfony/doctrine-bridge": "2.*",
-        "symfony/expression-language": "2.*"
+        "symfony/doctrine-bridge": "2.*,>=2.6",
+        "symfony/expression-language": "2.*,>=2.6"
     },
     "require-dev": {
         "h4cc/alice-fixtures-bundle": "0.5.x",
