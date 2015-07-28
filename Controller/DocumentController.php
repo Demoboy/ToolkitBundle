@@ -59,11 +59,15 @@ class DocumentController extends Controller {
     
     /**
      * Creates a download type response for the decrypted file a secure document 
-     * @Route("/view/encrypted/{document}")
+     * @Route("/view/encrypted/{document}/{name}")
      * @Method({"GET"})
      * @param SecureDocument $document
      */
-    public function viewEncryptedAction(EncryptedDocument $document) {
+    public function viewEncryptedAction(EncryptedDocument $document, $name = null) {
+        if ($name === null) {
+            return $this->redirectToRoute("kmj_toolkit_document_viewencrypted", array("document" => $document->getId(), "name" => $document->getName()));
+        }
+        
         $response = new Response();
         
         $doc = $this->getDecryptedDocument($document);
@@ -73,6 +77,27 @@ class DocumentController extends Controller {
 
         $response->setContent($doc);
 
+        return $response;
+    }
+    
+    /**
+     * Creates a view response for the document
+     * @Route("/view/hidden/{document}/{name}")
+     * @Method({"GET"})
+     * @param HiddenDocument $document The document to view
+     */
+    public function viewHiddenAction(HiddenDocument $document, $name = null) {
+        if ($name === null) {
+            return $this->redirectToRoute("kmj_toolkit_document_viewhidden", array("document" => $document->getId(), "name" => $document->getName()));
+        }
+        
+        $response = new Response();
+        
+        $response->headers->set("Content-Type", $document->getMimeType());
+        $response->headers->set("Content-Length", filesize($document->getAbsolutePath()));
+        
+        $response->setContent(file_get_contents($document->getAbsolutePath()));
+                
         return $response;
     }
     

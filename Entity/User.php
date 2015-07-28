@@ -1,15 +1,17 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\User as BaseUser;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use FOS\UserBundle\Model\User as BaseUser;
+use KMJ\ToolkitBundle\Interfaces\DeleteableEntityInterface;
+use KMJ\ToolkitBundle\Interfaces\HideableEntityInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -19,7 +21,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\MappedSuperclass
  * @UniqueEntity(fields="email", message="That email is already in use. Please enter another one")
  */
-abstract class User extends BaseUser {
+abstract class User extends BaseUser implements DeleteableEntityInterface, HideableEntityInterface
+{
+
+    use \KMJ\ToolkitBundle\Traits\HideableEntityTrait;
 
     /**
      * Id
@@ -71,9 +76,10 @@ abstract class User extends BaseUser {
      * {@inheritDoc}
      *
      * @param mixed $role The role to add
-     * @return \KMJ\ToolkitBundle\Entity\User
+     * @return self
      */
-    public function addRole($role) {
+    public function addRole($role)
+    {
         //make sure user doesn't already have the role
         if (!$this->hasRole($role)) {
             $this->userRoles->add($role);
@@ -86,7 +92,8 @@ abstract class User extends BaseUser {
      * Removes a users role by role
      * @param Role $role
      */
-    public function removeUserRole(Role $role) {
+    public function removeUserRole(Role $role)
+    {
         foreach ($this->userRoles as $k => $r) {
             if ($r->getId() === $role->getId()) {
                 $this->userRoles->remove($k);
@@ -98,7 +105,8 @@ abstract class User extends BaseUser {
      * Removes a users role by name
      * @param string $role
      */
-    public function removeUserRoleByName($role) {
+    public function removeUserRoleByName($role)
+    {
         foreach ($this->userRoles as $key => $r) {
             if ($r->getName() === $role) {
                 $this->userRoles->remove($key);
@@ -111,7 +119,8 @@ abstract class User extends BaseUser {
      *
      * @return array
      */
-    public function getRoles() {
+    public function getRoles()
+    {
         return $this->userRoles->toArray();
     }
 
@@ -120,7 +129,8 @@ abstract class User extends BaseUser {
      * @param mixed $role The role to check against
      * @return boolean
      */
-    public function hasRole($role) {
+    public function hasRole($role)
+    {
         foreach ($this->userRoles as $userRole) {
             if ($userRole === $role) {
                 return true;
@@ -137,7 +147,8 @@ abstract class User extends BaseUser {
      * @param string $role The role name to check against
      * @return boolean
      */
-    public function hasRoleByName($role) {
+    public function hasRoleByName($role)
+    {
         foreach ($this->userRoles as $userRole) {
             if ($userRole->getName() === $role) {
                 return true;
@@ -150,7 +161,8 @@ abstract class User extends BaseUser {
     /**
      * Basic constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->userRoles = new ArrayCollection();
         $this->assignedLocations = new ArrayCollection();
@@ -162,14 +174,16 @@ abstract class User extends BaseUser {
      *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getFirstName() . ' ' . $this->getLastName();
     }
 
     /**
      * Builds a random but unique username
      */
-    public function buildUsername() {
+    public function buildUsername()
+    {
         if ($this->firstName != "" && $this->lastName != "") {
             $this->username = md5($this->firstName . $this->lastName . time());
         }
@@ -180,7 +194,8 @@ abstract class User extends BaseUser {
      *
      * @return boolean
      */
-    public function isPasswordReset() {
+    public function isPasswordReset()
+    {
         return $this->getPasswordReset();
     }
 
@@ -189,7 +204,8 @@ abstract class User extends BaseUser {
      * @codeCoverageIgnore
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -198,7 +214,8 @@ abstract class User extends BaseUser {
      *
      * @return ArrayCollection
      */
-    public function getUserRoles() {
+    public function getUserRoles()
+    {
         return $this->userRoles;
     }
 
@@ -207,7 +224,8 @@ abstract class User extends BaseUser {
      *
      * @return string
      */
-    public function getFirstName() {
+    public function getFirstName()
+    {
         return $this->firstName;
     }
 
@@ -218,7 +236,8 @@ abstract class User extends BaseUser {
      *
      * @return self
      */
-    public function setFirstName($value) {
+    public function setFirstName($value)
+    {
         $this->firstName = $value;
         $this->buildUsername();
 
@@ -230,7 +249,8 @@ abstract class User extends BaseUser {
      *
      * @return string
      */
-    public function getLastName() {
+    public function getLastName()
+    {
         return $this->lastName;
     }
 
@@ -241,7 +261,8 @@ abstract class User extends BaseUser {
      *
      * @return self
      */
-    public function setLastName($value) {
+    public function setLastName($value)
+    {
         $this->lastName = $value;
         $this->buildUsername();
 
@@ -253,7 +274,8 @@ abstract class User extends BaseUser {
      *
      * @return boolean
      */
-    public function getPasswordReset() {
+    public function getPasswordReset()
+    {
         return $this->passwordReset;
     }
 
@@ -264,10 +286,30 @@ abstract class User extends BaseUser {
      *
      * @return self
      */
-    public function setPasswordReset($value) {
+    public function setPasswordReset($value)
+    {
         $this->passwordReset = $value;
 
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function removeRelated()
+    {
+        return array();
+    }
+
+    /**
+     * Sets the user roles
+     * 
+     * @param ArrayCollection $userRoles
+     * @return \KMJ\ToolkitBundle\Entity\User
+     */
+    public function setUserRoles($userRoles)
+    {
+        $this->userRoles = $userRoles;
+        return $this;
+    }
 }

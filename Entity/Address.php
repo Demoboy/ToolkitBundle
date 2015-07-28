@@ -9,13 +9,13 @@ namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Component\Validator\ExecutionContextInterface;
+use KMJ\ToolkitBundle\Constraints\TranslatableCallback;
 
 /**
  * Entity that handles Addresses
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
- *
  * @ORM\Table(name="kmj_toolkit_addresses")
  * @ORM\Entity()
  */
@@ -37,10 +37,10 @@ class Address {
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Please enter a street address", groups={"simple", "full"})
+     * @Assert\NotBlank(message="kmjtoolkit.address.street.validation.blank", groups={"simple", "full"})
      * @Assert\Length(
-     *          min="3", minMessage="Your address must have at least {{ limit }} characters",
-     *          max="255", maxMessage="Your address cannont have at more than {{ limit }} characters"
+     *          min="3", minMessage="kmjtoolkit.address.street.validation.min",
+     *          max="255", maxMessage="kmjtoolkit.address.street.validation.max"
      * )
      */
     protected $street;
@@ -58,7 +58,7 @@ class Address {
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
-     * @Assert\NotBlank(message="Please enter a city", groups={"simple", "full"})
+     * @Assert\NotBlank(message="kmjtoolkit.address.city.validation.blank", groups={"simple", "full"})
      */
     protected $city;
 
@@ -77,7 +77,7 @@ class Address {
      *
      * @ORM\ManyToOne(targetEntity="Country",  fetch="EAGER")
      * @ORM\JoinColumn(name="countryID", referencedColumnName="id", nullable=true)
-     * @Assert\NotBlank(message="Please select a country")
+     * @Assert\NotBlank(message="kmjtoolkit.address.country.validation.blank")
      */
     protected $country;
 
@@ -413,12 +413,12 @@ class Address {
      *
      * @param ExecutionContextInterface $context The form context
      * @return boolean
-     * @Assert\Callback(groups={"simple", "full"})
+     * @TranslatableCallback(message="kmjtoolkit.address.state.validation.valid")
      */
     public function isStateValid(ExecutionContextInterface $context) {
         if ($this->getCountry() !== null) {
             if (($this->getCountry()->getCode() === "US" || $this->getCountry()->getCode() === "CA") && $this->getState() === null) {
-                $context->addViolationAt("state", "Please select a state");
+                $context->addViolationAt("state", "kmjtoolkit.address.state.validation.valid");
                 return false;
             } else {
                 return true;
@@ -431,17 +431,16 @@ class Address {
      *
      * @param ExecutionContextInterface $context The form context
      * @return boolean
-     * @Assert\Callback(groups={"simple", "full"})
+     * @TranslatableCallback(message="kmjtoolkit.address.zipcode.validation.valid")
      */
     public function isZipcodeValid(ExecutionContextInterface $context) {
         if ($this->getCountry() !== null) {
             if ($this->getCountry()->isZipCodeRequired() && $this->getZipcode() === null) {
-                $context->addViolationAt("zipcode", "Please enter a zipcode");
+                $context->addViolationAt("zipcode", "kmjtoolkit.address.zipcode.validation.valid");
                 return false;
             } else {
                 return true;
             }
         }
     }
-
 }

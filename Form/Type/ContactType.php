@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * This file is part of the KMJToolkitBundle
+ * @copyright (c) 2015, Kaelin Jacobson
+ */
+
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use libphonenumber\PhoneNumberFormat;
@@ -7,6 +12,11 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+/**
+ * Form for contact entity
+ * 
+ * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ */
 class ContactType extends AbstractType {
 
     /**
@@ -45,24 +55,30 @@ class ContactType extends AbstractType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('firstName', null, array(
-                    'label' => "First Name",
+                    /** @Desc("First Name") */
+                    "label" => "kmjtoolkit.contact.form.firstname.label",
                 ))
                 ->add('lastName', null, array(
-                    'label' => 'Last Name',
-                ))
+                    /** @Desc("Last Name") */
+                    "label" => "kmjtoolkit.contact.form.lastname.label",))
                 ->add('companyName', null, array(
-                    'label' => 'Company Name',
+                    /** @Desc("Company Name") */
+                    "label" => "kmjtoolkit.contact.form.companyname.label",
                     "required" => false,
                 ))
                 ->add('phoneNumber', "tel", array(
+                    /** @Desc("Phone Number") */
+                    "label" => "kmjtoolkit.contact.form.phonenumber.label",
                     'default_region' => 'US',
                     'format' => PhoneNumberFormat::NATIONAL,
-                    'label' => 'Phone Number',
                     "required" => false,
         ));
 
         if ($this->includeAddress) {
-            $builder->add('address', new AddressType($this->includeCountry, $this->addressRequired));
+            $builder->add('address', new AddressType($this->includeCountry, $this->addressRequired), array(
+                /** @Desc("Address") */
+                "label" => "kmjtoolkit.contact.form.address.label",
+            ));
         }
     }
 

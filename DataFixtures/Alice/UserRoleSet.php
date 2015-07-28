@@ -11,12 +11,12 @@
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
 if ($this->getContainer()->get("toolkit")->overrideFixture() == true) {
-   return new h4cc\AliceFixturesBundle\Fixtures\FixtureSet();
+    return new h4cc\AliceFixturesBundle\Fixtures\FixtureSet();
 }
 
 $set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet(array(
     'seed' => rand(),
-    'do_drop' => true,
+    'do_drop' => false,
     'do_persist' => true,
     'order' => 100,
         )

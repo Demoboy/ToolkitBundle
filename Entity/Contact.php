@@ -37,7 +37,7 @@ class Contact {
      * The first name for the contact
      *
      * @ORM\Column(name="firstName", type="string", length=50, nullable=true)
-     * @Assert\NotBlank(message="Please enter a first name")
+     * @Assert\NotBlank(message="kmjtoolkit.contact.firstname.validation.notblank.message")
      * @var string
      */
     protected $firstName;
@@ -46,7 +46,7 @@ class Contact {
      * The last name for the contact
      *
      * @ORM\Column(name="lastName", type="string", length=50, nullable=true)
-     * @Assert\NotBlank(message="Please enter a last name")
+     * @Assert\NotBlank(message="kmjtoolkit.contact.lastname.validation.notblank.message")
      * @var string
      */
     protected $lastName;

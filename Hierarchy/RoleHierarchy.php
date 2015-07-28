@@ -7,11 +7,13 @@
 
 namespace KMJ\ToolkitBundle\Hierarchy;
 
+use Symfony\Component\Security\Core\Role\RoleHierarchy as SymfonyRoleHierarchy;
+
 /**
  * Determines role hierarchy
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class RoleHierarchy extends \Symfony\Component\Security\Core\Role\RoleHierarchy {
+class RoleHierarchy extends SymfonyRoleHierarchy {
 
     /**
      * The entity manager

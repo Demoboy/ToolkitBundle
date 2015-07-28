@@ -32,10 +32,12 @@ class UserType extends BaseType {
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder->add('firstName', null, array(
-                    "label" => "First Name:",
+                    /** @Desc("First Name") */
+                    "label" => "kmjtoolkit.user.form.firstname.label",
                 ))
                 ->add('lastName', null, array(
-                    "label" => "Last Name:",
+                    /** @Desc("Last Name") */
+                    "label" => "kmjtoolkit.user.form.lastname.label",
         ));
 
         parent::buildForm($builder, $options);

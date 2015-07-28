@@ -85,7 +85,6 @@ class PasswordResetListener implements EventSubscriberInterface {
             return;
         }
         
-
         if ($this->security->getToken() !== null) {
             
             if ($this->security->getToken()->getUser() instanceof User) {

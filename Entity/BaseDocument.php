@@ -46,8 +46,9 @@ abstract class BaseDocument {
 
     /**
      * @var file
-     * @Assert\NotBlank(message="Please select a file to upload")
+     * @Assert\NotBlank(message="kmjtoolkit.basedoc.file.validation.notblank.message")
      * @Assert\File(maxSize="6000000")
+     * @Assert\Image(groups={"image-only"})
      */
     protected $file;
 
@@ -60,7 +61,6 @@ abstract class BaseDocument {
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Please enter a name for the file")
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
@@ -92,6 +92,10 @@ abstract class BaseDocument {
      * @return string Document representation (Name)
      */
     public function __toString() {
+        if ($this->name === null) {
+            return "unknown";
+        }
+        
         return $this->name;
     }
 
@@ -249,17 +253,13 @@ abstract class BaseDocument {
             $filename = sha1(uniqid(mt_rand(), true));
             $date = date("Y-m-d");
             @mkdir($this->getUploadRootDir() . "/" . $date, 0777, true);
-
+            
             $this->path = $date . "/" . $filename . '.' . $this->getFile()->guessExtension();
-
+            
             if ($this->getName() === null) {
                 $this->name = $this->file->getClientOriginalName();
             }
         }
-    }
-
-    public function isImage() {
-        return false;
     }
 
     /**
