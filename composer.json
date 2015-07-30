@@ -20,7 +20,8 @@
         "symfony/validator": "2.*",
         "twig/twig": "1.*",
         "symfony/doctrine-bridge": "2.*,>=2.6",
-        "symfony/expression-language": "2.*,>=2.6"
+        "symfony/expression-language": "2.*,>=2.6",
+        "jms/translation-bundle": "dev-master"
     },
     "require-dev": {
         "h4cc/alice-fixtures-bundle": "0.5.x",
