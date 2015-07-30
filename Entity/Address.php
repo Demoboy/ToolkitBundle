@@ -19,7 +19,7 @@ use KMJ\ToolkitBundle\Constraints\TranslatableCallback;
  * @ORM\Table(name="kmj_toolkit_addresses")
  * @ORM\Entity()
  */
-class Address {
+class Address implements \JsonSerializable {
 
     /**
      * id for the address
@@ -443,4 +443,16 @@ class Address {
             }
         }
     }
+
+    public function jsonSerialize() {
+        return array(
+            "city" => $this->city,
+            "country" => ($this->country !== null ? $this->country->getName() : null),
+            "state" => ($this->state !== null ? $this->state->getName() : null),
+            "zipcode" => $this->zipcode,
+            "street" => $this->street,
+            "unit" => $this->unit,
+        );
+    }
+
 }
