@@ -1,0 +1,58 @@
+kmjtoolkit:
+    address:
+        city:
+            validation:
+                # Desc: kmjtoolkit.address.city.validation.blank
+                blank: 'Please enter a city'
+
+        country:
+            validation:
+                # Desc: kmjtoolkit.address.country.validation.blank
+                blank: 'Please select a country'
+
+        state:
+            validation:
+                # Desc: kmjtoolkit.address.state.validation.valid
+                valid: 'Please select a state'
+
+        street:
+            validation:
+                # Desc: kmjtoolkit.address.street.validation.blank
+                blank: 'Please enter a street address'
+
+                # Desc: kmjtoolkit.address.street.validation.max
+                max: 'The street address is too long'
+
+                # Desc: kmjtoolkit.address.street.validation.min
+                min: 'Please enter a valid street address'
+
+        zipcode:
+            validation:
+                # Desc: kmjtoolkit.address.zipcode.validation.valid
+                valid: 'Please enter a zipcode'
+
+    basedoc:
+        file:
+            validation:
+                notblank:
+                    # Desc: kmjtoolkit.basedoc.file.validation.notblank.message
+                    message: 'Please upload a file'
+
+    contact:
+        firstname:
+            validation:
+                notblank:
+                    # Desc: kmjtoolkit.contact.firstname.validation.notblank.message
+                    message: 'Please enter a first name'
+
+        lastname:
+            validation:
+                notblank:
+                    # Desc: kmjtoolkit.contact.lastname.validation.notblank.message
+                    message: 'Please enter a last name'
+
+    document:
+        form:
+            file:
+                # Desc: Please upload a valid file
+                invalid: 'Please upload a valid file'
