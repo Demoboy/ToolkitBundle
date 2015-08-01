@@ -8,12 +8,14 @@ use PHPUnit_Framework_TestCase;
 /**
  * @coversDefaultClass \KMJ\ToolkitBundle\ToolkitTest
  */
-abstract class ToolkitTest extends PHPUnit_Framework_TestCase {
+abstract class ToolkitTest extends PHPUnit_Framework_TestCase
+{
 
     /**
      * @covers KMJ\ToolkitBundle\Service\ToolkitService::__construct
      */
-    protected function getToolkit() {
+    protected function getToolkit()
+    {
         $config = array(
             "administrator" => array(
                 "firstname" => "Tony",
@@ -29,13 +31,12 @@ abstract class ToolkitTest extends PHPUnit_Framework_TestCase {
         $user = $this->getMockForAbstractClass("KMJ\ToolkitBundle\Entity\User");
 
         $fosUser = $this->getMockBuilder("FOS\UserBundle\Model\UserManager")
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $fosUser->method("createUser")
-                ->will($this->returnValue($user));
+            ->will($this->returnValue($user));
 
         return new ToolkitService($config, $fosUser);
     }
-
 }

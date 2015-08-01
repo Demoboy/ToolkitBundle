@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
@@ -15,7 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @since 1.1
  */
-trait HideableEntityTrait {
+trait HideableEntityTrait
+{
 
     /**
      * @var boolean determines whether or not the class should not be displayed or not
@@ -28,7 +28,8 @@ trait HideableEntityTrait {
      * 
      * @return boolean True if the entity should be hidden
      */
-    public function isHidden() {
+    public function isHidden()
+    {
         return $this->hidden;
     }
 
@@ -39,8 +40,8 @@ trait HideableEntityTrait {
      * 
      * @return self
      */
-    public function setHidden($hidden) {
+    public function setHidden($hidden)
+    {
         $this->hidden = $hidden;
     }
-
 }

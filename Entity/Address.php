@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -11,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use KMJ\ToolkitBundle\Constraints\TranslatableCallback;
+use JsonSerializable;
 
 /**
  * Entity that handles Addresses
@@ -19,7 +19,8 @@ use KMJ\ToolkitBundle\Constraints\TranslatableCallback;
  * @ORM\Table(name="kmj_toolkit_addresses")
  * @ORM\Entity()
  */
-class Address implements \JsonSerializable {
+class Address implements JsonSerializable
+{
 
     /**
      * id for the address
@@ -127,7 +128,8 @@ class Address implements \JsonSerializable {
      * @codeCoverageIgnore
      * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -136,7 +138,8 @@ class Address implements \JsonSerializable {
      *
      * @return string
      */
-    public function getStreet() {
+    public function getStreet()
+    {
         return $this->street;
     }
 
@@ -147,7 +150,8 @@ class Address implements \JsonSerializable {
      *
      * @return self
      */
-    public function setStreet($value) {
+    public function setStreet($value)
+    {
         $this->street = $value;
 
         return $this;
@@ -158,7 +162,8 @@ class Address implements \JsonSerializable {
      *
      * @return string
      */
-    public function getUnit() {
+    public function getUnit()
+    {
         return $this->unit;
     }
 
@@ -169,7 +174,8 @@ class Address implements \JsonSerializable {
      *
      * @return self
      */
-    public function setUnit($value) {
+    public function setUnit($value)
+    {
         $this->unit = $value;
 
         return $this;
@@ -180,7 +186,8 @@ class Address implements \JsonSerializable {
      *
      * @return string
      */
-    public function getCity() {
+    public function getCity()
+    {
         return $this->city;
     }
 
@@ -191,7 +198,8 @@ class Address implements \JsonSerializable {
      *
      * @return self
      */
-    public function setCity($value) {
+    public function setCity($value)
+    {
         $this->city = $value;
 
         return $this;
@@ -202,7 +210,8 @@ class Address implements \JsonSerializable {
      *
      * @return State
      */
-    public function getState() {
+    public function getState()
+    {
         return $this->state;
     }
 
@@ -213,7 +222,8 @@ class Address implements \JsonSerializable {
      *
      * @return self
      */
-    public function setState(State $value = null) {
+    public function setState(State $value = null)
+    {
         $this->state = $value;
 
         if ($this->country === null && $value !== null) {
@@ -228,7 +238,8 @@ class Address implements \JsonSerializable {
      *
      * @return Country
      */
-    public function getCountry() {
+    public function getCountry()
+    {
         return $this->country;
     }
 
@@ -239,7 +250,8 @@ class Address implements \JsonSerializable {
      *
      * @return self
      */
-    public function setCountry(Country $value = null) {
+    public function setCountry(Country $value = null)
+    {
         $this->country = $value;
 
         return $this;
@@ -250,7 +262,8 @@ class Address implements \JsonSerializable {
      *
      * @return string
      */
-    public function getZipcode() {
+    public function getZipcode()
+    {
         return $this->zipcode;
     }
 
@@ -261,7 +274,8 @@ class Address implements \JsonSerializable {
      *
      * @return self
      */
-    public function setZipcode($value) {
+    public function setZipcode($value)
+    {
         $this->zipcode = $value;
 
         return $this;
@@ -272,7 +286,8 @@ class Address implements \JsonSerializable {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -283,18 +298,20 @@ class Address implements \JsonSerializable {
      *
      * @return self
      */
-    public function setName($value) {
+    public function setName($value)
+    {
         $this->name = $value;
 
         return $this;
     }
-    
+
     /**
      * Get the value of The longitude of the address
      *
      * @return float
      */
-    public function getLongitude() {
+    public function getLongitude()
+    {
         return $this->longitude;
     }
 
@@ -305,7 +322,8 @@ class Address implements \JsonSerializable {
      *
      * @return self
      */
-    public function setLongitude($value) {
+    public function setLongitude($value)
+    {
         $this->longitude = $value;
 
         return $this;
@@ -316,7 +334,8 @@ class Address implements \JsonSerializable {
      *
      * @return float
      */
-    public function getLatitude() {
+    public function getLatitude()
+    {
         return $this->latitude;
     }
 
@@ -327,7 +346,8 @@ class Address implements \JsonSerializable {
      *
      * @return self
      */
-    public function setLatitude($value) {
+    public function setLatitude($value)
+    {
         $this->latitude = $value;
 
         return $this;
@@ -336,7 +356,8 @@ class Address implements \JsonSerializable {
     /**
      * Basic constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->name = "Default";
     }
 
@@ -345,7 +366,8 @@ class Address implements \JsonSerializable {
      *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         $string = null;
 
         $string .= $this->street . '<br />';
@@ -367,7 +389,8 @@ class Address implements \JsonSerializable {
      * Allows cloning of this class
      * @codeCoverageIgnore
      */
-    public function __clone() {
+    public function __clone()
+    {
         if ($this->id) {
             $this->id = null;
         }
@@ -378,7 +401,8 @@ class Address implements \JsonSerializable {
      *
      * @return boolean
      */
-    public function isValid() {
+    public function isValid()
+    {
         if ($this->street === null || $this->city === null || $this->country === null) {
             return false;
         } else {
@@ -393,7 +417,8 @@ class Address implements \JsonSerializable {
      *
      * @return self
      */
-    public function setResidential($value) {
+    public function setResidential($value)
+    {
         $this->residential = $value;
 
         return $this;
@@ -404,7 +429,8 @@ class Address implements \JsonSerializable {
      *
      * @return boolean
      */
-    public function isResidential() {
+    public function isResidential()
+    {
         return $this->residential;
     }
 
@@ -415,7 +441,8 @@ class Address implements \JsonSerializable {
      * @return boolean
      * @TranslatableCallback(message="kmjtoolkit.address.state.validation.valid")
      */
-    public function isStateValid(ExecutionContextInterface $context) {
+    public function isStateValid(ExecutionContextInterface $context)
+    {
         if ($this->getCountry() !== null) {
             if (($this->getCountry()->getCode() === "US" || $this->getCountry()->getCode() === "CA") && $this->getState() === null) {
                 $context->addViolationAt("state", "kmjtoolkit.address.state.validation.valid");
@@ -433,7 +460,8 @@ class Address implements \JsonSerializable {
      * @return boolean
      * @TranslatableCallback(message="kmjtoolkit.address.zipcode.validation.valid")
      */
-    public function isZipcodeValid(ExecutionContextInterface $context) {
+    public function isZipcodeValid(ExecutionContextInterface $context)
+    {
         if ($this->getCountry() !== null) {
             if ($this->getCountry()->isZipCodeRequired() && $this->getZipcode() === null) {
                 $context->addViolationAt("zipcode", "kmjtoolkit.address.zipcode.validation.valid");
@@ -444,7 +472,11 @@ class Address implements \JsonSerializable {
         }
     }
 
-    public function jsonSerialize() {
+    /**
+     * {@inheritdoc}
+     */
+    public function jsonSerialize()
+    {
         return array(
             "city" => $this->city,
             "country" => ($this->country !== null ? $this->country->getName() : null),
@@ -454,5 +486,4 @@ class Address implements \JsonSerializable {
             "unit" => $this->unit,
         );
     }
-
 }

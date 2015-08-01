@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
@@ -21,7 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
  * @Route("/documents")
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class DocumentController extends Controller {
+class DocumentController extends Controller
+{
 
     /**
      * Provides a response to download a HiddenDocument
@@ -29,23 +29,25 @@ class DocumentController extends Controller {
      * @Method({"GET"})
      * @param Document $document
      */
-    public function downloadHiddenAction(HiddenDocument $document) {
+    public function downloadHiddenAction(HiddenDocument $document)
+    {
         if (!file_exists($document->getAbsolutePath())) {
             throw $this->createNotFoundException("Document was not found");
         }
 
         return new BinaryFileResponse($document->getAbsolutePath());
     }
-    
+
     /**
      * Creates a download type response for the decrypted file a secure document 
      * @Route("/download/encrypted/{document}")
      * @Method({"GET"})
      * @param SecureDocument $document
      */
-    public function downloadEncryptedAction(EncryptedDocument $document) {
+    public function downloadEncryptedAction(EncryptedDocument $document)
+    {
         $response = new Response();
-        
+
         $doc = $this->getDecryptedDocument($document);
 
         $response->headers->set("Content-Type", "application/octet-stream");
@@ -56,20 +58,21 @@ class DocumentController extends Controller {
 
         return $response;
     }
-    
+
     /**
      * Creates a download type response for the decrypted file a secure document 
      * @Route("/view/encrypted/{document}/{name}")
      * @Method({"GET"})
      * @param SecureDocument $document
      */
-    public function viewEncryptedAction(EncryptedDocument $document, $name = null) {
+    public function viewEncryptedAction(EncryptedDocument $document, $name = null)
+    {
         if ($name === null) {
             return $this->redirectToRoute("kmj_toolkit_document_viewencrypted", array("document" => $document->getId(), "name" => $document->getName()));
         }
-        
+
         $response = new Response();
-        
+
         $doc = $this->getDecryptedDocument($document);
 
         $response->headers->set("Content-Type", $document->getMimeType());
@@ -79,38 +82,39 @@ class DocumentController extends Controller {
 
         return $response;
     }
-    
+
     /**
      * Creates a view response for the document
      * @Route("/view/hidden/{document}/{name}")
      * @Method({"GET"})
      * @param HiddenDocument $document The document to view
      */
-    public function viewHiddenAction(HiddenDocument $document, $name = null) {
+    public function viewHiddenAction(HiddenDocument $document, $name = null)
+    {
         if ($name === null) {
             return $this->redirectToRoute("kmj_toolkit_document_viewhidden", array("document" => $document->getId(), "name" => $document->getName()));
         }
-        
+
         $response = new Response();
-        
+
         $response->headers->set("Content-Type", $document->getMimeType());
         $response->headers->set("Content-Length", filesize($document->getAbsolutePath()));
-        
+
         $response->setContent(file_get_contents($document->getAbsolutePath()));
-                
+
         return $response;
     }
-    
+
     /**
      * Gets the decryted document as a string
      * 
      * @param BaseDocument $document
      * @return string the decrypted document
      */
-    private function getDecryptedDocument(BaseDocument $document) {
+    private function getDecryptedDocument(BaseDocument $document)
+    {
         $tk = $this->get("toolkit");
         $document->setKey(KMJTK_DOC_ENC_KEY);
         return $document->decrypt();
     }
-
 }

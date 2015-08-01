@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -14,7 +13,8 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
  * Loads a super user into the system to allow logins. It pulls the information from the serivce configuration.
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, \Symfony\Component\DependencyInjection\ContainerAwareInterface {
+class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, \Symfony\Component\DependencyInjection\ContainerAwareInterface
+{
 
     use \Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
@@ -23,7 +23,8 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, \
      * @codeCoverageIgnore
      * @return int The order to execute the fixture
      */
-    public function getOrder() {
+    public function getOrder()
+    {
         return 100;
     }
 
@@ -32,7 +33,8 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, \
      * 
      * @param \Doctrine\Common\Persistence\ObjectManager $manager entity manager
      */
-    public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {
+    public function load(\Doctrine\Common\Persistence\ObjectManager $manager)
+    {
         $userManager = $this->container->get('fos_user.user_manager');
 
         $tk = $this->container->get("toolkit");
@@ -42,7 +44,7 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, \
         }
 
         $adminUser = $tk->createAdminUser()
-                ->addRole($this->getReference('role_super_admin'));
+            ->addRole($this->getReference('role_super_admin'));
 
         $this->setReference("superuser", $adminUser);
 
@@ -50,5 +52,4 @@ class UserFixtures extends AbstractFixture implements OrderedFixtureInterface, \
 
         $manager->flush();
     }
-
 }

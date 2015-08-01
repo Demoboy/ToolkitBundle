@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -15,14 +14,16 @@ use KMJ\ToolkitBundle\Entity\Role;
  * Loads basic roles into the database and sets references to them
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface {
+class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface
+{
 
     /**
      * {@inheritDoc}
      * @codeCoverageIgnore
      * @return int The order to execute the fixture
      */
-    public function getOrder() {
+    public function getOrder()
+    {
         return 90;
     }
 
@@ -31,23 +32,24 @@ class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface {
      * 
      * @param \Doctrine\Common\Persistence\ObjectManager $manager entity manager
      */
-    public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {
+    public function load(\Doctrine\Common\Persistence\ObjectManager $manager)
+    {
         $role3 = new Role();
         $role3->setName("super_admin")
-                ->setDisplayName("Super Admin")
-                ->setDescription("Role for developer. Use with caution");
+            ->setDisplayName("Super Admin")
+            ->setDescription("Role for developer. Use with caution");
 
         $role2 = new Role();
         $role2->setName('admin')
-                ->setDisplayName('Administrator')
-                ->setParent($role3)
-                ->setDescription('Role for site administrator. Allows the user that has the role to change site settings');
+            ->setDisplayName('Administrator')
+            ->setParent($role3)
+            ->setDescription('Role for site administrator. Allows the user that has the role to change site settings');
 
         $role1 = new Role();
         $role1->setName('user')
-                ->setDisplayName('Standard User')
-                ->setParent($role2)
-                ->setDescription('Role for standard user level access.');
+            ->setDisplayName('Standard User')
+            ->setParent($role2)
+            ->setDescription('Role for standard user level access.');
 
         $this->setReference('role_user', $role1);
         $this->setReference('role_admin', $role2);
@@ -58,5 +60,4 @@ class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface {
         $manager->persist($role2);
         $manager->flush();
     }
-
 }

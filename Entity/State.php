@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -16,7 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="kmj_toolkit_states")
  * @ORM\Entity
  */
-class State {
+class State
+{
 
     /**
      * Id
@@ -56,7 +56,8 @@ class State {
      * Translates the state into a string
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->name;
     }
 
@@ -65,7 +66,8 @@ class State {
      * @codeCoverageIgnore
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -74,7 +76,8 @@ class State {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -85,7 +88,8 @@ class State {
      *
      * @return self
      */
-    public function setName($value) {
+    public function setName($value)
+    {
         $this->name = $value;
 
         return $this;
@@ -96,7 +100,8 @@ class State {
      *
      * @return string
      */
-    public function getCode() {
+    public function getCode()
+    {
         return $this->code;
     }
 
@@ -107,7 +112,8 @@ class State {
      *
      * @return self
      */
-    public function setCode($value) {
+    public function setCode($value)
+    {
         $this->code = $value;
 
         return $this;
@@ -118,7 +124,8 @@ class State {
      *
      * @return Country
      */
-    public function getCountry() {
+    public function getCountry()
+    {
         return $this->country;
     }
 
@@ -129,10 +136,10 @@ class State {
      *
      * @return self
      */
-    public function setCountry(Country $value) {
+    public function setCountry(Country $value)
+    {
         $this->country = $value;
 
         return $this;
     }
-
 }

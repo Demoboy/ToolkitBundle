@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -8,13 +7,15 @@
 namespace KMJ\ToolkitBundle\Service;
 
 use FOS\UserBundle\Model\UserManagerInterface;
+use Exception;
 
 /**
  * Service class that creates FOSUser based on Symfony configs
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class ToolkitService {
+class ToolkitService
+{
 
     /**
      * Used for Doctrine Fixtures, if set to true the default fixture is not loaded
@@ -38,23 +39,39 @@ class ToolkitService {
     protected $fosUM;
 
     /**
+     * Creates a singleton
+     * 
+     * @var Singleton 
+     */
+    protected static $instance;
+
+    /**
      * Basic constructor
      * @param array $config The configs
      * @param UserManagerInterface $fosUM The FOS User manager
      * @codeCoverageIgnore
      */
-    public function __construct(array $config, UserManagerInterface $fosUM) {
+    public function __construct(array $config, UserManagerInterface $fosUM)
+    {
         $this->config = $config;
         $this->fosUM = $fosUM;
         $this->overrideFixture = false;
-                
-        if (!defined("KMJTK_ROOT_DIR")) {
-            define("KMJTK_ROOT_DIR", $this->config['rootdir']);
+
+        static::$instance = $this;
+    }
+
+    /**
+     * Gets an initalized verson of self for a singleton
+     * @return ToolkitService
+     * @throws Exception
+     */
+    public static function getInstance()
+    {
+        if (static::$instance === null) {
+            throw new Exception("Toolkit has not been initalized");
         }
-        
-        if (!defined("KMJTK_DOC_ENC_KEY")) {
-            define("KMJTK_DOC_ENC_KEY", $this->config['enckey']);
-        }
+
+        return static::$instance;
     }
 
     /**
@@ -63,15 +80,16 @@ class ToolkitService {
      * 
      * @return mixed
      */
-    public function createAdminUser() {
+    public function createAdminUser()
+    {
         $user = $this->fosUM->createUser();
 
         $user->setFirstName($this->config['administrator']['firstname'])
-                ->setLastName($this->config['administrator']['lastname'])
-                ->setEmail($this->config['administrator']['email'])
-                ->setPlainPassword($this->config['administrator']['password'])
-                ->setEnabled(true)
-                ->setUsername($this->config['administrator']['username']);
+            ->setLastName($this->config['administrator']['lastname'])
+            ->setEmail($this->config['administrator']['email'])
+            ->setPlainPassword($this->config['administrator']['password'])
+            ->setEnabled(true)
+            ->setUsername($this->config['administrator']['username']);
 
         return $user;
     }
@@ -80,7 +98,8 @@ class ToolkitService {
      * Creates an array with user data for Alice fixtures
      * @return array
      */
-    public function createAdminUserArray() {
+    public function createAdminUserArray()
+    {
         return array(
             "firstName" => $this->config['administrator']['firstname'],
             "lastName" => $this->config['administrator']['lastname'],
@@ -97,16 +116,39 @@ class ToolkitService {
      * @param null|boolean $overrideFixture if boolean overridefixtures will be set to the value
      * @return boolean
      */
-    public function overrideFixture($overrideFixture = null) {
+    public function overrideFixture($overrideFixture = null)
+    {
         if ($overrideFixture === null) {
             return $this->overrideFixture;
         }
 
         $this->overrideFixture = $overrideFixture;
     }
+
     
-    public function onKernelRequest() {
+    /**
+     * Responds to kernel requests to initalize service on start up 
+     */
+    public function onKernelRequest()
+    {
         return;
     }
 
+    /**
+     * Return the encryption key
+     * @return string
+     */
+    public function getEncKey()
+    {
+        return $this->config['enckey'];
+    }
+
+    /**
+     * Return the root directory for file uploads
+     * @return string
+     */
+    public function getRootDir()
+    {
+        return $this->config['rootdir'];
+    }
 }

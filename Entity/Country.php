@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -16,7 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="kmj_toolkit_countries")
  * @ORM\Entity
  */
-class Country {
+class Country
+{
 
     /**
      * Id
@@ -67,7 +67,8 @@ class Country {
     /**
      * Basic constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->states = new \Doctrine\Common\Collections\ArrayCollection();
         $this->zipCodeRequired = false;
     }
@@ -76,7 +77,8 @@ class Country {
      * Translates the class into a string
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getName();
     }
 
@@ -85,7 +87,8 @@ class Country {
      * @codeCoverageIgnore
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -94,7 +97,8 @@ class Country {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -105,7 +109,8 @@ class Country {
      *
      * @return self
      */
-    public function setName($value) {
+    public function setName($value)
+    {
         $this->name = $value;
 
         return $this;
@@ -116,7 +121,8 @@ class Country {
      *
      * @return string
      */
-    public function getCode() {
+    public function getCode()
+    {
         return $this->code;
     }
 
@@ -127,7 +133,8 @@ class Country {
      *
      * @return self
      */
-    public function setCode($value) {
+    public function setCode($value)
+    {
         $this->code = $value;
 
         return $this;
@@ -138,7 +145,8 @@ class Country {
      *
      * @return boolean
      */
-    public function isZipCodeRequired() {
+    public function isZipCodeRequired()
+    {
         return $this->zipCodeRequired;
     }
 
@@ -149,7 +157,8 @@ class Country {
      *
      * @return self
      */
-    public function setZipCodeRequired($value) {
+    public function setZipCodeRequired($value)
+    {
         $this->zipCodeRequired = $value;
 
         return $this;
@@ -160,7 +169,8 @@ class Country {
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getStates() {
+    public function getStates()
+    {
         return $this->states;
     }
 }

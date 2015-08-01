@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -12,6 +11,7 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 /**
  * {@inheritDoc}
  */
-class KMJToolkitBundle extends Bundle {
+class KMJToolkitBundle extends Bundle
+{
     
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -17,34 +16,39 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @coversDefaultClass \KMJ\ToolkitBundle\Entity\User
  */
-class UserTest extends PHPUnit_Framework_TestCase {
+class UserTest extends PHPUnit_Framework_TestCase
+{
 
-    public function testFirstName() {
+    public function testFirstName()
+    {
         $user = $this->getUser();
         $this->assertNull($user->getFirstName());
         $user->setFirstName('Tony');
         $this->assertEquals('Tony', $user->getFirstName());
     }
 
-    public function testLastName() {
+    public function testLastName()
+    {
         $user = $this->getUser();
         $this->assertNull($user->getLastName());
         $user->setLastName("Soprano");
         $this->assertEquals("Soprano", $user->getLastName());
     }
 
-    public function testPasswordReset() {
+    public function testPasswordReset()
+    {
         $user = $this->getUser();
         $this->assertFalse($user->isPasswordReset());
         $user->setPasswordReset(true);
         $this->assertTrue($user->isPasswordReset());
     }
 
-    public function testToString() {
+    public function testToString()
+    {
         $user = $this->getUser();
         $this->assertTrue($user->__toString() === " ");
         $user->setFirstName("Tony")
-                ->setLastName("Soprano");
+            ->setLastName("Soprano");
 
         $this->assertTrue($user->__toString() == "Tony Soprano");
     }
@@ -52,25 +56,27 @@ class UserTest extends PHPUnit_Framework_TestCase {
     /**
      * @covers \KMJ\ToolkitBundle\Entity\User::buildUsername
      */
-    public function testBuildUsername() {
+    public function testBuildUsername()
+    {
         $user = $this->getUser();
         $user->setFirstName("Tony")
-                ->setLastName("Soprano");
-                
-       $this->assertTrue($user->getUsername() === md5("Tony"."Soprano".time()));
+            ->setLastName("Soprano");
+
+        $this->assertTrue($user->getUsername() === md5("Tony" . "Soprano" . time()));
     }
 
     /**
      * @uses \KMJ\ToolkitBundle\Entity\Role
      */
-    public function testUserRoles() {
+    public function testUserRoles()
+    {
         $user = $this->getUser();
         $this->assertTrue(sizeof($user->getRoles()) === 0);
 
         $role = new Role();
         $role->setDescription("Testing Role")
-                ->setDisplayName("Testing Role")
-                ->setName("ROLE_TESTING_ROLE");
+            ->setDisplayName("Testing Role")
+            ->setName("ROLE_TESTING_ROLE");
 
         $user->addRole($role);
         $this->assertTrue(sizeof($user->getRoles()) === 1);
@@ -87,8 +93,8 @@ class UserTest extends PHPUnit_Framework_TestCase {
     /**
      * @return User
      */
-    protected function getUser() {
+    protected function getUser()
+    {
         return $this->getMockForAbstractClass('KMJ\ToolkitBundle\Entity\User');
     }
-
 }

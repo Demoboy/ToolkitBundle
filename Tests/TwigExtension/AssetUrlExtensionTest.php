@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -14,17 +13,20 @@ use PHPUnit_Framework_TestCase;
 /**
  * @coversDefaultClass \KMJ\ToolkitBundle\TwigExtension\AssertUrlExtension
  */
-class AssetUrlExtensionTest extends PHPUnit_Framework_TestCase {
+class AssetUrlExtensionTest extends PHPUnit_Framework_TestCase
+{
 
     protected $context;
 
-    public function testGetFunctions() {
+    public function testGetFunctions()
+    {
         $extension = $this->getExtension();
         $functions = $extension->getFunctions();
         $this->assertTrue($functions['asset_url'] instanceof Twig_SimpleFilter);
     }
 
-    public function testAssetUrl() {
+    public function testAssetUrl()
+    {
         $extension = $this->getExtension();
 
         $url = $extension->assetUrl("/rel/path/to/file.jpg");
@@ -38,24 +40,25 @@ class AssetUrlExtensionTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($httpsUrl === "https://localhost:443/rel/path/to/file.jpg");
     }
 
-    public function testName() {
+    public function testName()
+    {
         $extension = $this->getExtension();
         $this->assertTrue($extension->getName() === "asset_url_extension");
     }
 
-    protected function getExtension() {
+    protected function getExtension()
+    {
         $this->context = $this->getMockBuilder("Symfony\Component\Routing\RequestContext")
-                ->setMethods(null)
-                ->getMock();
+            ->setMethods(null)
+            ->getMock();
 
         $router = $this->getMockBuilder("Symfony\Bundle\FrameworkBundle\Routing\Router")
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $router->method("getContext")
-                ->will($this->returnValue($this->context));
+            ->will($this->returnValue($this->context));
 
         return new AssetUrlExtension($router);
     }
-
 }

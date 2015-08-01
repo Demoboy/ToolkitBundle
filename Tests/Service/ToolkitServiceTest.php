@@ -8,9 +8,11 @@ use PHPUnit_Framework_TestCase;
 /**
  * @coversDefaultClass \KMJ\ToolkitBundle\Service\ToolkitServiceTest
  */
-class ToolkitServiceTest extends ToolkitTest {
+class ToolkitServiceTest extends ToolkitTest
+{
 
-    public function testCreateUser() {
+    public function testCreateUser()
+    {
         $toolkit = $this->getToolkit();
         $user = $toolkit->createAdminUser();
 
@@ -22,7 +24,8 @@ class ToolkitServiceTest extends ToolkitTest {
         $this->assertTrue($user->getPlainPassword() === "password");
     }
 
-    public function testCreateAdminUserArray() {
+    public function testCreateAdminUserArray()
+    {
         $toolkit = $this->getToolkit();
         $user = $toolkit->createAdminUserArray();
 
@@ -35,12 +38,12 @@ class ToolkitServiceTest extends ToolkitTest {
         $this->assertEquals($user['plainPassword'], "password");
     }
 
-    public function testOverrideFixture() {
+    public function testOverrideFixture()
+    {
         $toolkit = $this->getToolkit();
 
         $this->assertFalse($toolkit->overrideFixture());
         $toolkit->overrideFixture(true);
         $this->assertTrue($toolkit->overrideFixture());
     }
-
 }

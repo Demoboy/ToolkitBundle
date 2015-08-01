@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
@@ -8,6 +7,7 @@
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use KMJ\ToolkitBundle\Service\ToolkitService;
 
 /**
  * Generic entity to hold fields to store files locally on the server's hard
@@ -17,15 +17,35 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ * @since 1.1
  */
-class WebDocument extends BaseDocument {
+class WebDocument extends BaseDocument
+{
 
-    public function rootPath() {
-        return KMJTK_ROOT_DIR.'/../web/';
+    /**
+     * {@inheritdoc}
+     */
+    public function rootPath()
+    {
+        $toolkit = ToolkitService::getInstance();
+        return $toolkit->getRootDir() . '/../web/';
     }
 
-    public function getUploadDir() {
+    /**
+     * {@inheritdoc}
+     */
+    public function getUploadDir()
+    {
         return "uploads/documents";
     }
 
+    /**
+     * Gets the path for file visible from the web directory
+     * 
+     * @return string|null The path from the web directory
+     */
+    public function getWebPath()
+    {
+        return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
+    }
 }

@@ -42,6 +42,10 @@ abstract class BaseNote
      */
     private $text;
 
+    
+    /**
+     * Basic clone function
+     */
     public function __clone()
     {
         if ($this->id) {

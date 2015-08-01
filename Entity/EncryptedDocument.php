@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
@@ -7,13 +6,12 @@
 
 namespace KMJ\ToolkitBundle\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use InvalidArgumentException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 use Zend\Filter\Decrypt;
 use Zend\Filter\File\Encrypt;
+use KMJ\ToolkitBundle\Service\ToolkitService;
 
 /**
  * Generic entity to hold fields to store files locally on the server's hard
@@ -24,12 +22,21 @@ use Zend\Filter\File\Encrypt;
  * @ORM\HasLifecycleCallbacks
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class EncryptedDocument extends BaseDocument {
+class EncryptedDocument extends BaseDocument
+{
 
+    /**
+     * Algorithm to use when encrypting the document
+     */
     const ALGORITHM = "twofish";
 
-    public function rootPath() {
-        return KMJTK_ROOT_DIR . '/Resources/protectedUploads/';
+    /**
+     * {@inheritdoc}
+     */
+    public function rootPath()
+    {
+        $toolkit = ToolkitService::getInstance();
+        return $toolkit->getRootDir() . '/Resources/protectedUploads/';
     }
 
     /**
@@ -43,11 +50,13 @@ class EncryptedDocument extends BaseDocument {
      * Basic Constructor
      * @param string $key The key to use to encrypt the file
      */
-    public function __construct($key = null) {
+    public function __construct($key = null)
+    {
         parent::__construct();
 
-        if ($key === null && defined('KMJTK_DOC_ENC_KEY')) {
-            $this->key = KMJTK_DOC_ENC_KEY;
+        if ($key === null) {
+            $toolkit = ToolkitService::getInstance();
+            $this->key = $toolkit->getEncKey();
         } elseif ($key != null) {
             $this->key = $key;
         } else {
@@ -56,16 +65,18 @@ class EncryptedDocument extends BaseDocument {
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    public function getUploadDir() {
+    public function getUploadDir()
+    {
         return 'encrypted';
     }
 
     /**
      * Decrypts the document and returns the ninary content
      */
-    public function decrypt() {
+    public function decrypt()
+    {
         if ($this->key === null) {
             throw new InvalidArgumentException("Key must be set before attempting to decrypt");
         }
@@ -75,17 +86,26 @@ class EncryptedDocument extends BaseDocument {
     }
 
     /**
+     * {@inheritdoc}
+     * 
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
-    public function uploadFile() {
+    public function uploadFile()
+    {
         parent::uploadFile();
-        
+
         $encrypt = new Encrypt($this->getZendEncryptOptions());
         $encrypt->filter($this->getAbsolutePath());
     }
 
-    private function getZendEncryptOptions() {
+    /**
+     * Gets the options to use when encrypting documents
+     * 
+     * @return array
+     */
+    private function getZendEncryptOptions()
+    {
         return array(
             "adapter" => "BlockCipher",
             "vector" => $this->getChecksum(),
@@ -95,9 +115,15 @@ class EncryptedDocument extends BaseDocument {
         );
     }
 
-    public function setKey($key) {
+    /**
+     * Sets the encryption key
+     * 
+     * @param string $key The string to use as an encryption key
+     * @return EncryptedDocument
+     */
+    public function setKey($key)
+    {
         $this->key = $key;
         return $this;
     }
-
 }

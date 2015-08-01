@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -19,7 +18,7 @@ $set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet(array(
     'do_drop' => false,
     'do_persist' => true,
     'order' => 100,
-        )
+    )
 );
 
 $appDir = $this->getContainer()->get("kernel")->getRootDir();
@@ -53,11 +52,11 @@ if (file_exists($appDir . $bundlePath . "/users.yml")) {
     $dumper = new Symfony\Component\Yaml\Dumper();
 
     $yml = $dumper->dump(
-            array(
-                get_class($user) => array(
-                    "super_user:" => array_merge_recursive(array("userRoles" => array("@superadmin")), $adminUser),
-                )
+        array(
+            get_class($user) => array(
+                "super_user:" => array_merge_recursive(array("userRoles" => array("@superadmin")), $adminUser),
             )
+        )
     );
 
     $cacheDir = $this->getContainer()->get("kernel")->getCacheDir();

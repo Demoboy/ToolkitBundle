@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
@@ -13,7 +12,8 @@ namespace KMJ\ToolkitBundle\Interfaces;
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @since 1.1
  */
-interface HideableEntityInterface {
+interface HideableEntityInterface
+{
 
     /**
      * Checks whether or not the class should be hidden

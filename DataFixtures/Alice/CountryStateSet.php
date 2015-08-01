@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -17,7 +16,7 @@ $set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet(array(
     'do_drop' => false,
     'do_persist' => true,
     'order' => 50,
-        )
+    )
 );
 $appDir = $this->getContainer()->get("kernel")->getRootDir();
 

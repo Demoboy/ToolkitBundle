@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -18,7 +17,8 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  * @ORM\Table(name="kmj_toolkit_roles")
  * @ORM\Entity()
  */
-class Role implements RoleInterface {
+class Role implements RoleInterface
+{
 
     /**
      * Id
@@ -71,14 +71,16 @@ class Role implements RoleInterface {
      * {@inheritDoc}
      * @return string
      */
-    public function getRole() {
+    public function getRole()
+    {
         return $this->getName();
     }
 
     /**
      * Basic constructor
      */
-    function __construct() {
+    function __construct()
+    {
         $this->createdOn = new DateTime('NOW');
     }
 
@@ -87,7 +89,8 @@ class Role implements RoleInterface {
      * 
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getDisplayName();
     }
 
@@ -96,7 +99,8 @@ class Role implements RoleInterface {
      * @codeCoverageIgnore
      * @return integer
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -105,7 +109,8 @@ class Role implements RoleInterface {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -116,7 +121,8 @@ class Role implements RoleInterface {
      *
      * @return self
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $name = str_replace(' ', '_', strtoupper($name));
 
         if (substr($name, 0, 5) != "ROLE_") {
@@ -132,7 +138,8 @@ class Role implements RoleInterface {
      *
      * @return string
      */
-    public function getDisplayName() {
+    public function getDisplayName()
+    {
         return $this->displayName;
     }
 
@@ -143,7 +150,8 @@ class Role implements RoleInterface {
      *
      * @return self
      */
-    public function setDisplayName($value) {
+    public function setDisplayName($value)
+    {
         $this->displayName = $value;
 
         return $this;
@@ -154,7 +162,8 @@ class Role implements RoleInterface {
      *
      * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
@@ -165,7 +174,8 @@ class Role implements RoleInterface {
      *
      * @return self
      */
-    public function setDescription($value) {
+    public function setDescription($value)
+    {
         $this->description = $value;
 
         return $this;
@@ -176,7 +186,8 @@ class Role implements RoleInterface {
      *
      * @return DateTime
      */
-    public function getCreatedOn() {
+    public function getCreatedOn()
+    {
         return $this->createdOn;
     }
 
@@ -185,7 +196,8 @@ class Role implements RoleInterface {
      *
      * @return Role
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->parent;
     }
 
@@ -196,10 +208,10 @@ class Role implements RoleInterface {
      *
      * @return self
      */
-    public function setParent(Role $value) {
+    public function setParent(Role $value)
+    {
         $this->parent = $value;
 
         return $this;
     }
-
 }

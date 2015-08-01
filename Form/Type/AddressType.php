@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -22,7 +21,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @codeCoverageIgnore
  */
-class AddressType extends AbstractType {
+class AddressType extends AbstractType
+{
 
     /**
      * Should the form include the country
@@ -48,11 +48,11 @@ class AddressType extends AbstractType {
     /**
      * Basic constructor
      *
-     * @param int $type The type of form to use
      * @param boolean $includeCountry Should the form include a country dropdown
      * @param boolean $required Should fields be marked as required
      */
-    function __construct($includeCountry = true, $required = true) {
+    function __construct($includeCountry = true, $required = true)
+    {
         $this->includeCountry = $includeCountry;
         $this->required = $required;
     }
@@ -60,38 +60,39 @@ class AddressType extends AbstractType {
     /**
      * {@inheritDoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         // initialize country to null if the order is unable to pull the address information
         // key relationship may be damaged from cloning the original database
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
 
         $builder->add('street', null, array(
-                    /** @Desc("Street") */
-                    "label" => "kmjtoolkit.address.form.street.label",
-                    "required" => $this->required,
-                ))
-                ->add('unit', null, array(
-                    /** @Desc("Address (line 2)") */
-                    "label" => "kmjtoolkit.address.form.unit.label",
-                    "required" => false,
-                ))
-                ->add('city', null, array(
-                    /** @Desc("City") */
-                    "label" => "kmjtoolkit.address.form.city.label",
-                    "required" => $this->required,
-                ))
-                ->add('country', 'entity', array(
-                    /** @Desc("Country") */
-                    "label" => "kmjtoolkit.address.form.country.label",
-                    'class' => 'KMJToolkitBundle:Country',
-                    "required" => $this->required,
-                    /** @Desc("Please select a country") */
-                    "empty_value" => "kmjtoolkit.address.form.country.empty_value",
-                ))
-                ->add('zipcode', null, array(
-                    /** @Desc("Zipcode") */
-                    "label" => "kmjtoolkit.address.form.zipcode.label",
-                    "required" => (!$this->includeCountry || $this->required) ? false : true,
+                /** @Desc("Street") */
+                "label" => "kmjtoolkit.address.form.street.label",
+                "required" => $this->required,
+            ))
+            ->add('unit', null, array(
+                /** @Desc("Address (line 2)") */
+                "label" => "kmjtoolkit.address.form.unit.label",
+                "required" => false,
+            ))
+            ->add('city', null, array(
+                /** @Desc("City") */
+                "label" => "kmjtoolkit.address.form.city.label",
+                "required" => $this->required,
+            ))
+            ->add('country', 'entity', array(
+                /** @Desc("Country") */
+                "label" => "kmjtoolkit.address.form.country.label",
+                'class' => 'KMJToolkitBundle:Country',
+                "required" => $this->required,
+                /** @Desc("Please select a country") */
+                "empty_value" => "kmjtoolkit.address.form.country.empty_value",
+            ))
+            ->add('zipcode', null, array(
+                /** @Desc("Zipcode") */
+                "label" => "kmjtoolkit.address.form.zipcode.label",
+                "required" => (!$this->includeCountry || $this->required) ? false : true,
         ));
 
         $builder->get("country")->addEventListener(FormEvents::POST_SUBMIT, array($this, "onPostSubmit"));
@@ -104,7 +105,8 @@ class AddressType extends AbstractType {
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
         $resolver->setDefaults(array(
             'data_class' => 'KMJ\ToolkitBundle\Entity\Address'
         ));
@@ -113,14 +115,16 @@ class AddressType extends AbstractType {
     /**
      * {@inheritdoc}
      */
-    public function getName() {
+    public function getName()
+    {
         return "kmj_toolkit_address";
     }
 
     /**
      * {@inheritdoc}
      */
-    public function onPreSetData(FormEvent $event) {
+    public function onPreSetData(FormEvent $event)
+    {
         $country = null;
         $data = $event->getData();
         $form = $event->getForm();
@@ -154,7 +158,8 @@ class AddressType extends AbstractType {
      * @param Form $form The form to add the field to
      * @param Country $country The country to add the states of
      */
-    public function buildStateField(Form $form, Country $country) {
+    public function buildStateField(Form $form, Country $country)
+    {
         $form->add('state', 'entity', array(
             /** @Desc("State/Providence") */
             "label" => "kmjtoolkit.address.form.state.label",
@@ -167,7 +172,7 @@ class AddressType extends AbstractType {
 
                 if ($country !== null) {
                     $queryBuilder->where('s.country = :country')
-                            ->setParameter("country", $country);
+                        ->setParameter("country", $country);
                 }
 
                 return $queryBuilder;
@@ -179,10 +184,10 @@ class AddressType extends AbstractType {
     /**
      * {@inheritdoc}
      */
-    public function onPostSubmit(FormEvent $event) {
+    public function onPostSubmit(FormEvent $event)
+    {
         $country = $event->getForm()->getData();
         $form = $event->getForm()->getParent();
         $this->buildStateField($form, $country);
     }
-
 }

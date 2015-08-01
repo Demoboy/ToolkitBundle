@@ -114,6 +114,7 @@ abstract class CrudController extends Controller
      * Creates a redirect response for a given action
      * 
      * @param string $action The actions that is being performed
+     * @param string $status The status of the request
      * @param string $entity The entity that has had the action performed on it
      * 
      * @return RedirectResponse A redirect response for the action
@@ -193,7 +194,7 @@ abstract class CrudController extends Controller
         $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
 
         if ($this->handleEntityForm($request, $entity, $action, $form)) {
-            $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
+            $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
             return $this->setFlashAndRedirect($action, $entity);
         }
 
@@ -202,6 +203,13 @@ abstract class CrudController extends Controller
         );
     }
 
+    /**
+     * Generates a token to use when calling an event
+     * 
+     * @param string $action The action being applied
+     * @param string $time The time in function processing that the event is being dispatched
+     * @return string
+     */
     public function generateEventToken($action, $time)
     {
         return sprintf("%s.%s.%s.%s", CrudEvent::EVENT, $this->getClassName(), $action, $time);
@@ -303,9 +311,10 @@ abstract class CrudController extends Controller
     /**
      * Builds a translation key for the action and status for the class
      * 
-     * @param type $action
-     * @param type $status
-     * @return type
+     * @param string $action The action being preformed
+     * @param string $status The status of the action
+     * @param string $class The class name
+     * @return string
      */
     public static function buildTranslationKey($action, $status, $class)
     {
@@ -315,6 +324,7 @@ abstract class CrudController extends Controller
     /**
      * Removes the specified task from the db
      * 
+     * @param Request $request The symfony request
      * @param integer $id The id of the entity to hide
      * @throws NotFoundHttpException
      * @Route("/delete/{id}")
@@ -401,6 +411,7 @@ abstract class CrudController extends Controller
     /**
      * Provides a detailed output of the task
      * 
+     * @param Request $request The symfony request
      * @param integer $id The entity to view
      * @return array
      * @Route("/details/{id}",  requirements={"id" = "\d+"})
@@ -433,6 +444,9 @@ abstract class CrudController extends Controller
     }
 
     /**
+     * Shows all non-hidden entites
+     * 
+     * @param Request $request The symfony request
      * @Route("/view")
      * @Template()
      */

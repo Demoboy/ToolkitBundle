@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
@@ -15,6 +14,7 @@ use Symfony\Component\Validator\Constraints\CallbackValidator;
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @since 1.1   
  */
-class TranslatableCallbackValidator extends CallbackValidator {
+class TranslatableCallbackValidator extends CallbackValidator
+{
     
 }

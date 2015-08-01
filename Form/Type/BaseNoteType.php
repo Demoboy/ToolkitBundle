@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
@@ -17,12 +16,14 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @since 1.1
  */
-abstract class BaseNoteType extends AbstractType {
+abstract class BaseNoteType extends AbstractType
+{
 
     /**
      * {@inheritdoc}
      */
-    public function buildForm(FormBuilderInterface $builder, array $options) {
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
         $builder->add('text', "textarea", array(
             /** @Desc("Note") */
             "label" => "kmjtoolkit.note.form.text.label",
@@ -32,8 +33,8 @@ abstract class BaseNoteType extends AbstractType {
     /**
      * {@inheritdoc}
      */
-    public function getName() {
+    public function getName()
+    {
         return 'kmj_toolkitbundle_basenote';
     }
-
 }

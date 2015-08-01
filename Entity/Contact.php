@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -20,7 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="kmj_toolkit_contacts")
  * @ORM\Entity()
  */
-class Contact {
+class Contact
+{
 
     /**
      * id for the contact
@@ -68,6 +68,7 @@ class Contact {
     protected $phoneNumber;
 
     /**
+     * The address of the contact
      * @ORM\ManyToOne(targetEntity="Address")
      * @var Address 
      */
@@ -78,7 +79,8 @@ class Contact {
      * @codeCoverageIgnore
      * @return int
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -87,7 +89,8 @@ class Contact {
      *
      * @return string
      */
-    public function getFirstName() {
+    public function getFirstName()
+    {
         return $this->firstName;
     }
 
@@ -98,7 +101,8 @@ class Contact {
      *
      * @return self
      */
-    public function setFirstName($value) {
+    public function setFirstName($value)
+    {
         $this->firstName = $value;
 
         return $this;
@@ -109,7 +113,8 @@ class Contact {
      *
      * @return string
      */
-    public function getLastName() {
+    public function getLastName()
+    {
         return $this->lastName;
     }
 
@@ -120,7 +125,8 @@ class Contact {
      *
      * @return self
      */
-    public function setLastName($value) {
+    public function setLastName($value)
+    {
         $this->lastName = $value;
 
         return $this;
@@ -131,7 +137,8 @@ class Contact {
      *
      * @return PhoneNumber
      */
-    public function getPhoneNumber() {
+    public function getPhoneNumber()
+    {
         return $this->phoneNumber;
     }
 
@@ -142,7 +149,8 @@ class Contact {
      *
      * @return self
      */
-    public function setPhoneNumber(PhoneNumber $value = null) {
+    public function setPhoneNumber(PhoneNumber $value = null)
+    {
         $this->phoneNumber = $value;
 
         return $this;
@@ -153,7 +161,8 @@ class Contact {
      *
      * @return string
      */
-    public function getCompanyName() {
+    public function getCompanyName()
+    {
         return $this->companyName;
     }
 
@@ -164,7 +173,8 @@ class Contact {
      *
      * @return self
      */
-    public function setCompanyName($value) {
+    public function setCompanyName($value)
+    {
         $this->companyName = $value;
 
         return $this;
@@ -175,7 +185,8 @@ class Contact {
      *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getFirstName() . " " . $this->getLastName();
     }
 
@@ -183,11 +194,11 @@ class Contact {
      * Allows cloning of this class
      * @codeCoverageIgnore
      */
-    public function __clone() {
+    public function __clone()
+    {
         if ($this->id) {
             $this->id = null;
             $this->address = clone $this->address;
         }
     }
-
 }

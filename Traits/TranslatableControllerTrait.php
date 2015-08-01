@@ -1,19 +1,38 @@
 <?php
-
+/**
+ * This file is part of the KMJToolkitBundle
+ * @copyright (c) 2015, Kaelin Jacobson
+ */
 namespace KMJ\ToolkitBundle\Traits;
 
 use JMS\TranslationBundle\Model\FileSource;
 use JMS\TranslationBundle\Model\Message;
 use KMJ\ToolkitBundle\Controller\CrudController;
 
+/**
+ * Trait for adding translations to classes extending CrudController
+ * 
+ * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ * @since 1.1
+ */
 trait TranslatableControllerTrait
 {
 
+    /**
+     * Gets the english name of the entity
+     * 
+     * @return string The description of the entity. Used to load default english translations
+     */
     public static function getEntityEnglishName()
     {
         return "Unknown";
     }
 
+    /**
+     * Gets actions for CrudController with default translations for them
+     * 
+     * @return array Array of actions with translations
+     */
     protected static function getActions()
     {
         return array(
@@ -27,6 +46,11 @@ trait TranslatableControllerTrait
         );
     }
 
+    /**
+     * Gets statues for CrudController with default translations for them
+     * 
+     * @return array Array of statuses with translations
+     */
     protected static function getStatuses()
     {
         return array(
@@ -35,6 +59,9 @@ trait TranslatableControllerTrait
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function getTranslationMessages()
     {
         $className = get_class();

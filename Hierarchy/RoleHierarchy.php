@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -13,7 +12,8 @@ use Symfony\Component\Security\Core\Role\RoleHierarchy as SymfonyRoleHierarchy;
  * Determines role hierarchy
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class RoleHierarchy extends SymfonyRoleHierarchy {
+class RoleHierarchy extends SymfonyRoleHierarchy
+{
 
     /**
      * The entity manager
@@ -21,7 +21,7 @@ class RoleHierarchy extends SymfonyRoleHierarchy {
      * @var \Doctrine\ORM\EntityManager 
      */
     private $em;
-    
+
     /**
      * Current role hierarchy, usually provided from configs
      * 
@@ -34,7 +34,8 @@ class RoleHierarchy extends SymfonyRoleHierarchy {
      * @param array $hierarchy The current role hierarchy
      * @param \Doctrine\ORM\EntityManager $em The entity manager to use
      */
-    public function __construct(array $hierarchy, \Doctrine\ORM\EntityManager $em) {
+    public function __construct(array $hierarchy, \Doctrine\ORM\EntityManager $em)
+    {
         $this->em = $em;
         $this->existingHierarchy = $hierarchy;
         parent::__construct($this->buildRolesTree());
@@ -44,7 +45,8 @@ class RoleHierarchy extends SymfonyRoleHierarchy {
      * Organize the roles into a hierarchal array
      * @return array
      */
-    public function buildRolesTree() {
+    public function buildRolesTree()
+    {
         $hierarchy = array();
         $roles = $this->em->getRepository("KMJToolkitBundle:Role")->findAll();
 
@@ -64,5 +66,4 @@ class RoleHierarchy extends SymfonyRoleHierarchy {
 
         return array_merge_recursive($hierarchy, $this->existingHierarchy);
     }
-
 }

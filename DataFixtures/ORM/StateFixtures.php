@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -16,7 +15,8 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
  * Loads \KMJ\ToolkitBundle\Entity\State from csv file and creates relationship to a country
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class StateFixtures extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface {
+class StateFixtures extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
+{
 
     use \Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
@@ -25,7 +25,8 @@ class StateFixtures extends AbstractFixture implements OrderedFixtureInterface, 
      * @codeCoverageIgnore
      * @return int The order to execute the fixture
      */
-    public function getOrder() {
+    public function getOrder()
+    {
         return 11;
     }
 
@@ -34,7 +35,8 @@ class StateFixtures extends AbstractFixture implements OrderedFixtureInterface, 
      * 
      * @param \Doctrine\Common\Persistence\ObjectManager $manager entity manager
      */
-    public function load(\Doctrine\Common\Persistence\ObjectManager $manager) {
+    public function load(\Doctrine\Common\Persistence\ObjectManager $manager)
+    {
         $fh = fopen('app/csvDumps/states.csv', 'r');
 
         $repo = $this->container->get('doctrine')->getManager()->getRepository('KMJToolkitBundle:Country');
@@ -50,5 +52,4 @@ class StateFixtures extends AbstractFixture implements OrderedFixtureInterface, 
 
         $manager->flush();
     }
-
 }

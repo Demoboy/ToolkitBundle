@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -18,7 +17,8 @@ use Symfony\Component\DependencyInjection\Loader;
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class KMJToolkitExtension extends Extension {
+class KMJToolkitExtension extends Extension
+{
 
     /**
      * Loads a specific configuration.
@@ -28,7 +28,8 @@ class KMJToolkitExtension extends Extension {
      *
      * @throws \InvalidArgumentException When provided tag is not defined in this extension
      */
-    public function load(array $configs, ContainerBuilder $container) {
+    public function load(array $configs, ContainerBuilder $container)
+    {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
@@ -41,5 +42,4 @@ class KMJToolkitExtension extends Extension {
 
         $container->setParameter('kmj.toolkit.service.parameters', $config);
     }
-
 }

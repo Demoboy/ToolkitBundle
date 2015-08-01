@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -27,7 +26,8 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  * @Service()
  * @Tag("kernel.event_subscriber", attributes={"event" = "kernel.request", "method" = "isPasswordReset"})
  */
-class PasswordResetListener implements EventSubscriberInterface {
+class PasswordResetListener implements EventSubscriberInterface
+{
 
     /**
      * Route name to be used when redirecting to change password page
@@ -65,7 +65,8 @@ class PasswordResetListener implements EventSubscriberInterface {
      * @param RouterInterface $router The router component
      * @param SessionInterface $session The session component
      */
-    public function __construct(TokenStorageInterface $security, RouterInterface $router, SessionInterface $session) {
+    public function __construct(TokenStorageInterface $security, RouterInterface $router, SessionInterface $session)
+    {
         $this->security = $security;
         $this->router = $router;
         $this->session = $session;
@@ -79,14 +80,15 @@ class PasswordResetListener implements EventSubscriberInterface {
      * @param GetResponseEvent $event The event to handle
      * @return null
      */
-    public function isPasswordReset(GetResponseEvent $event) {
+    public function isPasswordReset(GetResponseEvent $event)
+    {
         if (stristr($event->getRequest()->get('_route'), '_assetic') !== false || stristr($event->getRequest()->get('_route'), self::CHANGE_PASSWORD_ROUTE) !== false || $event->getRequest()->get('_route') === null || stristr($event->getRequest()->get('_route'), '_wdt') !== false) {
             // don't do anything if it's not the master request or is requested by assetic or is the tool bar
             return;
         }
-        
+
         if ($this->security->getToken() !== null) {
-            
+
             if ($this->security->getToken()->getUser() instanceof User) {
                 $user = $this->security->getToken()->getUser();
 
@@ -106,10 +108,10 @@ class PasswordResetListener implements EventSubscriberInterface {
     /**
      * {@inheritDocs}
      */
-    public static function getSubscribedEvents() {
+    public static function getSubscribedEvents()
+    {
         return array(
             'kernel.request' => array('isPasswordReset')
         );
     }
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -21,7 +20,8 @@ use Twig_SimpleFunction;
  * @Service()
  * @Tag("twig.extension")
  */
-class AssetUrlExtension extends Twig_Extension {
+class AssetUrlExtension extends Twig_Extension
+{
 
     /**
      * The router component
@@ -37,14 +37,16 @@ class AssetUrlExtension extends Twig_Extension {
      *
      * @param RouterInterface $router The router component
      */
-    public function __construct(RouterInterface $router) {
+    public function __construct(RouterInterface $router)
+    {
         $this->router = $router;
     }
 
     /**
      * Declare the asset_url function
      */
-    public function getFunctions() {
+    public function getFunctions()
+    {
         return array(
             new \Twig_SimpleFunction("asset_url", array($this, "assetUrl")),
         );
@@ -57,7 +59,8 @@ class AssetUrlExtension extends Twig_Extension {
      * @param string $path The relative web path
      * @return type
      */
-    public function assetUrl($path) {
+    public function assetUrl($path)
+    {
         $context = $this->router->getContext();
 
         if ($context->getScheme() == "http") {
@@ -78,8 +81,8 @@ class AssetUrlExtension extends Twig_Extension {
     /**
      * Set a name for the extension
      */
-    public function getName() {
+    public function getName()
+    {
         return 'asset_url_extension';
     }
-
 }

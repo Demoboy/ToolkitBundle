@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
@@ -17,7 +16,8 @@ use Symfony\Component\Validator\Constraints\Callback;
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @since 1.1
  */
-class TranslatableCallback extends Callback {
+class TranslatableCallback extends Callback
+{
 
     /**
      * A translation key
@@ -25,13 +25,17 @@ class TranslatableCallback extends Callback {
      * @var string
      */
     public $message;
-    
-    public function __construct($options = null) {
+
+    /**
+     * Basic constuctor
+     * @param array $options Options for the callback
+     */
+    public function __construct($options = null)
+    {
         if (isset($options['message']) && $options['message'] != "") {
             $this->message = $options['message'];
         }
-        
+
         parent::__construct($options);
     }
-
 }

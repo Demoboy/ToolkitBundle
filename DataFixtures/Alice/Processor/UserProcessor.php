@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
@@ -18,7 +17,8 @@ use Nelmio\Alice\ProcessorInterface;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class UserProcessor implements ProcessorInterface {
+class UserProcessor implements ProcessorInterface
+{
 
     /**
      * @var UserManagerInterface The FOS User manager
@@ -30,7 +30,8 @@ class UserProcessor implements ProcessorInterface {
      *
      * @param UserManagerInterface $fosUser The User Manager
      */
-    public function __construct(UserManagerInterface $fosUser) {
+    public function __construct(UserManagerInterface $fosUser)
+    {
         $this->fosUser = $fosUser;
     }
 
@@ -39,8 +40,9 @@ class UserProcessor implements ProcessorInterface {
      * @codeCoverageIgnore
      * @param object $object instance to process
      */
-    public function preProcess($object) {
-
+    public function preProcess($object)
+    {
+        
     }
 
     /**
@@ -48,7 +50,8 @@ class UserProcessor implements ProcessorInterface {
      *
      * @param object $object instance to process
      */
-    public function postProcess($object) {
+    public function postProcess($object)
+    {
         if (!$object instanceof User) {
             return false;
         }
@@ -56,5 +59,4 @@ class UserProcessor implements ProcessorInterface {
         $this->fosUser->updateUser($object, true);
         return true;
     }
-
 }

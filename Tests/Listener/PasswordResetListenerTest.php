@@ -11,17 +11,20 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 /**
  * @coversDefaultClass \KMJ\ToolkitBundle\Service\ToolkitServiceTest
  */
-class PasswordResetListenerTest extends PHPUnit_Framework_TestCase {
+class PasswordResetListenerTest extends PHPUnit_Framework_TestCase
+{
 
     protected $user;
 
-    public function testGetSubscribedEvents() {
+    public function testGetSubscribedEvents()
+    {
         $password = $this->getPasswordResetListener();
         $events = $password->getSubscribedEvents();
         $this->assertTrue(sizeof($events) === 1);
     }
 
-    public function testIsPasswordReset() {
+    public function testIsPasswordReset()
+    {
         $password = $this->getPasswordResetListener();
 
         $testEvent = $this->getEvent();
@@ -29,7 +32,7 @@ class PasswordResetListenerTest extends PHPUnit_Framework_TestCase {
         $testRequest = new Request(array(), array(), array("_route" => "test"));
 
         $testEvent->method('getRequest')
-                ->will($this->returnValue($testRequest));
+            ->will($this->returnValue($testRequest));
 
         $password->isPasswordReset($testEvent);
         $this->assertNull($testEvent->getResponse());
@@ -44,7 +47,7 @@ class PasswordResetListenerTest extends PHPUnit_Framework_TestCase {
         $asseticRequest = new Request(array(), array(), array("_route" => "_assetic"));
 
         $asseticEvent->method('getRequest')
-                ->will($this->returnValue($asseticRequest));
+            ->will($this->returnValue($asseticRequest));
 
         $password->isPasswordReset($asseticEvent);
         $this->assertNull($asseticEvent->getResponse());
@@ -52,15 +55,15 @@ class PasswordResetListenerTest extends PHPUnit_Framework_TestCase {
         $toolbarEvent = $this->getEvent();
         $toolbarRequest = new Request(array(), array(), array("_route" => "_wdt"));
         $toolbarEvent->method('getRequest')
-                ->will($this->returnValue($toolbarRequest));
+            ->will($this->returnValue($toolbarRequest));
 
         $password->isPasswordReset($toolbarEvent);
         $this->assertNull($toolbarEvent->getResponse());
-        
+
         $changePassEvent = $this->getEvent();
         $changePassRequest = new Request(array(), array(), array("_route" => "change_password"));
         $changePassEvent->method('getRequest')
-                ->will($this->returnValue($changePassRequest));
+            ->will($this->returnValue($changePassRequest));
 
         $password->isPasswordReset($changePassEvent);
         $this->assertNull($changePassEvent->getResponse());
@@ -70,34 +73,35 @@ class PasswordResetListenerTest extends PHPUnit_Framework_TestCase {
      * 
      * @return PasswordResetListener
      */
-    protected function getPasswordResetListener() {
+    protected function getPasswordResetListener()
+    {
         $security = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage')
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $router = $this->getMockBuilder('Symfony\Component\Routing\Router')
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $router->method("generate")
-                ->will($this->returnValue("http://example.com/login"));
+            ->will($this->returnValue("http://example.com/login"));
 
         $session = $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
-                ->disableOriginalConstructor()
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $token = $this->getMockBuilder("Symfony\Component\Security\Core\Authentication\Token\AbstractToken")
-                ->getMock();
+            ->getMock();
 
         $this->user = $this->getMockForAbstractClass("KMJ\ToolkitBundle\Entity\User");
 
         $security->setToken($token);
 
         $token->method('getUser')
-                ->will($this->returnValue($this->user));
+            ->will($this->returnValue($this->user));
 
         $security->method("getToken")
-                ->will($this->returnValue($token));
+            ->will($this->returnValue($token));
 
         return new PasswordResetListener($security, $router, $session);
     }
@@ -105,11 +109,11 @@ class PasswordResetListenerTest extends PHPUnit_Framework_TestCase {
     /**
      * @return GetResponseEvent
      */
-    protected function getEvent() {
+    protected function getEvent()
+    {
         return $this->getMockBuilder("Symfony\Component\HttpKernel\Event\GetResponseEvent")
-                        ->disableOriginalConstructor()
-                        ->setMethods(array("getRequest"))
-                        ->getMock();
+                ->disableOriginalConstructor()
+                ->setMethods(array("getRequest"))
+                ->getMock();
     }
-
 }

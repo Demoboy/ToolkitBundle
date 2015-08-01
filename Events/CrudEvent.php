@@ -20,7 +20,7 @@ class CrudEvent extends Event
 {
 
     /**
-     * @var The event trigger name
+     * The event trigger name
      */
     const EVENT = "kmjtoolkit.crud";
 
@@ -41,7 +41,7 @@ class CrudEvent extends Event
     /**
      * The form for the entity
      *
-     * @var FormInterface|null
+     * @var FormInterface
      */
     protected $form;
 
@@ -55,19 +55,19 @@ class CrudEvent extends Event
     /**
      * Allows overridding of a view action, make this property not null and the entities contained within will be displayed
      * 
-     * @var array|null The Entities to view
+     * @var array
      */
     protected $entities;
 
     /**
      * Basic constructor
      *
-     * @param string $action
-     * @param mixed $entity
-     * @param FormInterface $form
-     * @param type $extraVars
+     * @param string $action The action being performed
+     * @param mixed $extraVars Extra vars passed through to the event
+     * @param FormInterface $entity The entity that the action is being performed on
+     * @param FormInterfact $form The form for the entity (if action includes a form)
      */
-    public function __construct($action, $extraVars, &$entity, $form = null)
+    public function __construct($action, $extraVars, &$entity, FormInterface $form = null)
     {
         $this->action = $action;
         $this->entity = $entity;
@@ -115,11 +115,21 @@ class CrudEvent extends Event
         return $this->extraVars;
     }
 
+    /**
+     * Gets entities
+     * 
+     * @return array
+     */
     public function getEntities()
     {
         return $this->entities;
     }
 
+    /**
+     * Sets entities
+     * @param array $entities Collection of entities
+     * @return CrudEvent
+     */
     public function setEntities(array $entities)
     {
         $this->entities = $entities;

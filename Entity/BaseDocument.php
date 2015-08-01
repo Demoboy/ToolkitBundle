@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
@@ -20,9 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\HasLifecycleCallbacks
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-abstract class BaseDocument {
+abstract class BaseDocument
+{
 
     /**
+     * The id of the object 
      * @var integer
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -31,6 +32,8 @@ abstract class BaseDocument {
     protected $id;
 
     /**
+     * The path of the document on the server
+     * 
      * @var string
      * @ORM\Column(name="path", type="string", length=255)
      */
@@ -45,6 +48,8 @@ abstract class BaseDocument {
     protected $mimeType;
 
     /**
+     * The file to be uploaded 
+     * 
      * @var file
      * @Assert\NotBlank(message="kmjtoolkit.basedoc.file.validation.notblank.message")
      * @Assert\File(maxSize="6000000")
@@ -60,12 +65,14 @@ abstract class BaseDocument {
     protected $extension;
 
     /**
+     * The name of the document
      * @var string
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
 
     /**
+     * The date the document was uploaded
      * @var DateTime
      * @ORM\Column(name="uploadedDate", type="datetime")
      */
@@ -82,7 +89,8 @@ abstract class BaseDocument {
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->uploadedDate = new DateTime("NOW");
     }
 
@@ -91,11 +99,12 @@ abstract class BaseDocument {
      *
      * @return string Document representation (Name)
      */
-    public function __toString() {
+    public function __toString()
+    {
         if ($this->name === null) {
             return "unknown";
         }
-        
+
         return $this->name;
     }
 
@@ -105,7 +114,8 @@ abstract class BaseDocument {
      * @return integer
      * @codeCoverageIgnore
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -114,7 +124,8 @@ abstract class BaseDocument {
      *
      * @return string
      */
-    public function getPath() {
+    public function getPath()
+    {
         return $this->path;
     }
 
@@ -123,7 +134,8 @@ abstract class BaseDocument {
      *
      * @return UploadedFile
      */
-    public function getFile() {
+    public function getFile()
+    {
         return $this->file;
     }
 
@@ -132,7 +144,8 @@ abstract class BaseDocument {
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
@@ -141,7 +154,8 @@ abstract class BaseDocument {
      *
      * @return DateTime
      */
-    public function getUploadedDate() {
+    public function getUploadedDate()
+    {
         return $this->uploadedDate;
     }
 
@@ -151,7 +165,8 @@ abstract class BaseDocument {
      * @param string $path
      * @return Document
      */
-    public function setPath($path) {
+    public function setPath($path)
+    {
         $this->path = $path;
         return $this;
     }
@@ -160,9 +175,10 @@ abstract class BaseDocument {
      * Set file
      *
      * @param UploadedFile $file
-     * @return Document $file
+     * @return Document
      */
-    public function setFile(UploadedFile $file) {
+    public function setFile(UploadedFile $file)
+    {
         $this->file = $file;
         $this->mimeType = $file->getMimeType();
         $this->checksum = md5(file_get_contents($file->getRealPath()));
@@ -181,7 +197,8 @@ abstract class BaseDocument {
      * @param string $name
      * @return Document
      */
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
         return $this;
     }
@@ -192,16 +209,19 @@ abstract class BaseDocument {
      * @param DateTime $uploadedDate
      * @return Document
      */
-    public function setUploadedDate(DateTime $uploadedDate) {
+    public function setUploadedDate(DateTime $uploadedDate)
+    {
         $this->uploadedDate = $uploadedDate;
         return $this;
     }
 
     /**
+     * Moves $this->file to the filesystem
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
-    public function uploadFile() {
+    public function uploadFile()
+    {
         if ($this->getFile() == null) {
             return;
         }
@@ -209,53 +229,61 @@ abstract class BaseDocument {
         $date = date("Y-m-d");
 
         $this->getFile()->move(
-                $this->getUploadRootDir() . "/{$date}", $this->path
+            $this->getUploadRootDir() . "/{$date}", $this->path
         );
 
         $this->file = null;
     }
 
     /**
+     * Gets the root directory where uploads should be placed
+     * 
      * @return string
      */
-    public function getUploadRootDir() {
+    public function getUploadRootDir()
+    {
         $path = $this->rootPath() . $this->getUploadDir();
         return $path;
     }
 
+    /**
+     * The root path of the document
+     */
     abstract function rootPath();
 
     /**
+     * The upload directory added to the root durring uploads
+     * 
      * @return string
      */
     abstract function getUploadDir();
 
     /**
-     * @return type
+     * Gets the absolute path to the file
+     * 
+     * @return string|null
      */
-    public function getAbsolutePath() {
+    public function getAbsolutePath()
+    {
         return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
     }
 
     /**
-     * @return type
-     */
-    public function getWebPath() {
-        return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
-    }
-
-    /**
+     * Prepares the file for being moved by making directories if they dont 
+     * exist and determining the filename of the file.
+     * 
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function preUpload() {
+    public function preUpload()
+    {
         if (null !== $this->getFile()) {
             $filename = sha1(uniqid(mt_rand(), true));
             $date = date("Y-m-d");
             @mkdir($this->getUploadRootDir() . "/" . $date, 0777, true);
-            
+
             $this->path = $date . "/" . $filename . '.' . $this->getFile()->guessExtension();
-            
+
             if ($this->getName() === null) {
                 $this->name = $this->file->getClientOriginalName();
             }
@@ -267,7 +295,8 @@ abstract class BaseDocument {
      *
      * @return string
      */
-    public function getMimeType() {
+    public function getMimeType()
+    {
         return $this->mimeType;
     }
 
@@ -278,7 +307,8 @@ abstract class BaseDocument {
      *
      * @return self
      */
-    public function setMimeType($value) {
+    public function setMimeType($value)
+    {
         $this->mimeType = $value;
 
         return $this;
@@ -289,7 +319,8 @@ abstract class BaseDocument {
      *
      * @return string
      */
-    public function getChecksum() {
+    public function getChecksum()
+    {
         return $this->checksum;
     }
 
@@ -300,7 +331,8 @@ abstract class BaseDocument {
      *
      * @return self
      */
-    public function setChecksum($value) {
+    public function setChecksum($value)
+    {
         $this->checksum = $value;
 
         return $this;
@@ -311,7 +343,8 @@ abstract class BaseDocument {
      *
      * @return string
      */
-    public function getExtension() {
+    public function getExtension()
+    {
         return $this->extension;
     }
 
@@ -322,13 +355,19 @@ abstract class BaseDocument {
      *
      * @return self
      */
-    public function setExtension($value) {
+    public function setExtension($value)
+    {
         $this->extension = $value;
 
         return $this;
     }
 
-    public function slug() {
+    /**
+     * Slugifies the name of the document for URL generation
+     * @return string
+     */
+    public function slug()
+    {
         // replace non letter or digits by -
         $text = preg_replace('~[^\\pL\d]+~u', '-', $this->name);
         // trim
@@ -348,5 +387,4 @@ abstract class BaseDocument {
 
         return $text;
     }
-
 }
