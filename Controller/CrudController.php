@@ -108,7 +108,7 @@ abstract class CrudController extends Controller
      * 
      * @return mixed A form type for the entity
      */
-    abstract function getFormType();
+    abstract function getFormType($action);
 
     /**
      * Creates a redirect response for a given action
@@ -502,7 +502,7 @@ abstract class CrudController extends Controller
      */
     private function handleEntityForm(Request $request, $entity, $action, &$form = null)
     {
-        $form = $this->createForm($this->getFormType(), $entity);
+        $form = $this->createForm($this->getFormType($action), $entity);
 
         $form->handleRequest($request);
 
