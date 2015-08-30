@@ -1,10 +1,8 @@
 <?php
-
 /**
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Service;
 
 /**
@@ -12,7 +10,8 @@ namespace KMJ\ToolkitBundle\Service;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class ToolkitService {
+class ToolkitService
+{
 
     /**
      * Used for Doctrine Fixtures, if set to true the default fixture is not loaded
@@ -39,10 +38,20 @@ class ToolkitService {
      * @param array $config The configs
      * @param \FOS\UserBundle\Model\UserManager $fosUM The FOS User manager
      */
-    public function __construct(array $config, \FOS\UserBundle\Model\UserManager $fosUM) {
+    public function __construct(array $config, \FOS\UserBundle\Model\UserManager $fosUM)
+    {
         $this->config = $config;
         $this->fosUM = $fosUM;
         $this->overrideFixture = false;
+        define("KMJ_TK_DISPLAY_COUNTRY", $config['display_country']);
+    }
+
+    /**
+     * Responds to kernel requests to initalize service on start up 
+     */
+    public function onKernelRequest()
+    {
+        return;
     }
 
     /**
@@ -51,15 +60,16 @@ class ToolkitService {
      * 
      * @return mixed
      */
-    public function createAdminUser() {
+    public function createAdminUser()
+    {
         $user = $this->fosUM->createUser();
 
         $user->setFirstName($this->config['administrator']['firstname'])
-                ->setLastName($this->config['administrator']['lastname'])
-                ->setEmail($this->config['administrator']['email'])
-                ->setPlainPassword($this->config['administrator']['password'])
-                ->setEnabled(true)
-                ->setUsername($this->config['administrator']['username']);
+            ->setLastName($this->config['administrator']['lastname'])
+            ->setEmail($this->config['administrator']['email'])
+            ->setPlainPassword($this->config['administrator']['password'])
+            ->setEnabled(true)
+            ->setUsername($this->config['administrator']['username']);
 
         return $user;
     }
@@ -68,7 +78,8 @@ class ToolkitService {
      * Creates an array with user data for Alice fixtures
      * @return array
      */
-    public function createAdminUserArray() {
+    public function createAdminUserArray()
+    {
         return array(
             "firstName" => $this->config['administrator']['firstname'],
             "lastName" => $this->config['administrator']['lastname'],
@@ -85,12 +96,12 @@ class ToolkitService {
      * @param null|boolean $overrideFixture if boolean overridefixtures will be set to the value
      * @return boolean
      */
-    public function overrideFixture($overrideFixture = null) {
+    public function overrideFixture($overrideFixture = null)
+    {
         if ($overrideFixture === null) {
             return $this->overrideFixture;
         }
 
         $this->overrideFixture = $overrideFixture;
     }
-
 }

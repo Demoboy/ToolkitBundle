@@ -38,7 +38,7 @@ class KMJToolkitExtension extends Extension {
         if (true === class_exists("Nelmio\Alice\ProcessorInterface")) {
             $loader->load('alice.xml');
         }
-
+        
         $container->setParameter('kmj.toolkit.service.parameters', $config);
     }
 
