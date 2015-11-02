@@ -1,0 +1,17 @@
+services:
+    kmj_toolkit.service:
+        class: KMJ\ToolkitBundle\Service\ToolkitService
+        arguments:
+            - %kmj.toolkit.service.parameters%
+            - @fos_user.user_manager
+        tags:
+            - { name: kernel.event_listener, event: kernel.requuest, method: onKernelRequest }
+            
+    toolkit:
+        alias: kmj_toolkit.service
+        
+    security.role_hierarchy:
+        class: KMJ\ToolkitBundle\Hierarchy\RoleHierarchy
+        arguments:
+            - %security.role_hierarchy.roles%
+            - @doctrine.orm.default_entity_manager

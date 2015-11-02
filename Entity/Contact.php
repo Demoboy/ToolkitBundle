@@ -3,13 +3,13 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
+use KMJ\ToolkitBundle\Entity\Address;
 
 /**
  * Entity that handles Contacts
@@ -70,7 +70,7 @@ class Contact
     /**
      * The address of the contact
      * @ORM\ManyToOne(targetEntity="Address")
-     * @var Address 
+     * @var Address
      */
     protected $address;
 
@@ -200,5 +200,29 @@ class Contact
             $this->id = null;
             $this->address = clone $this->address;
         }
+    }
+
+    /**
+     * Get the value of The address of the contact
+     *
+     * @return Address
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set the value of The address of the contact
+     *
+     * @param Address address
+     *
+     * @return self
+     */
+    public function setAddress(Address $address)
+    {
+        $this->address = $address;
+
+        return $this;
     }
 }

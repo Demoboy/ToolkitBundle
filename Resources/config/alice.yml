@@ -1,0 +1,7 @@
+services:
+    kmj_toolkit.alice.user.processor:
+        class: KMJ\ToolkitBundle\DataFixtures\Alice\Processor\UserProcessor
+        arguments:
+            - @fos_user.user_manager
+        tags:
+            - { name: h4cc_alice_fixtures.processor }
