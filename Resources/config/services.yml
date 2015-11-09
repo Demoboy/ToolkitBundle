@@ -5,10 +5,17 @@ services:
             - %kmj.toolkit.service.parameters%
             - @fos_user.user_manager
         tags:
-            - { name: kernel.event_listener, event: kernel.requuest, method: onKernelRequest }
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
             
     toolkit:
         alias: kmj_toolkit.service
+        
+    kmj_toolkit.form.type.address:
+        class: KMJ\ToolkitBundle\Form\Type\AddressServiceType
+        arguments:
+            - @doctrine.orm.entity_manager
+        tags:
+            - { name: form.type, alias: address }
         
     security.role_hierarchy:
         class: KMJ\ToolkitBundle\Hierarchy\RoleHierarchy

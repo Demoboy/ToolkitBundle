@@ -3,7 +3,6 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use libphonenumber\PhoneNumberFormat;
@@ -77,10 +76,13 @@ class ContactType extends AbstractType
         ));
 
         if ($this->includeAddress) {
-            $builder->add('address', new AddressType($this->includeCountry, $this->addressRequired), array(
+            $builder->add('address', "address", [
                 /** @Desc("Address") */
                 "label" => "kmjtoolkit.contact.form.address.label",
-            ));
+                "includeCountry" => $this->includeCountry,
+                "required" => $this->addressRequired,
+                "defaultCountry" => "US",
+            ]);
         }
     }
 

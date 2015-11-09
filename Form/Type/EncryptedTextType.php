@@ -20,27 +20,27 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class EncryptedTextType extends TextType
 {
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-        
-        $builder->addModelTransformer($modelTransformer);
+
+        $builder->addModelTransformer(new \KMJ\ToolkitBundle\Form\DataTransformer\EncryptedTextDataTransformer());
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         parent::configureOptions($resolver);
-        
+
         $resolver->setDefaults(array(
             "empty_data" => new EncryptedText(),
             'data_class' => 'KMJ\ToolkitBundle\Entity\EncryptedText'
         ));
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -48,10 +48,9 @@ class EncryptedTextType extends TextType
     {
         $this->configureOptions($resolver);
     }
-    
+
     public function getName()
     {
         return "kmj_toolkitbundle_encryptedtext";
     }
-    
 }
