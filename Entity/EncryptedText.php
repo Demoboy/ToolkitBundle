@@ -78,6 +78,16 @@ class EncryptedText
 
         $this->salt = $this->generateSalt();
     }
+    
+    /**
+     * Clones the object and it's references. 
+     */
+    public function __clone()
+    {
+        if ($this->id) {
+            $this->id = null;
+        }
+    }
 
     /**
      * Generates a secure salt
@@ -103,6 +113,7 @@ class EncryptedText
         if ($this->rawText !== null) {
             $zend = new Encrypt($this->getEncryptionOptions());
             $this->encryptedText = $zend->filter($this->rawText);
+            $this->rawText = null;
         }
     }
 
@@ -132,6 +143,11 @@ class EncryptedText
             "key" => $this->key,
         );
     }
+
+//    public function __toString()
+//    {
+//        return $this->decrypt();
+//    }
 
     /**
      * Get the value of The id of the object

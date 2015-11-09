@@ -69,11 +69,11 @@ class Contact
 
     /**
      * The address of the contact
-     * @ORM\ManyToOne(targetEntity="Address")
+     * @ORM\ManyToOne(targetEntity="Address", cascade={"all"})
      * @var Address
      */
     protected $address;
-
+    
     /**
      * Get the value of id for the contact
      * @codeCoverageIgnore
