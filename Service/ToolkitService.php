@@ -55,7 +55,7 @@ class ToolkitService
     {
         $this->config = $config;
         $this->fosUM = $fosUM;
-        $this->overrideFixture = false;
+        $this->overrideFixture = !$config['load_user_fixtures'];
 
         static::$instance = $this;
     }
