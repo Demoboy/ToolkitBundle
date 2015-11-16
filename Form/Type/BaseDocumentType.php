@@ -3,11 +3,11 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -29,7 +29,7 @@ abstract class BaseDocumentType extends AbstractType
      * Basic constructor
      * @param boolean $includeName If true the name form field will be added
      */
-    public function __construct($includeName = true)
+    public function __construct($includeName = null)
     {
         $this->includeName = $includeName;
     }
@@ -37,8 +37,31 @@ abstract class BaseDocumentType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefault("include_name", true);
+        $resolver->setAllowedTypes("include_name", ["bool"]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $this->configureOptions($resolver);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $includeName = $options['include_name'];
+
+        if ($this->includeName !== null) {
+            $includeName = $this->includeName;
+        }
+
         $builder->add('file', 'file', array(
             /** @Desc("File") */
             "label" => "kmjtoolkit.document.form.file.label",
@@ -47,7 +70,7 @@ abstract class BaseDocumentType extends AbstractType
             "invalid_message" => "kmjtoolkit.document.form.file.invalid",
         ));
 
-        if ($this->includeName) {
+        if ($includeName) {
             $builder->add('name', 'text', array(
                 /** @Desc("Name") */
                 "label" => "kmjtoolkit.document.form.name.label",
