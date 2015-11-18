@@ -3,12 +3,12 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Controller;
 
 use KMJ\ToolkitBundle\Entity\BaseDocument;
 use KMJ\ToolkitBundle\Entity\EncryptedDocument;
 use KMJ\ToolkitBundle\Entity\HiddenDocument;
+use KMJ\ToolkitBundle\Entity\S3EncryptedDocument;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -56,6 +56,35 @@ class DocumentController extends Controller
 
         $response->setContent($doc);
 
+        return $response;
+    }
+
+    /**
+     * @Route("/download/s3/encrypted/{document}")
+     * @Method({"GET"})
+     * @param S3EncryptedDocument $document
+     */
+    public function downloadS3DocumentAction(S3EncryptedDocument $document)
+    {
+        $response = new Response();
+        $s3Client = $this->get("kmj.aws.s3");
+        
+        @mkdir(dirname($document->getAbsolutePath()), "0664", true);
+
+        $s3Client->getObject([
+            "Bucket" => $this->getParameter("kmj_aws.s3.bucket"),
+            "Key" => $document->getFileKey(),
+            "SaveAs" => $document->getAbsolutePath(),
+        ]);
+        //file has been saved can now call decrypt on it
+        $doc = $this->getDecryptedDocument($document);
+
+        $response->headers->set("Content-Type", "application/octet-stream");
+        $response->headers->set("Content-Disposition", "attachment; filename={$document->slug()}.{$document->getExtension()}");
+        $response->headers->set("Content-Length", strlen($doc));
+        
+        $response->setContent($doc);
+        
         return $response;
     }
 
@@ -114,7 +143,7 @@ class DocumentController extends Controller
     private function getDecryptedDocument(BaseDocument $document)
     {
         $tk = $this->get("toolkit");
-        $document->setKey(KMJTK_DOC_ENC_KEY);
+        $document->setKey($tk->getEncKey());
         return $document->decrypt();
     }
 }

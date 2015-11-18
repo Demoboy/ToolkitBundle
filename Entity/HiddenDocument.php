@@ -37,4 +37,26 @@ class HiddenDocument extends BaseDocument
     {
         return "documents";
     }
+    
+     /**
+     * {@inheritdoc}
+     * 
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preUpload()
+    {
+        parent::preUpload();
+    }
+
+    /**
+     * {@inheritdoc}
+     * 
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function uploadFile()
+    {
+        parent::uploadFile();
+    }
 }

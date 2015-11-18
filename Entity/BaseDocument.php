@@ -3,7 +3,6 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use DateTime;
@@ -16,7 +15,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * disk.
  *
  * @ORM\MappedSuperclass
- * @ORM\HasLifecycleCallbacks
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
 abstract class BaseDocument
@@ -217,8 +215,6 @@ abstract class BaseDocument
 
     /**
      * Moves $this->file to the filesystem
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
      */
     public function uploadFile()
     {
@@ -271,9 +267,6 @@ abstract class BaseDocument
     /**
      * Prepares the file for being moved by making directories if they dont 
      * exist and determining the filename of the file.
-     * 
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
      */
     public function preUpload()
     {

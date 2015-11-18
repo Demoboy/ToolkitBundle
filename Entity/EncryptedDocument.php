@@ -3,7 +3,6 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -25,10 +24,7 @@ use KMJ\ToolkitBundle\Service\ToolkitService;
 class EncryptedDocument extends BaseDocument
 {
 
-    /**
-     * Algorithm to use when encrypting the document
-     */
-    const ALGORITHM = "twofish";
+    use \KMJ\ToolkitBundle\Traits\EncryptedDocumentTrait;
 
     /**
      * {@inheritdoc}
@@ -40,90 +36,24 @@ class EncryptedDocument extends BaseDocument
     }
 
     /**
-     * The key to use to encrypt the file
-     *
-     * @var string
-     */
-    protected $key;
-
-    /**
-     * Basic Constructor
-     * @param string $key The key to use to encrypt the file
-     */
-    public function __construct($key = null)
-    {
-        parent::__construct();
-
-        if ($key === null) {
-            $toolkit = ToolkitService::getInstance();
-            $this->key = $toolkit->getEncKey();
-        } elseif ($key != null) {
-            $this->key = $key;
-        } else {
-            throw new \InvalidArgumentException("Encryption key was not initalized");
-        }
-    }
-
-    /**
      * {@inheritdoc}
+     * 
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
-    public function getUploadDir()
+    public function preUpload()
     {
-        return 'encrypted';
-    }
-
-    /**
-     * Decrypts the document and returns the ninary content
-     */
-    public function decrypt()
-    {
-        if ($this->key === null) {
-            throw new InvalidArgumentException("Key must be set before attempting to decrypt");
-        }
-
-        $decrypt = new Decrypt($this->getZendEncryptOptions());
-        return $decrypt->filter(file_get_contents($this->getAbsolutePath()));
+        parent::preUpload();
     }
 
     /**
      * {@inheritdoc}
      * 
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      */
     public function uploadFile()
     {
         parent::uploadFile();
-
-        $encrypt = new Encrypt($this->getZendEncryptOptions());
-        $encrypt->filter($this->getAbsolutePath());
-    }
-
-    /**
-     * Gets the options to use when encrypting documents
-     * 
-     * @return array
-     */
-    private function getZendEncryptOptions()
-    {
-        return array(
-            "adapter" => "BlockCipher",
-            "vector" => $this->getChecksum(),
-            "algorithm" => self::ALGORITHM,
-            "key" => $this->key,
-            "compression" => "bz2",
-        );
-    }
-
-    /**
-     * Sets the encryption key
-     * 
-     * @param string $key The string to use as an encryption key
-     * @return EncryptedDocument
-     */
-    public function setKey($key)
-    {
-        $this->key = $key;
-        return $this;
     }
 }

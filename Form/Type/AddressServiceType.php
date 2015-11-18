@@ -42,7 +42,6 @@ class AddressServiceType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        dump($options);
         if ($options["defaultCountry"] === null && $options["includeCountry"] === false) {
             throw new InvalidArgumentException("Country was requested to be ignored, but no default country specified");
         }
