@@ -23,7 +23,7 @@
         "symfony/expression-language": "2.*,>=2.6",
         "zendframework/zend-filter": "2.5.*",
         "zendframework/zend-crypt": "2.5.*",
-        "aws/aws-sdk-php": "^3.10"
+        "kmj/awsbundle": "dev-master"
     },
     "require-dev": {
         "h4cc/alice-fixtures-bundle": "0.5.x",
