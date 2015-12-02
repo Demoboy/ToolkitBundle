@@ -10,6 +10,12 @@ services:
     toolkit:
         alias: kmj_toolkit.service
         
+    kmj_toolkit.twig.address_formatter:
+        class: KMJ\ToolkitBundle\TwigExtension\AddressFormatExtension
+        public: false
+        tags:
+            - { name: twig.extension }
+        
     kmj_toolkit.form.type.address:
         class: KMJ\ToolkitBundle\Form\Type\AddressServiceType
         arguments:
