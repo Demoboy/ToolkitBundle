@@ -36,10 +36,8 @@ trait EncryptedDocumentTrait
      * Basic Constructor
      * @param string $key The key to use to encrypt the file
      */
-    public function __construct($key = null)
+    public function load($key = null)
     {
-        parent::__construct();
-
         if ($key === null) {
             $toolkit = ToolkitService::getInstance();
             $this->key = $toolkit->getEncKey();

@@ -26,6 +26,12 @@ class EncryptedDocument extends BaseDocument
 
     use \KMJ\ToolkitBundle\Traits\EncryptedDocumentTrait;
 
+    public function __construct($key = null)
+    {
+        parent::__construct();
+        $this->load($key);
+    }
+    
     /**
      * {@inheritdoc}
      */

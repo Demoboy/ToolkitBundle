@@ -29,6 +29,12 @@ class S3EncryptedDocument extends BaseDocument
      */
     private $fileKey;
 
+    public function __construct($key = null)
+    {
+        parent::__construct();
+        $this->load($key);
+    }
+
     /**
      * {@inheritdoc}
      */
