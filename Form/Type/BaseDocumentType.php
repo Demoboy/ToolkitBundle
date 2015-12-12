@@ -75,9 +75,6 @@ abstract class BaseDocumentType extends AbstractType
                 /** @Desc("Name") */
                 "label" => "kmjtoolkit.document.form.name.label",
                 'required' => false,
-                "constraints" => array(
-                    new NotBlank(array("message" => "kmjtoolkit.document.form.name.blank")),
-                ),
             ));
         }
     }
