@@ -2,8 +2,8 @@ services:
     kmj_toolkit.service:
         class: KMJ\ToolkitBundle\Service\ToolkitService
         arguments:
-            - %kmj.toolkit.service.parameters%
-            - @fos_user.user_manager
+            - "%kmj.toolkit.service.parameters%"
+            - "@fos_user.user_manager"
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
             
@@ -19,12 +19,12 @@ services:
     kmj_toolkit.form.type.address:
         class: KMJ\ToolkitBundle\Form\Type\AddressServiceType
         arguments:
-            - @doctrine.orm.entity_manager
+            - "@doctrine.orm.entity_manager"
         tags:
             - { name: form.type, alias: address }
         
     security.role_hierarchy:
         class: KMJ\ToolkitBundle\Hierarchy\RoleHierarchy
         arguments:
-            - %security.role_hierarchy.roles%
-            - @doctrine.orm.default_entity_manager
+            - "%security.role_hierarchy.roles%"
+            - "@doctrine.orm.default_entity_manager"

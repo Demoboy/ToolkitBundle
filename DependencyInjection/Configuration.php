@@ -37,7 +37,6 @@ class Configuration implements ConfigurationInterface
                     ->end()
                     ->booleanNode("load_user_fixtures")
                         ->defaultTrue()
-                        ->cannotBeEmpty()
                     ->end()
                     ->arrayNode('administrator')
                         ->children()
