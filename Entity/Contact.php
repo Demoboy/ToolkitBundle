@@ -68,12 +68,20 @@ class Contact
     protected $phoneNumber;
 
     /**
+     * The email address for the contact
+     *
+     * @var string
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     */
+    protected $email;
+
+    /**
      * The address of the contact
      * @ORM\ManyToOne(targetEntity="Address", cascade={"all"})
      * @var Address
      */
     protected $address;
-    
+
     /**
      * Get the value of id for the contact
      * @codeCoverageIgnore
@@ -225,4 +233,29 @@ class Contact
 
         return $this;
     }
+
+    /**
+     * Get the value of The email address for the contact
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set the value of The email address for the contact
+     *
+     * @param string email
+     *
+     * @return self
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
 }

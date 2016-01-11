@@ -7,9 +7,10 @@
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use JMS\DiExtraBundle\Annotation\FormType;
+use Symfony\Component\Validator\Constraints\Email;
 
 /**
  * User form for user entity
@@ -45,11 +46,11 @@ class UserType extends BaseType
         parent::buildForm($builder, $options);
 
         $builder->remove("email");
-        $builder->add('email', 'email', array(
+        $builder->add('email', EmailType::class, array(
             'label' => 'form.email',
             'translation_domain' => 'FOSUserBundle',
             'constraints' => array(
-                new \Symfony\Component\Validator\Constraints\Email(array(
+                new Email(array(
                     "groups" => array("simple"),
                     "checkMX" => true,
                     ))

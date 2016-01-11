@@ -17,11 +17,11 @@ services:
             - { name: twig.extension }
         
     kmj_toolkit.form.type.address:
-        class: KMJ\ToolkitBundle\Form\Type\AddressServiceType
+        class: KMJ\ToolkitBundle\Form\Type\AddressType
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
-            - { name: form.type, alias: address }
+            - { name: form.type}
         
     security.role_hierarchy:
         class: KMJ\ToolkitBundle\Hierarchy\RoleHierarchy

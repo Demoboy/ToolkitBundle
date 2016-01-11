@@ -3,10 +3,8 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Events;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Form\FormInterface;
 
@@ -103,6 +101,12 @@ class CrudEvent extends Event
     public function getForm()
     {
         return $this->form;
+    }
+
+    public function setForm(FormInterface $form)
+    {
+        $this->form = $form;
+        return $this;
     }
 
     /**

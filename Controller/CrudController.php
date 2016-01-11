@@ -3,7 +3,6 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Controller;
 
 use InvalidArgumentException;
@@ -13,6 +12,7 @@ use KMJ\ToolkitBundle\Interfaces\HideableEntityInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -190,8 +190,12 @@ abstract class CrudController extends Controller
         }
 
         $event = new CrudEvent($action, $this->extraVars, $entity, $form);
-
+        
         $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
+
+        if ($event->getForm() !== null) {
+            $form = $event->getForm();
+        }
 
         if ($this->handleEntityForm($request, $entity, $action, $form)) {
             $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
@@ -500,9 +504,11 @@ abstract class CrudController extends Controller
      * @param null $form Passed by reference to allow accessing the form
      * @return boolean True if the form was valid and persisted to the db
      */
-    private function handleEntityForm(Request $request, $entity, $action, &$form = null)
+    private function handleEntityForm(Request $request, $entity, $action, FormInterface &$form = null)
     {
-        $form = $this->createForm($this->getFormType($action), $entity);
+        if ($form === null) {
+            $form = $this->createForm($this->getFormType($action), $entity);
+        }
 
         $form->handleRequest($request);
 

@@ -6,9 +6,12 @@
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use libphonenumber\PhoneNumberFormat;
+use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Form for contact entity
@@ -19,81 +22,61 @@ class ContactType extends AbstractType
 {
 
     /**
-     * Should address form include country
-     * 
-     * @var boolean
-     */
-    private $includeCountry;
-
-    /**
-     * Should the address be required
-     * @var boolean
-     */
-    private $addressRequired;
-
-    /**
-     * Should the address form be shown
-     * @var boolean 
-     */
-    private $includeAddress;
-
-    /**
-     * Basic constructor
-     * @param boolean $includeAddress Should the form include an address type
-     * @param boolean $includeCountry Should address form include country
-     * @param boolean $addressRequired Should address be required
-     */
-    public function __construct($includeAddress = true, $includeCountry = true, $addressRequired = true)
-    {
-        $this->includeCountry = $includeCountry;
-        $this->addressRequired = $addressRequired;
-        $this->includeAddress = $includeAddress;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName', null, array(
+        $builder->add('firstName', TextType::class, array(
                 /** @Desc("First Name") */
                 "label" => "kmjtoolkit.contact.form.firstname.label",
             ))
-            ->add('lastName', null, array(
+            ->add('lastName', TextType::class, array(
                 /** @Desc("Last Name") */
-                "label" => "kmjtoolkit.contact.form.lastname.label",))
-            ->add('companyName', null, array(
+                "label" => "kmjtoolkit.contact.form.lastname.label",));
+
+        if ($options['include_company']) {
+            $builder->add('companyName', TextType::class, array(
                 /** @Desc("Company Name") */
                 "label" => "kmjtoolkit.contact.form.companyname.label",
                 "required" => false,
-            ))
-            ->add('phoneNumber', "tel", array(
+            ));
+        }
+        
+        $builder->add('phoneNumber', PhoneNumberType::class, array(
                 /** @Desc("Phone Number") */
                 "label" => "kmjtoolkit.contact.form.phonenumber.label",
                 'default_region' => 'US',
                 'format' => PhoneNumberFormat::NATIONAL,
                 "required" => false,
+            ))
+            ->add("email", EmailType::class, array(
+                /** @Desc("Email address") */
+                "label" => "kmjtoolkit.contact.form.email.label",
+                "required" => false,
         ));
 
-        if ($this->includeAddress) {
-            $builder->add('address', "address", [
+        if ($options["include_address"]) {
+            $builder->add('address', AddressType::class, array_merge([
                 /** @Desc("Address") */
                 "label" => "kmjtoolkit.contact.form.address.label",
-                "includeCountry" => $this->includeCountry,
-                "required" => $this->addressRequired,
-                "defaultCountry" => "US",
-            ]);
+                    ], $options['address_options']));
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'KMJ\ToolkitBundle\Entity\Contact'
+            'data_class' => 'KMJ\ToolkitBundle\Entity\Contact',
+            "include_address" => true,
+            "include_company" => true,
+            "address_options" => [],
         ));
+
+        $resolver->setAllowedTypes("include_address", ["boolean"]);
+        $resolver->setAllowedTypes("address_options", ["array"]);
     }
 
     /**

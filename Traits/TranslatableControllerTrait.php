@@ -42,7 +42,7 @@ trait TranslatableControllerTrait
             CrudController::ACTION_EDIT => "updated",
             CrudController::ACTION_HIDE => "hidden",
             CrudController::ACTION_VIEW => "displayed",
-            CrudController::ACTION_UNHIDE => "unhidden",
+            CrudController::ACTION_UNHIDE => "visible",
         );
     }
 
