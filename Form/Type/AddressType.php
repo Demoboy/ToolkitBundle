@@ -137,12 +137,15 @@ class AddressType extends AbstractType
                 $country = $data->getState()->getCountry();
             }
         } else {
-            $defaultCountry = $form->getConfig()->getOption("defaultCountry");
+            $defaultCountry = $form->getConfig()->getOption("default_country");
 
             if ($defaultCountry !== null) {
                 $country = $this->em->getRepository("KMJToolkitBundle:Country")->findOneByCode($defaultCountry);
             }
         }
+        
+        dump($data);
+        dump($defaultCountry);
 
         if ($country === null) { 
             $form->add("state", ChoiceType::class, array(
@@ -194,7 +197,7 @@ class AddressType extends AbstractType
         $form = $event->getForm()->getParent();
 
         if ($country === null) {
-            $defaultCountry = $form->getConfig()->getOption("defaultCountry");
+            $defaultCountry = $form->getConfig()->getOption("default_country");
 
             if ($defaultCountry !== null) {
                 $country = $this->em->getRepository("KMJToolkitBundle:Country")->findOneByCode($defaultCountry);

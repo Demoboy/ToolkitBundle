@@ -50,11 +50,12 @@ trait QuickCloneTrait
                     $newValue = [];
 
                     foreach ($value as $v) {
-                        if ($this->allowClone && method_exists($v, "allowClone")) {
-                            $v->allowClone(true);
+                        if (is_object($v)) {
+                            if ($this->allowClone && method_exists($v, "allowClone")) {
+                                $v->allowClone(true);
+                            }
+                            $newValue[] = clone $v;
                         }
-
-                        $newValue[] = clone $v;
                     }
 
                     $prop->setValue($this, $newValue);
@@ -62,7 +63,7 @@ trait QuickCloneTrait
                     if ($this->allowClone && method_exists($value, "allowClone")) {
                         $value->allowClone(true);
                     }
-                    
+
                     $prop->setValue($this, clone $value);
                 } else {
                     //dump($prop->getName());
