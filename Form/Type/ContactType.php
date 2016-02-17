@@ -5,6 +5,7 @@
  */
 namespace KMJ\ToolkitBundle\Form\Type;
 
+use KMJ\ToolkitBundle\Entity\Contact;
 use libphonenumber\PhoneNumberFormat;
 use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use Symfony\Component\Form\AbstractType;
@@ -69,7 +70,7 @@ class ContactType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'KMJ\ToolkitBundle\Entity\Contact',
+            'data_class' => Contact::class,
             "include_address" => true,
             "include_company" => true,
             "address_options" => [],

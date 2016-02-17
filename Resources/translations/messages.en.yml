@@ -53,6 +53,9 @@ kmjtoolkit:
                 # Desc: Phone Number
                 label: 'Phone Number'   
 
+            email:
+                # Desc: Email address
+                label: 'Email address'
     document:
         form:
             file:

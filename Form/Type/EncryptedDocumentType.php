@@ -35,7 +35,7 @@ class EncryptedDocumentType extends BaseDocumentType
 
         $resolver->setDefaults(array(
             "empty_data" => new EncryptedDocument(),
-            'data_class' => 'KMJ\ToolkitBundle\Entity\EncryptedDocument'
+            'data_class' => EncryptedDocument::class
         ));
     }
 

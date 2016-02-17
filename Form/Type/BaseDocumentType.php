@@ -21,20 +21,6 @@ abstract class BaseDocumentType extends AbstractType
 {
 
     /**
-     * @var boolean Should the form include an option for naming the document
-     */
-    private $includeName;
-
-    /**
-     * Basic constructor
-     * @param boolean $includeName If true the name form field will be added
-     */
-    public function __construct($includeName = null)
-    {
-        $this->includeName = $includeName;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
@@ -58,11 +44,7 @@ abstract class BaseDocumentType extends AbstractType
     {
         $includeName = $options['include_name'];
 
-        if ($this->includeName !== null) {
-            $includeName = $this->includeName;
-        }
-
-        $builder->add('file', 'file', array(
+        $builder->add('file', \Symfony\Component\Form\Extension\Core\Type\FileType::class, array(
             /** @Desc("File") */
             "label" => "kmjtoolkit.document.form.file.label",
             'required' => false,
@@ -71,7 +53,7 @@ abstract class BaseDocumentType extends AbstractType
         ));
 
         if ($includeName) {
-            $builder->add('name', 'text', array(
+            $builder->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class, array(
                 /** @Desc("Name") */
                 "label" => "kmjtoolkit.document.form.name.label",
                 'required' => false,

@@ -3,10 +3,10 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Form\Type;
 
-use FOS\UserBundle\Form\Type\RegistrationFormType as BaseType;
+use KMJ\ToolkitBundle\Entity\User;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -15,19 +15,10 @@ use Symfony\Component\Validator\Constraints\Email;
 /**
  * User form for user entity
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
- * @FormType("kmj_toolkit_usertype")
  * @codeCoverageIgnore
  */
-class UserType extends BaseType
+class UserType extends AbstractType
 {
-
-    /**
-     * Basic Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct($this);
-    }
 
     /**
      * {@inheritdoc}
@@ -66,8 +57,13 @@ class UserType extends BaseType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'KMJ\ToolkitBundle\Entity\User'
+            'data_class' => User::class
         ));
+    }
+
+    public function getParent()
+    {
+        return \FOS\UserBundle\Form\Type\RegistrationFormType::class;
     }
 
     /**

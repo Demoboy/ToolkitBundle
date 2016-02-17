@@ -38,14 +38,44 @@ class RoleHierarchy extends SymfonyRoleHierarchy
     {
         $this->em = $em;
         $this->existingHierarchy = $hierarchy;
-        parent::__construct($this->buildRolesTree());
+    }
+    
+    public function getReachableRoles(array $roles)
+    {
+        if (sizeof($this->map) === 0) {
+            $this->buildRoleMap();
+        }
+        
+        return parent::getReachableRoles($roles);
+    }
+    
+    protected function buildRoleMap()
+    {
+        $this->map = array();
+        
+        $hierarchy = $this->buildRolesTree();
+        
+        foreach ($hierarchy as $main => $roles) {
+            $this->map[$main] = $roles;
+            $visited = array();
+            $additionalRoles = $roles;
+            while ($role = array_shift($additionalRoles)) {
+                if (!isset($hierarchy[$role])) {
+                    continue;
+                }
+
+                $visited[] = $role;
+                $this->map[$main] = array_unique(array_merge($this->map[$main], $hierarchy[$role]));
+                $additionalRoles = array_merge($additionalRoles, array_diff($hierarchy[$role], $visited));
+            }
+        }
     }
 
     /**
      * Organize the roles into a hierarchal array
      * @return array
      */
-    public function buildRolesTree()
+    private function buildRolesTree()
     {
         $hierarchy = array();
         $roles = $this->em->getRepository("KMJToolkitBundle:Role")->findAll();

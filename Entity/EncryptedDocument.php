@@ -52,14 +52,4 @@ class EncryptedDocument extends BaseDocument
         parent::preUpload();
     }
 
-    /**
-     * {@inheritdoc}
-     * 
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    public function uploadFile()
-    {
-        parent::uploadFile();
-    }
 }

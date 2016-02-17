@@ -47,7 +47,7 @@ class AddressType extends AbstractType
         if ($options["default_country"] === null && $options["include_country"] === false) {
             throw new InvalidArgumentException("Country was requested to be ignored, but no default country specified");
         }
-        
+
         // initialize country to null if the order is unable to pull the address information
         // key relationship may be damaged from cloning the original database
         $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
@@ -130,24 +130,25 @@ class AddressType extends AbstractType
         $data = $event->getData();
         $form = $event->getForm();
 
+        dump($form);
+
         if ($data instanceof Address) {
             $country = $data->getCountry();
 
             if ($country === null && $data->getState() !== null) {
                 $country = $data->getState()->getCountry();
             }
-        } else {
+        }
+
+        if ($country === null) {
             $defaultCountry = $form->getConfig()->getOption("default_country");
 
             if ($defaultCountry !== null) {
                 $country = $this->em->getRepository("KMJToolkitBundle:Country")->findOneByCode($defaultCountry);
             }
         }
-        
-        dump($data);
-        dump($defaultCountry);
 
-        if ($country === null) { 
+        if ($country === null) {
             $form->add("state", ChoiceType::class, array(
                 /** @Desc("State/Providence") */
                 "label" => "kmjtoolkit.address.form.state.label",
