@@ -3,7 +3,6 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Hierarchy;
 
 use Symfony\Component\Security\Core\Role\RoleHierarchy as SymfonyRoleHierarchy;
@@ -78,7 +77,12 @@ class RoleHierarchy extends SymfonyRoleHierarchy
     private function buildRolesTree()
     {
         $hierarchy = array();
-        $roles = $this->em->getRepository("KMJToolkitBundle:Role")->findAll();
+
+        try {
+            $roles = $this->em->getRepository("KMJToolkitBundle:Role")->findAll();
+        } catch (\Doctrine\DBAL\Exception\TableNotFoundException $exc) {
+            $roles = [];
+        }
 
         foreach ($roles as $role) {
             /** @var $role Role */
