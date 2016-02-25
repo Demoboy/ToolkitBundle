@@ -5,6 +5,8 @@
  */
 namespace KMJ\ToolkitBundle\Hierarchy;
 
+use Doctrine\ORM\EntityManager;
+use Exception;
 use Symfony\Component\Security\Core\Role\RoleHierarchy as SymfonyRoleHierarchy;
 
 /**
@@ -17,7 +19,7 @@ class RoleHierarchy extends SymfonyRoleHierarchy
     /**
      * The entity manager
      *
-     * @var \Doctrine\ORM\EntityManager 
+     * @var EntityManager 
      */
     private $em;
 
@@ -31,9 +33,9 @@ class RoleHierarchy extends SymfonyRoleHierarchy
     /**
      * Basic constructor
      * @param array $hierarchy The current role hierarchy
-     * @param \Doctrine\ORM\EntityManager $em The entity manager to use
+     * @param EntityManager $em The entity manager to use
      */
-    public function __construct(array $hierarchy, \Doctrine\ORM\EntityManager $em)
+    public function __construct(array $hierarchy, EntityManager $em)
     {
         $this->em = $em;
         $this->existingHierarchy = $hierarchy;
@@ -80,7 +82,7 @@ class RoleHierarchy extends SymfonyRoleHierarchy
 
         try {
             $roles = $this->em->getRepository("KMJToolkitBundle:Role")->findAll();
-        } catch (\Doctrine\DBAL\Exception\TableNotFoundException $exc) {
+        } catch (Exception $exc) {
             $roles = [];
         }
 
