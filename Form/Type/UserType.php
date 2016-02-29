@@ -5,11 +5,12 @@
  */
 namespace KMJ\ToolkitBundle\Form\Type;
 
+use FOS\UserBundle\Form\Type\RegistrationFormType;
 use KMJ\ToolkitBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 
 /**
@@ -36,17 +37,16 @@ class UserType extends AbstractType
 
         parent::buildForm($builder, $options);
 
-        $builder->remove("email");
-        $builder->add('email', EmailType::class, array(
-            'label' => 'form.email',
-            'translation_domain' => 'FOSUserBundle',
-            'constraints' => array(
-                new Email(array(
-                    "groups" => array("simple"),
+        $emailOptions = $builder->get("email")->getOptions();
+
+        $builder->add('email', EmailType::class, array_merge($emailOptions, [
+            'constraints' => [
+                new Email([
+                    "groups" => ["simple"],
                     "checkMX" => true,
-                    ))
-            )
-        ));
+                    ])
+            ]
+        ]));
 
         $builder->remove('username');
     }
@@ -54,7 +54,7 @@ class UserType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => User::class
@@ -63,7 +63,7 @@ class UserType extends AbstractType
 
     public function getParent()
     {
-        return \FOS\UserBundle\Form\Type\RegistrationFormType::class;
+        return RegistrationFormType::class;
     }
 
     /**
