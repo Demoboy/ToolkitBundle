@@ -1,4 +1,14 @@
 services:
+    kmj_toolkit.listener.password_reset:
+        class: KMJ\ToolkitBundle\Listener\PasswordResetListener
+        arguments:
+            - "@security.token_storage"
+            - "@router"
+            - "@session"
+            - "%kmj.toolkit.service.parameters%"
+        tags:
+            - { name: kernel.event_subscriber }
+
     kmj_toolkit.service:
         class: KMJ\ToolkitBundle\Service\ToolkitService
         arguments:
