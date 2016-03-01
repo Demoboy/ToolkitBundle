@@ -3,7 +3,6 @@
 use Doctrine\Common\Persistence\Proxy;
 use Doctrine\Common\Util\ClassUtils;
 use ReflectionClass;
-use function dump;
 
 /**
  * Description of QuickCloneTrait
@@ -65,9 +64,7 @@ trait QuickCloneTrait
                     }
 
                     $prop->setValue($this, clone $value);
-                } else {
-                    //dump($prop->getName());
-                }
+                } 
             }
         }
     }

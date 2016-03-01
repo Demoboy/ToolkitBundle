@@ -130,8 +130,6 @@ class AddressType extends AbstractType
         $data = $event->getData();
         $form = $event->getForm();
 
-        dump($form);
-
         if ($data instanceof Address) {
             $country = $data->getCountry();
 
