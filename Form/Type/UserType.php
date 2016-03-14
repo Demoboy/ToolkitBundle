@@ -50,6 +50,7 @@ class UserType extends AbstractType
 
         $builder->remove('username');
     }
+    
 
     /**
      * {@inheritdoc}
@@ -69,7 +70,7 @@ class UserType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'kmj_toolkitbundle_usertype';
     }

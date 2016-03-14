@@ -3,11 +3,10 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use KMJ\ToolkitBundle\Entity\WebDocument;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Form type for web documents 
@@ -17,10 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class WebDocumentType extends BaseDocumentType
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             "empty_data" => new WebDocument(),
@@ -31,7 +27,7 @@ class WebDocumentType extends BaseDocumentType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'kmj_toolkit_webdocument';
     }

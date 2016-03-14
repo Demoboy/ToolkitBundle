@@ -42,7 +42,7 @@ class EncryptedDocumentType extends BaseDocumentType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'kmj_toolkit_encrypteddocument';
     }

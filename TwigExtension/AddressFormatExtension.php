@@ -19,6 +19,9 @@ use KMJ\ToolkitBundle\Entity\Address;
 class AddressFormatExtension extends Twig_Extension
 {
 
+    const INTERNATIONAL = "INTERNATIONAL";
+    const NATIONAL = "NATIONAL";
+
     /**
      * Declare the asset_url function
      */
@@ -29,8 +32,20 @@ class AddressFormatExtension extends Twig_Extension
         );
     }
 
-    public function addressFormat(Address $address)
+    public function addressFormat(Address $address = null, $format = self::INTERNATIONAL)
     {
+        if ($address === null) {
+            return;
+        }
+
+        if (true === is_string($format)) {
+            $constant = self::class . "::" . $format;
+            if (false === defined($constant)) {
+                throw new InvalidArgumentException(sprintf('The format must be either a constant value or name in %s', self::class));
+            }
+            $format = constant(self::class . "::" . $format);
+        }
+
         $zipcode = strip_tags($address->getZipcode());
 
         if ($address->getState() instanceof \KMJ\ToolkitBundle\Entity\State) {
@@ -56,13 +71,17 @@ class AddressFormatExtension extends Twig_Extension
         if ($state !== null) {
             $string .= $state;
 
-            if ($country !== null) {
+            if ($country !== null && $format === self::INTERNATIONAL) {
                 $string .= ", ";
             }
         }
-
-        if ($country !== null) {
-            $string .= $country . " ";
+        
+        if ($format === self::INTERNATIONAL) {
+            if ($country !== null) {
+                $string .= $country . " ";
+            }
+        } else {
+            $string .= " ";
         }
 
         $string .= $zipcode;

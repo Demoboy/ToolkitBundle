@@ -31,7 +31,7 @@ services:
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
-            - { name: form.type}
+            - { name: form.type }
         
     security.role_hierarchy:
         class: KMJ\ToolkitBundle\Hierarchy\RoleHierarchy

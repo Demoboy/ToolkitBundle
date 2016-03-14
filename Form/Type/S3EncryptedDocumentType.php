@@ -17,15 +17,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class S3EncryptedDocumentType extends EncryptedDocumentType
 {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -35,14 +26,14 @@ class S3EncryptedDocumentType extends EncryptedDocumentType
 
         $resolver->setDefaults(array(
             "empty_data" => new S3EncryptedDocument(),
-            'data_class' => 'KMJ\ToolkitBundle\Entity\S3EncryptedDocument'
+            'data_class' => S3EncryptedDocument::class
         ));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'kmj_toolkit_s3encrypteddocument';
     }

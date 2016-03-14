@@ -3,7 +3,6 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use KMJ\ToolkitBundle\Entity\HiddenDocument;
@@ -18,10 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class HiddenDocumentType extends BaseDocumentType
 {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             "empty_data" => new HiddenDocument(),
@@ -32,7 +28,7 @@ class HiddenDocumentType extends BaseDocumentType
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getBlockPrefix()
     {
         return 'kmj_toolkit_hiddendocument';
     }

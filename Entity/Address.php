@@ -370,12 +370,12 @@ class Address implements JsonSerializable
     {
         $string = null;
 
-        $string .= $this->street . '<br />';
+        $string .= $this->street . " ";
 
         if ($this->unit != "") {
-            $string .= $this->unit . '<br />';
+            $string .= $this->unit . ' ';
         }
-
+        
         if ($this->getState() instanceof State) {
             $string .= $this->city . ', ' . $this->getState()->getCode() . ' ' . $this->getCountry()->getCode() . ' ' . $this->zipcode;
         } else {

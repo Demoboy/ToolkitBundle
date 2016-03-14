@@ -41,15 +41,7 @@ class EncryptedTextType extends TextType
         ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $this->configureOptions($resolver);
-    }
-
-    public function getName()
+    public function getBlockPrefix()
     {
         return "kmj_toolkitbundle_encryptedtext";
     }
