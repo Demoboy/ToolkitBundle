@@ -91,6 +91,12 @@ abstract class CrudController extends Controller
     const TIMELINE_POST_ACTION = "post";
 
     /**
+     * Timeline constant used to build EventDispatcher token. Event is triggered after a form has been submitted but before isValid() has been called
+     * Allowing custom validations
+     */
+    const TIMELINE_PRE_VALID = "pre-valid";
+
+    /**
      * Contains any extra vars that need to be passed to events
      * @var array
      */
@@ -190,7 +196,7 @@ abstract class CrudController extends Controller
         }
 
         $event = new CrudEvent($action, $this->extraVars, $entity, $form);
-        
+
         $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
 
         if ($event->getForm() !== null) {
@@ -202,9 +208,9 @@ abstract class CrudController extends Controller
             return $this->setFlashAndRedirect($action, $entity);
         }
 
-        return array(
+        return array_merge($this->extraVars, [
             "form" => $form->createView(),
-        );
+        ]);
     }
 
     /**
@@ -406,10 +412,10 @@ abstract class CrudController extends Controller
             return $this->setFlashAndRedirect(self::ACTION_EDIT, $entity);
         }
 
-        return array(
+        return array_merge($this->extraVars, [
             "form" => $form->createView(),
             $this->getTwigEntityName() => $entity,
-        );
+        ]);
     }
 
     /**
@@ -442,9 +448,9 @@ abstract class CrudController extends Controller
         $event = new CrudEvent($action, $this->extraVars, $entity);
         $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
 
-        return array(
+        return array_merge($this->extraVars, [
             $this->getTwigEntityName() => $entity,
-        );
+        ]);
     }
 
     /**
@@ -482,15 +488,17 @@ abstract class CrudController extends Controller
             } else {
                 $entities = $repo->findAll();
             }
+
+            $event->setEntities($entities);
         } else {
             $entities = $event->getEntities();
         }
 
         $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
 
-        return array(
+        return array_merge($this->extraVars, [
             $this->getTwigEntityName(true) => $entities,
-        );
+        ]);
     }
 
     /**
@@ -504,7 +512,7 @@ abstract class CrudController extends Controller
      * @param null $form Passed by reference to allow accessing the form
      * @return boolean True if the form was valid and persisted to the db
      */
-    private function handleEntityForm(Request $request, $entity, $action, FormInterface &$form = null)
+    protected function handleEntityForm(Request $request, $entity, $action, FormInterface &$form = null)
     {
         if ($form === null) {
             $form = $this->createForm($this->getFormType($action), $entity);
@@ -512,15 +520,20 @@ abstract class CrudController extends Controller
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
+        if ($form->isSubmitted()) {
             $event = new CrudEvent($action, $this->extraVars, $entity, $form);
-            $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event);
+            $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_VALID), $event);
 
-            $em->persist($entity);
-            $em->flush();
-            return true;
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+
+                $event = new CrudEvent($action, $this->extraVars, $entity, $form);
+                $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event);
+
+                $em->persist($entity);
+                $em->flush();
+                return true;
+            }
         }
 
         return false;
