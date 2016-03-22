@@ -37,4 +37,4 @@ services:
         class: KMJ\ToolkitBundle\Hierarchy\RoleHierarchy
         arguments:
             - "%security.role_hierarchy.roles%"
-            - "@doctrine.orm.default_entity_manager"
+            - "@doctrine.orm.entity_manager"
