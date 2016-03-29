@@ -8,6 +8,8 @@ namespace KMJ\ToolkitBundle\Doctrine\DBAL\Types;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use KMJ\ToolkitBundle\Service\ToolkitService;
+use Zend\Filter\Decrypt;
+use Zend\Filter\Encrypt;
 
 /**
  * Doctrine type that encrypts the provided string for storage in the database
@@ -39,8 +41,10 @@ class EncryptedTextType extends Type
         if ($value === null) {
             return null;
         }
-
-        $zend = new \Zend\Filter\Encrypt($this->getEncryptionOptions());
+        //ensure the salt is null
+        $this->setSalt(null);
+        
+        $zend = new Encrypt($this->getEncryptionOptions());
         $encryptedText = $zend->filter($value);
 
         return sprintf("%s;%s", $encryptedText, $this->getSalt());
@@ -49,7 +53,7 @@ class EncryptedTextType extends Type
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         list($encryptedText, $this->salt) = explode(';', $value);
-        $zend = new \Zend\Filter\Decrypt($this->getEncryptionOptions());
+        $zend = new Decrypt($this->getEncryptionOptions());
         return $zend->filter($encryptedText);
     }
 
