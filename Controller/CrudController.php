@@ -10,7 +10,6 @@ use KMJ\ToolkitBundle\Events\CrudEvent;
 use KMJ\ToolkitBundle\Interfaces\DeleteableEntityInterface;
 use KMJ\ToolkitBundle\Interfaces\HideableEntityInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -176,7 +175,6 @@ abstract class CrudController extends Controller
      * @param Request $request The http request
      * @return array
      * @Route("/add")
-     * @Template()
      * @throws NotFoundHttpException
      * @throws AccessDeniedException
      */
@@ -201,15 +199,18 @@ abstract class CrudController extends Controller
             return $this->setFlashAndRedirect($action, $entity);
         }
 
-        return array_merge($this->extraVars, [
-            "form" => $form->createView(),
-        ]);
+        return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
+                "form" => $form->createView(),
+        ]));
     }
-    
-    protected function determineTemplate() {
-        //get bundle name
-        //get controller name
-        //get action name
+
+    protected function determineTemplate($action)
+    {
+        $class = get_class($this);
+        $bundlePos = strpos($class, "Bundle");
+        $bundle = str_replace("\\", "", substr($class, 0, $bundlePos + 6));
+
+        return sprintf("%s:%s:%s.html.twig", $bundle, ucfirst($this->getClassName()), $action);
     }
 
     /**
@@ -311,7 +312,7 @@ abstract class CrudController extends Controller
     {
         $entity = $this->getEntity($id);
         $action = self::ACTION_UNHIDE;
-        
+
         $this->checkAction($action, $entity);
         $this->cantBeNull($entity);
 
@@ -390,7 +391,6 @@ abstract class CrudController extends Controller
      * @param Request $request The http request
      * @param integer $id The task to edit
      * @Route("/edit/{id}", requirements={"id" = "\d+"})
-     * @Template()
      */
     public function editAction(Request $request, $id)
     {
@@ -408,10 +408,10 @@ abstract class CrudController extends Controller
             return $this->setFlashAndRedirect(self::ACTION_EDIT, $entity);
         }
 
-        return array_merge($this->extraVars, [
-            "form" => $form->createView(),
-            $this->getTwigEntityName() => $entity,
-        ]);
+        return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
+                "form" => $form->createView(),
+                $this->getTwigEntityName() => $entity,
+        ]));
     }
 
     /**
@@ -421,7 +421,6 @@ abstract class CrudController extends Controller
      * @param integer $id The entity to view
      * @return array
      * @Route("/details/{id}",  requirements={"id" = "\d+"})
-     * @Template()
      */
     public function detailsAction(Request $request, $id)
     {
@@ -434,9 +433,10 @@ abstract class CrudController extends Controller
         $event = new CrudEvent($action, $this->extraVars, $entity);
         $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
 
-        return array_merge($this->extraVars, [
-            $this->getTwigEntityName() => $entity,
-        ]);
+
+        return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
+                $this->getTwigEntityName() => $entity,
+        ]));
     }
 
     /**
@@ -444,7 +444,6 @@ abstract class CrudController extends Controller
      * 
      * @param Request $request The symfony request
      * @Route("/view")
-     * @Template()
      */
     public function viewAction(Request $request)
     {
@@ -475,9 +474,10 @@ abstract class CrudController extends Controller
 
         $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
 
-        return array_merge($this->extraVars, [
-            $this->getTwigEntityName(true) => $entities,
-        ]);
+
+        return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
+                $this->getTwigEntityName(true) => $entities,
+        ]));
     }
 
     /**
