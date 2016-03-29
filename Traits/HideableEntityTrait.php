@@ -6,8 +6,6 @@
 
 namespace KMJ\ToolkitBundle\Traits;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Trait that implements HideableEntityInterface
  * 

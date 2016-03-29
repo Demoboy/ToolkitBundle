@@ -6,9 +6,12 @@
  */
 namespace KMJ\ToolkitBundle\TwigExtension;
 
+use InvalidArgumentException;
+use KMJ\ToolkitBundle\Entity\Address;
+use KMJ\ToolkitBundle\Entity\Country;
+use KMJ\ToolkitBundle\Entity\State;
 use Twig_Extension;
 use Twig_SimpleFunction;
-use KMJ\ToolkitBundle\Entity\Address;
 
 /**
  * Description of AddressFormatExtension
@@ -48,13 +51,13 @@ class AddressFormatExtension extends Twig_Extension
 
         $zipcode = strip_tags($address->getZipcode());
 
-        if ($address->getState() instanceof \KMJ\ToolkitBundle\Entity\State) {
+        if ($address->getState() instanceof State) {
             $state = $address->getState()->getCode();
         } else {
             $state = null;
         }
 
-        if ($address->getCountry() instanceof \KMJ\ToolkitBundle\Entity\Country) {
+        if ($address->getCountry() instanceof Country) {
             $country = $address->getCountry()->getCode();
         } else {
             $country = null;

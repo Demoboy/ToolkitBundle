@@ -342,7 +342,7 @@ abstract class CrudController extends Controller
      * @param string $class The class name
      * @return string
      */
-    public static function buildTranslationKey($action, $status, $class)
+    protected function buildTranslationKey($action, $status, $class)
     {
         return sprintf("%s.crud.%s.%s", $class, $action, $status);
     }
@@ -540,7 +540,7 @@ abstract class CrudController extends Controller
      */
     private function setFlashAndRedirect($action, $entity)
     {
-        $this->addFlash($this->getFlashKey(self::STATUS_SUCCESS), self::buildTranslationKey($action, self::STATUS_SUCCESS, $this->getClassName()));
+        $this->addFlash($this->getFlashKey(self::STATUS_SUCCESS), $this->buildTranslationKey($action, self::STATUS_SUCCESS, $this->getClassName()));
 
         $response = $this->createRedirectResponse($action, self::STATUS_SUCCESS, $entity);
 

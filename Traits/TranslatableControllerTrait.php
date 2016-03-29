@@ -74,9 +74,9 @@ trait TranslatableControllerTrait
 
         foreach ($actions as $action => $actionTrans) {
             foreach ($statuses as $status => $statusTrans) {
-                $message = new Message(CrudController::buildTranslationKey($action, $status, $class));
+                $message = new Message(sprintf("%s.crud.%s.%s", $class, $action, $status));
 
-                $message->setDesc(self::getEntityEnglishName() . " was " . $actionTrans . " " . $statusTrans);
+                $message->setDesc(sprintf("%s was %s %s", self::getEntityEnglishName(), $actionTrans, $statusTrans));
                 $message->addSource(new FileSource(__FILE__, __LINE__));
                 $messages[] = $message;
             }
