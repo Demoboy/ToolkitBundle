@@ -7,7 +7,6 @@ namespace KMJ\ToolkitBundle\Form\Type;
 
 use KMJ\ToolkitBundle\Entity\S3EncryptedDocument;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Form type for encrypted documents

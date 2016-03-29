@@ -6,10 +6,10 @@
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Base form type for documents
@@ -36,17 +36,14 @@ abstract class BaseDocumentType extends AbstractType
     {
         $includeName = $options['include_name'];
 
-        $builder->add('file', \Symfony\Component\Form\Extension\Core\Type\FileType::class, array(
-            /** @Desc("File") */
+        $builder->add('file', FileType::class, array(
             "label" => "kmjtoolkit.document.form.file.label",
             'required' => false,
-            /** @Desc("Please upload a valid file") */
             "invalid_message" => "kmjtoolkit.document.form.file.invalid",
         ));
 
         if ($includeName) {
-            $builder->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class, array(
-                /** @Desc("Name") */
+            $builder->add('name', TextType::class, array(
                 "label" => "kmjtoolkit.document.form.name.label",
                 'required' => false,
             ));

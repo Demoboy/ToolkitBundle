@@ -6,7 +6,7 @@
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use KMJ\ToolkitBundle\Entity\HiddenDocument;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Form type for HiddenDocument
@@ -17,11 +17,11 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class HiddenDocumentType extends BaseDocumentType
 {
 
-    public function configureOptions(\Symfony\Component\OptionsResolver\OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             "empty_data" => new HiddenDocument(),
-            'data_class' => 'KMJ\ToolkitBundle\Entity\HiddenDocument'
+            'data_class' => HiddenDocument::class,
         ));
     }
 

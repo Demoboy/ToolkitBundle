@@ -107,14 +107,14 @@ abstract class CrudController extends Controller
      * 
      * @return mixed A new entity object
      */
-    abstract public function getEntityClass();
+    abstract protected function getEntityClass();
 
     /**
      * Gets a new form type for the given entity
      * 
      * @return mixed A form type for the entity
      */
-    abstract function getFormType($action);
+    abstract protected function getFormType($action);
 
     /**
      * Creates a redirect response for a given action
@@ -125,7 +125,7 @@ abstract class CrudController extends Controller
      * 
      * @return RedirectResponse A redirect response for the action
      */
-    abstract function createRedirectResponse($action, $status, $entity);
+    abstract protected function createRedirectResponse($action, $status, $entity);
 
     /**
      * returns a string to use for key when referencing the entity. This 
@@ -142,7 +142,7 @@ abstract class CrudController extends Controller
      * @param $status The status to get the key for
      * @return string
      */
-    abstract function getFlashKey($status);
+    abstract protected function getFlashKey($status);
 
     /**
      * If the function returns false, the function calling this method will 
@@ -151,7 +151,7 @@ abstract class CrudController extends Controller
      * @param string $action The action being preformed
      * @return boolean True if the current action should be allowed to run
      */
-    public function allowAction($action)
+    protected function allowAction($action)
     {
         return true;
     }
@@ -165,7 +165,7 @@ abstract class CrudController extends Controller
      * @param type $entity The entity the action will be preformed against
      * @return boolean True if the action is allowed
      */
-    public function actionShouldRun($action, $entity)
+    protected function actionShouldRun($action, $entity)
     {
         return true;
     }
@@ -183,17 +183,10 @@ abstract class CrudController extends Controller
     public function addAction(Request $request)
     {
         $action = self::ACTION_ADD;
-
-        if (!$this->allowAction($action)) {
-            throw $this->createNotFoundException();
-        }
-
         $form = null;
         $entity = $this->getEntityClass();
 
-        if (!$this->actionShouldRun($action, $entity)) {
-            throw $this->createAccessDeniedException();
-        }
+        $this->checkAction($action, $entity);
 
         $event = new CrudEvent($action, $this->extraVars, $entity, $form);
 
@@ -212,6 +205,12 @@ abstract class CrudController extends Controller
             "form" => $form->createView(),
         ]);
     }
+    
+    protected function determineTemplate() {
+        //get bundle name
+        //get controller name
+        //get action name
+    }
 
     /**
      * Generates a token to use when calling an event
@@ -220,7 +219,7 @@ abstract class CrudController extends Controller
      * @param string $time The time in function processing that the event is being dispatched
      * @return string
      */
-    public function generateEventToken($action, $time)
+    protected function generateEventToken($action, $time)
     {
         return sprintf("%s.%s.%s.%s", CrudEvent::EVENT, $this->getClassName(), $action, $time);
     }
@@ -231,6 +230,7 @@ abstract class CrudController extends Controller
      * @param integer $id The id of the entity to hide
      * @return RedirectResponse The response of the method
      * @throws NotFoundHttpException
+     * @throws AccessDeniedException
      * @Route("/hide/{id}")
      */
     public function hideAction($id)
@@ -238,20 +238,11 @@ abstract class CrudController extends Controller
         $entity = $this->getEntity($id);
         $action = self::ACTION_HIDE;
 
-        if (null === $entity) {
-            throw $this->createNotFoundException();
-        }
-
-        if (!$this->allowAction($action)) {
-            throw $this->createNotFoundException();
-        }
-
-        if (!$this->actionShouldRun($action, $entity)) {
-            throw $this->createAccessDeniedException();
-        }
+        $this->cantBeNull($entity);
+        $this->checkAction($action, $entity);
 
         if (!($entity instanceof HideableEntityInterface)) {
-            throw $this->createNotFoundException("Entity is not an instance of \KMJ\ToolkitBundle\Interfaces\HideableEntityInterface");
+            throw $this->createNotFoundException(sprintf("Entity is not an instance of %s", HideableEntityInterface::class));
         }
 
         if ($entity->isHidden()) {
@@ -275,6 +266,40 @@ abstract class CrudController extends Controller
     }
 
     /**
+     * Determines if the provided entity is null and throws an 
+     * NotFoundHttpException if not
+     * 
+     * @param mixed $entity
+     * @throws NotFoundHttpException
+     */
+    protected function cantBeNull($entity)
+    {
+        if ($entity === null) {
+            throw $this->createNotFoundException();
+        }
+    }
+
+    /**
+     * Determines if the action can be executed. Throws exceptions if not
+     * 
+     * @param string $action
+     * @param mixed $entity
+     * @throws NotFoundHttpException
+     * @throws AccessDeniedException
+     * 
+     */
+    protected function checkAction($action, $entity)
+    {
+        if (!$this->allowAction($action)) {
+            throw $this->createNotFoundException();
+        }
+
+        if (!$this->actionShouldRun($action, $entity)) {
+            throw $this->createAccessDeniedException();
+        }
+    }
+
+    /**
      * Unhides entity and allows it to be displayed
      * 
      * @param integer $id The id of the entity to hide
@@ -286,21 +311,12 @@ abstract class CrudController extends Controller
     {
         $entity = $this->getEntity($id);
         $action = self::ACTION_UNHIDE;
-
-        if (null === $entity) {
-            throw $this->createNotFoundException();
-        }
-
-        if (!$this->allowAction($action)) {
-            throw $this->createNotFoundException();
-        }
-
-        if (!$this->actionShouldRun($action, $entity)) {
-            throw $this->createAccessDeniedException();
-        }
+        
+        $this->checkAction($action, $entity);
+        $this->cantBeNull($entity);
 
         if (!($entity instanceof HideableEntityInterface)) {
-            throw $this->createNotFoundException("Entity is not an instance of \KMJ\ToolkitBundle\Interfaces\HideableEntityInterface");
+            throw $this->createNotFoundException(sprintf("Entity is not an instance of %s", HideableEntityInterface::class));
         }
 
         if (!$entity->isHidden()) {
@@ -342,23 +358,13 @@ abstract class CrudController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $action = self::ACTION_DELETE;
-
-        if (!$this->allowAction($action)) {
-            throw $this->createNotFoundException();
-        }
-
         $entity = $this->getEntity($id);
 
-        if (!$this->actionShouldRun($action, $entity)) {
-            throw $this->createAccessDeniedException();
-        }
-
-        if (null === $entity) {
-            throw $this->createNotFoundException();
-        }
+        $this->checkAction($action, $entity);
+        $this->cantBeNull($entity);
 
         if (!($entity instanceof DeleteableEntityInterface)) {
-            throw $this->createNotFoundException("Entity is not an instance of \KMJ\ToolkitBundle\Interfaces\DeleteableEntityInterface");
+            throw $this->createNotFoundException(sprintf("Entity is not an instance of %s", DeleteableEntityInterface::class));
         }
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
@@ -389,20 +395,10 @@ abstract class CrudController extends Controller
     public function editAction(Request $request, $id)
     {
         $action = self::ACTION_EDIT;
-
-        if (!$this->allowAction($action)) {
-            throw $this->createNotFoundException();
-        }
-
         $entity = $this->getEntity($id);
 
-        if (!$this->actionShouldRun($action, $entity)) {
-            throw $this->createAccessDeniedException();
-        }
-
-        if (null === $entity) {
-            throw $this->createNotFoundException();
-        }
+        $this->checkAction($action, $entity);
+        $this->cantBeNull($entity);
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
         $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
@@ -430,20 +426,10 @@ abstract class CrudController extends Controller
     public function detailsAction(Request $request, $id)
     {
         $action = self::ACTION_DETAILS;
-
-        if (!$this->allowAction($action)) {
-            throw $this->createNotFoundException();
-        }
-
         $entity = $this->getEntity($id);
 
-        if (!$this->actionShouldRun($action, $entity)) {
-            throw $this->createAccessDeniedException();
-        }
-
-        if (null === $entity) {
-            throw $this->createNotFoundException();
-        }
+        $this->checkAction($action, $entity);
+        $this->cantBeNull($entity);
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
         $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
@@ -463,17 +449,10 @@ abstract class CrudController extends Controller
     public function viewAction(Request $request)
     {
         $action = self::ACTION_VIEW;
-
-        if (!$this->allowAction($action)) {
-            throw $this->createNotFoundException();
-        }
-
         $entity = $this->getEntityClass();
         $entities = null;
 
-        if (!$this->actionShouldRun($action, $entity)) {
-            throw $this->createAccessDeniedException();
-        }
+        $this->checkAction($action, $entity);
 
         $repo = $this->getDoctrine()->getRepository(get_class($this->getEntityClass()));
 

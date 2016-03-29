@@ -41,7 +41,7 @@ trait EncryptedDocumentTrait
         if ($key === null) {
             $toolkit = ToolkitService::getInstance();
             $this->key = $toolkit->getEncKey();
-        } elseif ($key != null) {
+        } elseif ($key !== null) {
             $this->key = $key;
         } else {
             throw new InvalidArgumentException("Encryption key was not initalized");

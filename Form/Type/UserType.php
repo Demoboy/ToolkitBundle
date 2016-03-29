@@ -27,11 +27,9 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('firstName', null, array(
-                /** @Desc("First Name") */
                 "label" => "kmjtoolkit.user.form.firstname.label",
             ))
             ->add('lastName', null, array(
-                /** @Desc("Last Name") */
                 "label" => "kmjtoolkit.user.form.lastname.label",
         ));
 

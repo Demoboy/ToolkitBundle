@@ -218,7 +218,7 @@ abstract class BaseDocument
      */
     public function uploadFile()
     {
-        if ($this->getFile() == null) {
+        if ($this->getFile() === null) {
             return;
         }
 

@@ -8,7 +8,7 @@ namespace KMJ\ToolkitBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
 
 /**
  * Form type for note entity
@@ -25,7 +25,6 @@ abstract class BaseNoteType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('text', "textarea", array(
-            /** @Desc("Note") */
             "label" => "kmjtoolkit.note.form.text.label",
         ));
     }
