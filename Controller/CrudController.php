@@ -210,7 +210,10 @@ abstract class CrudController extends Controller
         $bundlePos = strpos($class, "Bundle");
         $bundle = str_replace("\\", "", substr($class, 0, $bundlePos + 6));
 
-        return sprintf("%s:%s:%s.html.twig", $bundle, ucfirst($this->getClassName()), $action);
+        $controllerPos = strrpos($class, '\\');
+        $controller = str_replace("Controller", "", substr($class, $controllerPos + 1));
+
+        return sprintf("%s:%s:%s.html.twig", $bundle, $controller, $action);
     }
 
     /**
