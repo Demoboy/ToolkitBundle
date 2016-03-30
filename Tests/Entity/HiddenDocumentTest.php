@@ -30,7 +30,7 @@ class HiddenDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     public function testRootPath()
     {
         $hiddenDoc = $this->getHiddenDocument();
-        $this->assertTrue($hiddenDoc->rootPath() === KMJTK_ROOT_DIR . '/Resources/protectedUploads/', "Hidden document root path incorrect");
+        $this->assertTrue($hiddenDoc->rootPath() === $this->tk->getRootDir() . '/Resources/protectedUploads/', "Hidden document root path incorrect");
     }
 
     /**

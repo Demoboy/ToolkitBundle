@@ -1,7 +1,7 @@
-<?php
+<?php namespace KMJ\ToolkitBundle\Tests\Service;
 
-namespace KMJ\ToolkitBundle\Tests\Service;
-
+use FOS\UserBundle\Model\UserManager;
+use KMJ\ToolkitBundle\Entity\User;
 use KMJ\ToolkitBundle\Service\ToolkitService;
 use PHPUnit_Framework_TestCase;
 
@@ -24,13 +24,14 @@ abstract class ToolkitTest extends PHPUnit_Framework_TestCase
                 "email" => "tonysoprano@gmail.com",
                 "password" => "password",
             ),
-            "rootdir" => __DIR__ . "/../",
+            "load_user_fixtures" => true,
+            "rootdir" => __DIR__ . "/..",
             "enckey" => "enckey",
         );
 
-        $user = $this->getMockForAbstractClass("KMJ\ToolkitBundle\Entity\User");
+        $user = $this->getMockForAbstractClass(User::class);
 
-        $fosUser = $this->getMockBuilder("FOS\UserBundle\Model\UserManager")
+        $fosUser = $this->getMockBuilder(UserManager::class)
             ->disableOriginalConstructor()
             ->getMock();
 

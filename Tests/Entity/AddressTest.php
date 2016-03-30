@@ -13,23 +13,6 @@ use PHPUnit_Framework_TestCase;
  */
 class AddressTest extends PHPUnit_Framework_TestCase
 {
-
-    public function testFirstName()
-    {
-        $address = $this->getAddress();
-        $this->assertNull($address->getFirstName());
-        $address->setFirstName("Tony");
-        $this->assertTrue($address->getFirstName() === "Tony");
-    }
-
-    public function testLastName()
-    {
-        $address = $this->getAddress();
-        $this->assertNull($address->getLastName());
-        $address->setLastName("Soprano");
-        $this->assertTrue($address->getLastName() === "Soprano");
-    }
-
     public function testStreet()
     {
         $address = $this->getAddress();
@@ -96,26 +79,6 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($address->getName() === "Seattle Address");
     }
 
-    public function testPhoneNumber()
-    {
-        $address = $this->getAddress();
-        $this->assertNull($address->getPhoneNumber());
-        $phoneNumber = new \libphonenumber\PhoneNumber();
-        $phoneNumber->setNationalNumber("+12066848888");
-        $address->setPhoneNumber($phoneNumber);
-        $this->assertTrue($address->getPhoneNumber() instanceof \libphonenumber\PhoneNumber);
-        $address->setPhoneNumber(null);
-        $this->assertNull($address->getPhoneNumber());
-    }
-
-    public function testCompanyName()
-    {
-        $address = $this->getAddress();
-        $this->assertNull($address->getCompanyName());
-        $address->setCompanyName("Seattle Clothing");
-        $this->assertTrue($address->getCompanyName() === "Seattle Clothing");
-    }
-
     public function testLongitude()
     {
         $address = $this->getAddress();
@@ -144,7 +107,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
             ->setCity("Seattle")
             ->setZipcode("98002");
 
-        $this->assertTrue($address->__toString() === "123 Elm Street SE<br />Seattle 98002", "no country and state");
+        $this->assertTrue($address->__toString() === "123 Elm Street SE Seattle 98002", "no country and state");
 
         $state = new \KMJ\ToolkitBundle\Entity\State();
         $state->setName("Washington")
@@ -157,16 +120,11 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address->setState($state)
             ->setCountry($country);
 
-        $this->assertTrue($address->__toString() === "123 Elm Street SE<br />Seattle, WA US 98002");
-
-        $address->setFirstName("Tony")
-            ->setLastName("Soprano");
-
-        $this->assertTrue($address->__toString() === "Tony Soprano<br />123 Elm Street SE<br />Seattle, WA US 98002");
+        $this->assertTrue($address->__toString() === "123 Elm Street SE Seattle, WA US 98002");
 
         $address->setUnit("Unit 3B");
 
-        $this->assertTrue($address->__toString() === "Tony Soprano<br />123 Elm Street SE<br />Unit 3B<br />Seattle, WA US 98002");
+        $this->assertTrue($address->__toString() === "123 Elm Street SE Unit 3B Seattle, WA US 98002");
     }
 
     public function testResidential()
@@ -187,8 +145,9 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address = $this->getAddress();
         $country = new \KMJ\ToolkitBundle\Entity\Country();
 
-        $mock = $this->getMockBuilder("Symfony\Component\Validator\Context\ExecutionContext")
+        $mock = $this->getMockBuilder("Symfony\Component\Validator\Context\ExecutionContextInterface")
             ->disableOriginalConstructor()
+            ->setMethods(["addViolationAt"])
             ->getMock();
 
         $this->assertNull($address->isZipcodeValid($mock));
@@ -212,8 +171,9 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $country = new \KMJ\ToolkitBundle\Entity\Country();
         $state = new \KMJ\ToolkitBundle\Entity\State();
 
-        $mock = $this->getMockBuilder("Symfony\Component\Validator\Context\ExecutionContext")
+        $mock = $this->getMockBuilder("Symfony\Component\Validator\Context\ExecutionContextInterface")
             ->disableOriginalConstructor()
+            ->setMethods(["addViolationAt"])
             ->getMock();
 
         $this->assertNull($address->isStateValid($mock));
