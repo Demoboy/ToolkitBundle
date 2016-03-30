@@ -14,8 +14,20 @@
     "require": {
         "php": ">=5.4.0",
         "zendframework/zend-crypt": "^2.6",
-        "zendframework/zend-filter": "^2.6"
+        "zendframework/zend-filter": "^2.6",
+        "friendsofsymfony/user-bundle": "~2.0@dev"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^5.2",
+        "h4cc/alice-fixtures-bundle": "dev-master"
+    },
+    "repositories":
+            [
+                {
+                    "type": "vcs",
+                    "url": "https://github.com/Demoboy/AliceFixturesBundle"
+                }
+            ],
     "autoload": {
         "psr-4": {
             "KMJ\\ToolkitBundle\\": ""

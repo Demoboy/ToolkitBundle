@@ -3,7 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
-namespace KMJ\ToolkitBundle\Listener;
+namespace KMJ\ToolkitBundle\Subscriber;
 
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\FOSUserEvents;
@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\SecurityContext;
  * 
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class PasswordResetListener implements EventSubscriberInterface
+class PasswordResetSubscriber implements EventSubscriberInterface
 {
 
     /**
