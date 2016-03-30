@@ -76,7 +76,7 @@ class EncryptedTextType extends Type
      *
      * @return string
      */
-    public function getSalt()
+    private function getSalt()
     {
         if ($this->salt === null) {
             $this->setSalt(bin2hex(openssl_random_pseudo_bytes(32)));
