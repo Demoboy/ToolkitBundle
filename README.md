@@ -2,7 +2,6 @@ KMJToolkitBundle
 ================================
 [ ![Codeship Status for Demoboy/ToolkitBundle](https://codeship.com/projects/07fa0450-5696-0132-90cb-0ea30a431f2b/status)](https://codeship.com/projects/49576)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/73c42571-63c2-455e-b6a5-ead8cefa10e1/mini.png)](https://insight.sensiolabs.com/projects/73c42571-63c2-455e-b6a5-ead8cefa10e1)
-[![Dependency Status](https://www.versioneye.com/user/projects/5491c3ecdd709d6dbd000203#tab-licenses/badge.svg?style=flat)](https://www.versioneye.com/user/projects/5491c3ecdd709d6dbd000203#tab-licenses)
 [![Coverage Status](https://coveralls.io/repos/Demoboy/ToolkitBundle/badge.svg?branch=1.1)](https://coveralls.io/r/Demoboy/ToolkitBundle?branch=1.1)
 [![Latest Stable Version](https://poser.pugx.org/kmj/toolkitbundle/v/stable.svg)](https://packagist.org/packages/kmj/toolkitbundle)
 [![Total Downloads](https://poser.pugx.org/kmj/toolkitbundle/downloads.svg)](https://packagist.org/packages/kmj/toolkitbundle)
