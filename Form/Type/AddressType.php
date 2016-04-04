@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,7 +27,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class AddressType extends AbstractType
 {
-
     private $em;
 
     /**
@@ -49,32 +49,40 @@ class AddressType extends AbstractType
 
         // initialize country to null if the order is unable to pull the address information
         // key relationship may be damaged from cloning the original database
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, array($this, 'onPreSetData'));
+        $builder->addEventListener(FormEvents::PRE_SET_DATA,
+            array($this, 'onPreSetData'));
 
-        $builder->add('street', null, array(
+        $builder->add('street', null,
+                array(
                 "label" => "kmjtoolkit.address.form.street.label",
                 "required" => $options['required'],
             ))
-            ->add('unit', null, array(
+            ->add('unit', null,
+                array(
                 "label" => "kmjtoolkit.address.form.unit.label",
                 "required" => false,
             ))
-            ->add('city', null, array(
+            ->add('city', null,
+                array(
                 "label" => "kmjtoolkit.address.form.city.label",
                 "required" => $options['required'],
             ))
-            ->add('country', EntityType::class, array(
+            ->add('country', EntityType::class,
+                array(
                 "label" => "kmjtoolkit.address.form.country.label",
                 'class' => 'KMJToolkitBundle:Country',
                 "required" => $options['required'],
                 "placeholder" => "kmjtoolkit.address.form.country.empty_value",
             ))
-            ->add('zipcode', null, array(
+            ->add('zipcode', null,
+                array(
                 "label" => "kmjtoolkit.address.form.zipcode.label",
-                "required" => (!$options['include_country'] || $options['required']) ? false : true,
+                "required" => (!$options['include_country'] || $options['required'])
+                        ? false : true,
         ));
 
-        $builder->get("country")->addEventListener(FormEvents::POST_SUBMIT, array($this, "onPostSubmit"));
+        $builder->get("country")->addEventListener(FormEvents::POST_SUBMIT,
+            array($this, "onPostSubmit"));
 
         if (!$options['include_country']) {
             $builder->remove("country");
@@ -132,7 +140,8 @@ class AddressType extends AbstractType
         }
 
         if ($country === null) {
-            $form->add("state", ChoiceType::class, array(
+            $form->add("state", ChoiceType::class,
+                array(
                 "label" => "kmjtoolkit.address.form.state.label",
                 "choices" => array(),
                 "placeholder" => "kmjtoolkit.address.form.state.empty_value",
@@ -150,7 +159,8 @@ class AddressType extends AbstractType
      */
     public function buildStateField(Form $form, Country $country)
     {
-        $form->add('state', EntityType::class, array(
+        $form->add('state', EntityType::class,
+            array(
             "label" => "kmjtoolkit.address.form.state.label",
             "placeholder" => "kmjtoolkit.address.form.state.empty_value",
             'class' => 'KMJToolkitBundle:State',

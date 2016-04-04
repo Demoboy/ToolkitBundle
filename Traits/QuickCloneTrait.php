@@ -1,4 +1,6 @@
-<?php namespace KMJ\ToolkitBundle\Traits;
+<?php
+
+namespace KMJ\ToolkitBundle\Traits;
 
 use Doctrine\Common\Persistence\Proxy;
 use Doctrine\Common\Util\ClassUtils;
@@ -12,7 +14,6 @@ use ReflectionClass;
  */
 trait QuickCloneTrait
 {
-
     private $allowClone = false;
 
     public function allowClone($clone)
@@ -33,7 +34,8 @@ trait QuickCloneTrait
             $rc = new ReflectionClass($class);
 
             foreach ($rc->getProperties() as $prop) {
-                if (in_array($prop->getName(), $this->ignoreClonedProperties()) || substr($prop->getName(), 0, 2) === "__") {
+                if (in_array($prop->getName(), $this->ignoreClonedProperties()) || substr($prop->getName(),
+                        0, 2) === "__") {
                     continue;
                 }
 
@@ -50,7 +52,8 @@ trait QuickCloneTrait
 
                     foreach ($value as $v) {
                         if (is_object($v)) {
-                            if ($this->allowClone && method_exists($v, "allowClone")) {
+                            if ($this->allowClone && method_exists($v,
+                                    "allowClone")) {
                                 $v->allowClone(true);
                             }
                             $newValue[] = clone $v;
@@ -64,7 +67,7 @@ trait QuickCloneTrait
                     }
 
                     $prop->setValue($this, clone $value);
-                } 
+                }
             }
         }
     }

@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Hierarchy;
 
 use Doctrine\ORM\EntityManager;
@@ -15,7 +16,6 @@ use Symfony\Component\Security\Core\Role\RoleHierarchy as SymfonyRoleHierarchy;
  */
 class RoleHierarchy extends SymfonyRoleHierarchy
 {
-
     /**
      * The entity manager
      *
@@ -40,22 +40,22 @@ class RoleHierarchy extends SymfonyRoleHierarchy
         $this->em = $em;
         $this->existingHierarchy = $hierarchy;
     }
-    
+
     public function getReachableRoles(array $roles)
     {
         if (sizeof($this->map) === 0) {
             $this->buildRoleMap();
         }
-        
+
         return parent::getReachableRoles($roles);
     }
-    
+
     protected function buildRoleMap()
     {
         $this->map = array();
-        
+
         $hierarchy = $this->buildRolesTree();
-        
+
         foreach ($hierarchy as $main => $roles) {
             $this->map[$main] = $roles;
             $visited = array();
@@ -66,8 +66,10 @@ class RoleHierarchy extends SymfonyRoleHierarchy
                 }
 
                 $visited[] = $role;
-                $this->map[$main] = array_unique(array_merge($this->map[$main], $hierarchy[$role]));
-                $additionalRoles = array_merge($additionalRoles, array_diff($hierarchy[$role], $visited));
+                $this->map[$main] = array_unique(array_merge($this->map[$main],
+                        $hierarchy[$role]));
+                $additionalRoles = array_merge($additionalRoles,
+                    array_diff($hierarchy[$role], $visited));
             }
         }
     }

@@ -23,10 +23,10 @@ $appDir = $this->getContainer()->get("kernel")->getRootDir();
 $loadFile = function ($filename) use ($set, $appDir) {
     $bundlePath = "/Resources/KMJToolKit/DataFixtures/Alice/Fixtures";
 
-    if (file_exists($appDir . $bundlePath . "/{$filename}.yml")) {
-        $set->addFile($appDir . $bundlePath . "/{$filename}.yml", 'yaml');
+    if (file_exists($appDir.$bundlePath."/{$filename}.yml")) {
+        $set->addFile($appDir.$bundlePath."/{$filename}.yml", 'yaml');
     } else {
-        $set->addFile(__DIR__ . "/Fixtures/{$filename}.yml", 'yaml');
+        $set->addFile(__DIR__."/Fixtures/{$filename}.yml", 'yaml');
     }
 };
 

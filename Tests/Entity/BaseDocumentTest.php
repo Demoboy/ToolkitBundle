@@ -15,10 +15,10 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     private function getBaseDocument()
     {
         $stub = $this->getMockForAbstractClass(BaseDocument::class);
-        
+
         $stub->method("rootPath")
             ->willReturn("/tmp");
-        
+
         $stub->method("getUploadDir")
             ->willReturn("/php-tests");
 
@@ -31,9 +31,11 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     public function test__toString()
     {
         $bd = $this->getBaseDocument();
-        $this->assertTrue($bd->__toString() === "unknown", "Document toString should be 'unknown'");
+        $this->assertTrue($bd->__toString() === "unknown",
+            "Document toString should be 'unknown'");
         $bd->setName("Test document");
-        $this->assertTrue($bd->__toString() === "Test document", "Document toString is not returning the name");
+        $this->assertTrue($bd->__toString() === "Test document",
+            "Document toString is not returning the name");
     }
 
     /**
@@ -49,7 +51,8 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
 
         $tmpFileInfo = stream_get_meta_data($tmpFile);
 
-        $uploadedFile = new \Symfony\Component\HttpFoundation\File\UploadedFile($tmpFileInfo['uri'], "tmpfile.txt", null, null, null, true);
+        $uploadedFile = new \Symfony\Component\HttpFoundation\File\UploadedFile($tmpFileInfo['uri'],
+            "tmpfile.txt", null, null, null, true);
 
         $document->setFile($uploadedFile);
         $document->preUpload();

@@ -19,7 +19,6 @@ use Nelmio\Alice\ProcessorInterface;
  */
 class UserProcessor implements ProcessorInterface
 {
-
     /**
      * @var UserManagerInterface The FOS User manager
      */

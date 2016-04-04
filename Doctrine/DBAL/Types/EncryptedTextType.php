@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2016, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -19,7 +20,6 @@ use Zend\Filter\Encrypt;
  */
 class EncryptedTextType extends Type
 {
-
     /**
      * The salt to use to encrypt the text with
      * @var string
@@ -31,7 +31,8 @@ class EncryptedTextType extends Type
         return "encrypted_text";
     }
 
-    public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+    public function getSQLDeclaration(array $fieldDeclaration,
+                                      AbstractPlatform $platform)
     {
         return $platform->getClobTypeDeclarationSQL($fieldDeclaration);
     }
@@ -43,7 +44,7 @@ class EncryptedTextType extends Type
         }
         //ensure the salt is null
         $this->setSalt(null);
-        
+
         $zend = new Encrypt($this->getEncryptionOptions());
         $encryptedText = $zend->filter($value);
 

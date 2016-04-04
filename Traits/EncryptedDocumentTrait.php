@@ -1,4 +1,6 @@
-<?php namespace KMJ\ToolkitBundle\Traits;
+<?php
+
+namespace KMJ\ToolkitBundle\Traits;
 
 use InvalidArgumentException;
 use KMJ\ToolkitBundle\Service\ToolkitService;
@@ -22,9 +24,8 @@ trait EncryptedDocumentTrait
     public function rootPath()
     {
         $toolkit = ToolkitService::getInstance();
-        return $toolkit->getRootDir() . '/Resources/protectedUploads/';
+        return $toolkit->getRootDir().'/Resources/protectedUploads/';
     }
-
     /**
      * The key to use to encrypt the file
      *

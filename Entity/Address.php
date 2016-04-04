@@ -21,7 +21,6 @@ use JsonSerializable;
  */
 class Address implements JsonSerializable
 {
-
     /**
      * id for the address
      *
@@ -370,16 +369,17 @@ class Address implements JsonSerializable
     {
         $string = null;
 
-        $string .= $this->street . " ";
+        $string .= $this->street." ";
 
         if ($this->unit != "") {
-            $string .= $this->unit . ' ';
+            $string .= $this->unit.' ';
         }
-        
+
         if ($this->getState() instanceof State) {
-            $string .= $this->city . ', ' . $this->getState()->getCode() . ' ' . $this->getCountry()->getCode() . ' ' . $this->zipcode;
+            $string .= $this->city.', '.$this->getState()->getCode().' '.$this->getCountry()->getCode().' '.$this->zipcode;
         } else {
-            $string .= $this->city . ($this->getCountry() instanceof Country ? ", " . $this->getCountry()->getCode() : "") . ' ' . $this->zipcode;
+            $string .= $this->city.($this->getCountry() instanceof Country ? ", ".$this->getCountry()->getCode()
+                    : "").' '.$this->zipcode;
         }
 
         return $string;
@@ -444,8 +444,10 @@ class Address implements JsonSerializable
     public function isStateValid(ExecutionContextInterface $context)
     {
         if ($this->getCountry() !== null) {
-            if (($this->getCountry()->getCode() === "US" || $this->getCountry()->getCode() === "CA") && $this->getState() === null) {
-                $context->addViolationAt("state", "kmjtoolkit.address.state.validation.valid");
+            if (($this->getCountry()->getCode() === "US" || $this->getCountry()->getCode()
+                === "CA") && $this->getState() === null) {
+                $context->addViolationAt("state",
+                    "kmjtoolkit.address.state.validation.valid");
                 return false;
             } else {
                 return true;
@@ -464,7 +466,8 @@ class Address implements JsonSerializable
     {
         if ($this->getCountry() !== null) {
             if ($this->getCountry()->isZipCodeRequired() && $this->getZipcode() === null) {
-                $context->addViolationAt("zipcode", "kmjtoolkit.address.zipcode.validation.valid");
+                $context->addViolationAt("zipcode",
+                    "kmjtoolkit.address.zipcode.validation.valid");
                 return false;
             } else {
                 return true;

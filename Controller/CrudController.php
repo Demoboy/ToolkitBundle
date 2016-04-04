@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Controller;
 
 use InvalidArgumentException;
@@ -28,7 +29,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 abstract class CrudController extends Controller
 {
-
     /**
      * Action constant for hideAction method
      */
@@ -188,18 +188,22 @@ abstract class CrudController extends Controller
 
         $event = new CrudEvent($action, $this->extraVars, $entity, $form);
 
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_PRE_ACTION), $event);
 
         if ($event->getForm() !== null) {
             $form = $event->getForm();
         }
 
         if ($this->handleEntityForm($request, $entity, $action, $form)) {
-            $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
+            $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                    self::TIMELINE_POST_ACTION), $event);
             return $this->setFlashAndRedirect($action, $entity);
         }
 
-        return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
+        return $this->render($this->determineTemplate($action),
+                array_merge($this->extraVars,
+                    [
                 "form" => $form->createView(),
         ]));
     }
@@ -211,7 +215,8 @@ abstract class CrudController extends Controller
         $bundle = str_replace("\\", "", substr($class, 0, $bundlePos + 6));
 
         $controllerPos = strrpos($class, '\\');
-        $controller = str_replace("Controller", "", substr($class, $controllerPos + 1));
+        $controller = str_replace("Controller", "",
+            substr($class, $controllerPos + 1));
 
         return sprintf("%s:%s:%s.html.twig", $bundle, $controller, $action);
     }
@@ -225,7 +230,8 @@ abstract class CrudController extends Controller
      */
     protected function generateEventToken($action, $time)
     {
-        return sprintf("%s.%s.%s.%s", CrudEvent::EVENT, $this->getClassName(), $action, $time);
+        return sprintf("%s.%s.%s.%s", CrudEvent::EVENT, $this->getClassName(),
+            $action, $time);
     }
 
     /**
@@ -246,7 +252,8 @@ abstract class CrudController extends Controller
         $this->checkAction($action, $entity);
 
         if (!($entity instanceof HideableEntityInterface)) {
-            throw $this->createNotFoundException(sprintf("Entity is not an instance of %s", HideableEntityInterface::class));
+            throw $this->createNotFoundException(sprintf("Entity is not an instance of %s",
+                    HideableEntityInterface::class));
         }
 
         if ($entity->isHidden()) {
@@ -254,17 +261,20 @@ abstract class CrudController extends Controller
         }
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_PRE_ACTION), $event);
 
         $entity->setHidden(true);
         $em = $this->getDoctrine()->getManager();
 
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_ENTITY_PERSIST), $event);
 
         $em->persist($entity);
         $em->flush();
 
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_POST_ACTION), $event);
 
         return $this->setFlashAndRedirect(self::ACTION_HIDE, $entity);
     }
@@ -320,7 +330,8 @@ abstract class CrudController extends Controller
         $this->cantBeNull($entity);
 
         if (!($entity instanceof HideableEntityInterface)) {
-            throw $this->createNotFoundException(sprintf("Entity is not an instance of %s", HideableEntityInterface::class));
+            throw $this->createNotFoundException(sprintf("Entity is not an instance of %s",
+                    HideableEntityInterface::class));
         }
 
         if (!$entity->isHidden()) {
@@ -328,12 +339,15 @@ abstract class CrudController extends Controller
         }
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_PRE_ACTION), $event);
         $entity->setHidden(false);
 
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_ENTITY_PERSIST), $event);
         $this->save($entity);
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_POST_ACTION), $event);
 
         return $this->setFlashAndRedirect(self::ACTION_HIDE, $entity);
     }
@@ -368,11 +382,13 @@ abstract class CrudController extends Controller
         $this->cantBeNull($entity);
 
         if (!($entity instanceof DeleteableEntityInterface)) {
-            throw $this->createNotFoundException(sprintf("Entity is not an instance of %s", DeleteableEntityInterface::class));
+            throw $this->createNotFoundException(sprintf("Entity is not an instance of %s",
+                    DeleteableEntityInterface::class));
         }
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_PRE_ACTION), $event);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -383,7 +399,8 @@ abstract class CrudController extends Controller
         $em->remove($entity);
         $em->flush();
 
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_POST_ACTION), $event);
 
         return $this->setFlashAndRedirect(self::ACTION_DELETE, $entity);
     }
@@ -404,14 +421,18 @@ abstract class CrudController extends Controller
         $this->cantBeNull($entity);
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_PRE_ACTION), $event);
 
         if ($this->handleEntityForm($request, $entity, $action, $form)) {
-            $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
+            $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                    self::TIMELINE_POST_ACTION), $event);
             return $this->setFlashAndRedirect(self::ACTION_EDIT, $entity);
         }
 
-        return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
+        return $this->render($this->determineTemplate($action),
+                array_merge($this->extraVars,
+                    [
                 "form" => $form->createView(),
                 $this->getTwigEntityName() => $entity,
         ]));
@@ -434,10 +455,13 @@ abstract class CrudController extends Controller
         $this->cantBeNull($entity);
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_POST_ACTION), $event);
 
 
-        return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
+        return $this->render($this->determineTemplate($action),
+                array_merge($this->extraVars,
+                    [
                 $this->getTwigEntityName() => $entity,
         ]));
     }
@@ -459,7 +483,8 @@ abstract class CrudController extends Controller
         $repo = $this->getDoctrine()->getRepository(get_class($this->getEntityClass()));
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_PRE_ACTION), $event);
 
         if ($event->getEntities() === null) {
             if ($entity instanceof HideableEntityInterface) {
@@ -475,10 +500,13 @@ abstract class CrudController extends Controller
             $entities = $event->getEntities();
         }
 
-        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event);
+        $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                self::TIMELINE_POST_ACTION), $event);
 
 
-        return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
+        return $this->render($this->determineTemplate($action),
+                array_merge($this->extraVars,
+                    [
                 $this->getTwigEntityName(true) => $entities,
         ]));
     }
@@ -494,7 +522,8 @@ abstract class CrudController extends Controller
      * @param null $form Passed by reference to allow accessing the form
      * @return boolean True if the form was valid and persisted to the db
      */
-    protected function handleEntityForm(Request $request, $entity, $action, FormInterface &$form = null)
+    protected function handleEntityForm(Request $request, $entity, $action,
+                                        FormInterface &$form = null)
     {
         if ($form === null) {
             $form = $this->createForm($this->getFormType($action), $entity);
@@ -504,13 +533,15 @@ abstract class CrudController extends Controller
 
         if ($form->isSubmitted()) {
             $event = new CrudEvent($action, $this->extraVars, $entity, $form);
-            $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_VALID), $event);
+            $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                    self::TIMELINE_PRE_VALID), $event);
 
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
 
                 $event = new CrudEvent($action, $this->extraVars, $entity, $form);
-                $this->get("event_dispatcher")->dispatch($this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event);
+                $this->get("event_dispatcher")->dispatch($this->generateEventToken($action,
+                        self::TIMELINE_ENTITY_PERSIST), $event);
 
                 $em->persist($entity);
                 $em->flush();
@@ -543,9 +574,12 @@ abstract class CrudController extends Controller
      */
     private function setFlashAndRedirect($action, $entity)
     {
-        $this->addFlash($this->getFlashKey(self::STATUS_SUCCESS), $this->buildTranslationKey($action, self::STATUS_SUCCESS, $this->getClassName()));
+        $this->addFlash($this->getFlashKey(self::STATUS_SUCCESS),
+            $this->buildTranslationKey($action, self::STATUS_SUCCESS,
+                $this->getClassName()));
 
-        $response = $this->createRedirectResponse($action, self::STATUS_SUCCESS, $entity);
+        $response = $this->createRedirectResponse($action, self::STATUS_SUCCESS,
+            $entity);
 
         if (!($response instanceof RedirectResponse)) {
             throw new InvalidArgumentException("Redirect response was not received");
@@ -563,7 +597,8 @@ abstract class CrudController extends Controller
     {
         $className = get_class($this);
         $pos = strrpos($className, '\\');
-        return str_replace("controller", "", strtolower(substr($className, $pos + 1)));
+        return str_replace("controller", "",
+            strtolower(substr($className, $pos + 1)));
     }
 
     /**

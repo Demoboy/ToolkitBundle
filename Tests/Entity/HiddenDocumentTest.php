@@ -13,7 +13,6 @@ use KMJ\ToolkitBundle\Entity\HiddenDocument;
  */
 class HiddenDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
 {
-
     /**
      * @var \KMJ\ToolkitBundle\Service\ToolkitService
      */
@@ -30,7 +29,8 @@ class HiddenDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     public function testRootPath()
     {
         $hiddenDoc = $this->getHiddenDocument();
-        $this->assertTrue($hiddenDoc->rootPath() === $this->tk->getRootDir() . '/Resources/protectedUploads/', "Hidden document root path incorrect");
+        $this->assertTrue($hiddenDoc->rootPath() === $this->tk->getRootDir().'/Resources/protectedUploads/',
+            "Hidden document root path incorrect");
     }
 
     /**
@@ -39,7 +39,8 @@ class HiddenDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     public function testGetUploadDir()
     {
         $hiddenDoc = $this->getHiddenDocument();
-        $this->assertTrue($hiddenDoc->getUploadDir() === "documents", "Hidden document directory incorrect");
+        $this->assertTrue($hiddenDoc->getUploadDir() === "documents",
+            "Hidden document directory incorrect");
     }
 
     /**

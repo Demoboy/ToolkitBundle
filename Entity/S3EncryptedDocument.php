@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use Aws\S3\S3Client;
@@ -20,7 +21,6 @@ class S3EncryptedDocument extends BaseDocument
 {
 
     use \KMJ\ToolkitBundle\Traits\EncryptedDocumentTrait;
-
     /**
      * The key for the file on S3
      *
@@ -41,7 +41,7 @@ class S3EncryptedDocument extends BaseDocument
     public function rootPath()
     {
         $toolkit = \KMJ\ToolkitBundle\Service\ToolkitService::getInstance();
-        return $toolkit->getRootDir() . '/Resources/protectedUploads/';
+        return $toolkit->getRootDir().'/Resources/protectedUploads/';
     }
 
     public function uploadToS3(S3Client $s3, $bucket, $key, $encrypt = true)
@@ -49,7 +49,7 @@ class S3EncryptedDocument extends BaseDocument
         $this->preUpload();
         $this->uploadFile();
 
-        $this->fileKey = $key . "/{$this->path}";
+        $this->fileKey = $key."/{$this->path}";
         $absolutePath = $this->getAbsolutePath();
 
         $putRequest = [

@@ -34,7 +34,7 @@ class CountryFixtures extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(\Doctrine\Common\Persistence\ObjectManager $manager)
     {
-        $fh = fopen(__DIR__ . '/Fixtures/countries.csv', 'r');
+        $fh = fopen(__DIR__.'/Fixtures/countries.csv', 'r');
 
         $country = array();
         while (($data = fgetcsv($fh)) !== false) {

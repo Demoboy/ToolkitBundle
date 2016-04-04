@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -34,7 +35,8 @@ class KMJToolkitExtension extends Extension
 
         $container->setParameter('kmj.toolkit.service.parameters', $config);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container,
+            new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
 
         if (true === class_exists("Nelmio\Alice\ProcessorInterface")) {

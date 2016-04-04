@@ -25,7 +25,6 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
 {
 
     use \KMJ\ToolkitBundle\Traits\HideableEntityTrait;
-
     /**
      * Id
      * @var integer
@@ -176,7 +175,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
      */
     public function __toString()
     {
-        return $this->getFirstName() . ' ' . $this->getLastName();
+        return $this->getFirstName().' '.$this->getLastName();
     }
 
     /**
@@ -185,7 +184,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     public function buildUsername()
     {
         if ($this->firstName != "" && $this->lastName != "") {
-            $this->username = md5($this->firstName . $this->lastName . time());
+            $this->username = md5($this->firstName.$this->lastName.time());
         }
     }
 

@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Subscriber;
 
 use FOS\UserBundle\Event\FormEvent;
@@ -26,7 +27,6 @@ use Symfony\Component\Security\Core\SecurityContext;
  */
 class PasswordResetSubscriber implements EventSubscriberInterface
 {
-
     /**
      * The security component
      * @var SecurityContext 
@@ -58,7 +58,9 @@ class PasswordResetSubscriber implements EventSubscriberInterface
      * @param RouterInterface $router The router component
      * @param SessionInterface $session The session component
      */
-    public function __construct(TokenStorageInterface $security, RouterInterface $router, SessionInterface $session, $config)
+    public function __construct(TokenStorageInterface $security,
+                                RouterInterface $router,
+                                SessionInterface $session, $config)
     {
         $this->security = $security;
         $this->router = $router;
@@ -76,7 +78,9 @@ class PasswordResetSubscriber implements EventSubscriberInterface
      */
     public function isPasswordReset(GetResponseEvent $event)
     {
-        if (stristr($event->getRequest()->get('_route'), '_assetic') !== false || stristr($event->getRequest()->get('_route'), $this->route) !== false || $event->getRequest()->get('_route') === null || stristr($event->getRequest()->get('_route'), '_wdt') !== false) {
+        if (stristr($event->getRequest()->get('_route'), '_assetic') !== false || stristr($event->getRequest()->get('_route'),
+                $this->route) !== false || $event->getRequest()->get('_route') === null
+            || stristr($event->getRequest()->get('_route'), '_wdt') !== false) {
             // don't do anything if it's not the master request or is requested by assetic or is the tool bar
             return;
         }
@@ -89,7 +93,8 @@ class PasswordResetSubscriber implements EventSubscriberInterface
                 if ($user->isPasswordReset()) {
                     //redirect to reset page unless already on reset page and allow css/js to go through                
                     if ($event->getRequest()->get('_route') != "_wdt") {
-                        $this->session->set('locationReferUri', $event->getRequest()->getRequestUri());
+                        $this->session->set('locationReferUri',
+                            $event->getRequest()->getRequestUri());
                     }
 
                     $event->setResponse(new RedirectResponse($this->router->generate($this->route)));
@@ -107,9 +112,9 @@ class PasswordResetSubscriber implements EventSubscriberInterface
     {
         $user = $event->getForm()->getData();
         $user->setPasswordReset(false);
-        
+
         $response = new RedirectResponse($this->session->get("locationReferUri"));
-        
+
         $event->setResponse($response);
         $this->session->remove("locationReferUri");
     }

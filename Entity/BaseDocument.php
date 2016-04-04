@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use DateTime;
@@ -19,7 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 abstract class BaseDocument
 {
-
     /**
      * The id of the object 
      * @var integer
@@ -225,7 +225,7 @@ abstract class BaseDocument
         $date = date("Y-m-d");
 
         $this->getFile()->move(
-            $this->getUploadRootDir() . "/{$date}", $this->path
+            $this->getUploadRootDir()."/{$date}", $this->path
         );
 
         $this->file = null;
@@ -238,7 +238,7 @@ abstract class BaseDocument
      */
     public function getUploadRootDir()
     {
-        $path = $this->rootPath() . $this->getUploadDir();
+        $path = $this->rootPath().$this->getUploadDir();
         return $path;
     }
 
@@ -261,7 +261,7 @@ abstract class BaseDocument
      */
     public function getAbsolutePath()
     {
-        return null === $this->path ? null : $this->getUploadRootDir() . '/' . $this->path;
+        return null === $this->path ? null : $this->getUploadRootDir().'/'.$this->path;
     }
 
     /**
@@ -273,9 +273,9 @@ abstract class BaseDocument
         if (null !== $this->getFile()) {
             $filename = sha1(uniqid(mt_rand(), true));
             $date = date("Y-m-d");
-            @mkdir($this->getUploadRootDir() . "/" . $date, 0777, true);
+            @mkdir($this->getUploadRootDir()."/".$date, 0777, true);
 
-            $this->path = $date . "/" . $filename . '.' . $this->getFile()->guessExtension();
+            $this->path = $date."/".$filename.'.'.$this->getFile()->guessExtension();
 
             if ($this->getName() === null) {
                 $this->name = $this->file->getClientOriginalName();

@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use FOS\UserBundle\Form\Type\RegistrationFormType;
@@ -26,10 +27,12 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName', null, array(
+        $builder->add('firstName', null,
+                array(
                 "label" => "kmjtoolkit.user.form.firstname.label",
             ))
-            ->add('lastName', null, array(
+            ->add('lastName', null,
+                array(
                 "label" => "kmjtoolkit.user.form.lastname.label",
         ));
 
@@ -37,7 +40,9 @@ class UserType extends AbstractType
 
         $emailOptions = $builder->get("email")->getOptions();
 
-        $builder->add('email', EmailType::class, array_merge($emailOptions, [
+        $builder->add('email', EmailType::class,
+            array_merge($emailOptions,
+                [
             'constraints' => [
                 new Email([
                     "groups" => ["simple"],
@@ -48,7 +53,6 @@ class UserType extends AbstractType
 
         $builder->remove('username');
     }
-    
 
     /**
      * {@inheritdoc}

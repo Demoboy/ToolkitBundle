@@ -32,7 +32,7 @@ class UserRepository extends EntityRepository
         $qb->innerJoin("u.userRoles", "r")
             ->andWhere("r = :role")
             ->setParameter("role", $role);
-        
+
         $i = 1;
         foreach ($params as $key => $value) {
             $qb->andWhere(sprintf("u.%s = ?%d", $key, $i))

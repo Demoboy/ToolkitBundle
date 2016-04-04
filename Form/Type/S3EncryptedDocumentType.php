@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use KMJ\ToolkitBundle\Entity\S3EncryptedDocument;
@@ -16,6 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class S3EncryptedDocumentType extends EncryptedDocumentType
 {
+
     /**
      * {@inheritdoc}
      */

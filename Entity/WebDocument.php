@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -27,7 +28,7 @@ class WebDocument extends BaseDocument
     public function rootPath()
     {
         $toolkit = ToolkitService::getInstance();
-        return $toolkit->getRootDir() . '/../web/';
+        return $toolkit->getRootDir().'/../web/';
     }
 
     /**
@@ -45,7 +46,7 @@ class WebDocument extends BaseDocument
      */
     public function getWebPath()
     {
-        return null === $this->path ? null : $this->getUploadDir() . '/' . $this->path;
+        return null === $this->path ? null : $this->getUploadDir().'/'.$this->path;
     }
 
     /**

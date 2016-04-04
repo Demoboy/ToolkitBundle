@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -31,14 +32,14 @@ class EncryptedDocument extends BaseDocument
         parent::__construct();
         $this->load($key);
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function rootPath()
     {
         $toolkit = ToolkitService::getInstance();
-        return $toolkit->getRootDir() . '/Resources/protectedUploads/';
+        return $toolkit->getRootDir().'/Resources/protectedUploads/';
     }
 
     /**
@@ -51,5 +52,4 @@ class EncryptedDocument extends BaseDocument
     {
         parent::preUpload();
     }
-
 }

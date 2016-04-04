@@ -13,6 +13,7 @@ use PHPUnit_Framework_TestCase;
  */
 class AddressTest extends PHPUnit_Framework_TestCase
 {
+
     public function testStreet()
     {
         $address = $this->getAddress();
@@ -107,7 +108,8 @@ class AddressTest extends PHPUnit_Framework_TestCase
             ->setCity("Seattle")
             ->setZipcode("98002");
 
-        $this->assertTrue($address->__toString() === "123 Elm Street SE Seattle 98002", "no country and state");
+        $this->assertTrue($address->__toString() === "123 Elm Street SE Seattle 98002",
+            "no country and state");
 
         $state = new \KMJ\ToolkitBundle\Entity\State();
         $state->setName("Washington")

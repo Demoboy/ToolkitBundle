@@ -14,7 +14,6 @@ namespace KMJ\ToolkitBundle\Traits;
  */
 trait HideableEntityTrait
 {
-
     /**
      * @ORM\Column(type="boolean")
      * @var boolean determines whether or not the class should not be displayed or not

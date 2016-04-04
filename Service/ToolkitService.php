@@ -16,7 +16,6 @@ use Exception;
  */
 class ToolkitService
 {
-
     /**
      * Used for Doctrine Fixtures, if set to true the default fixture is not loaded
      *
@@ -125,7 +124,6 @@ class ToolkitService
         $this->overrideFixture = $overrideFixture;
     }
 
-    
     /**
      * Responds to kernel requests to initalize service on start up 
      */

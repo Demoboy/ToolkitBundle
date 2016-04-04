@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Traits;
 
 use JMS\TranslationBundle\Model\FileSource;
@@ -66,7 +67,8 @@ trait TranslatableControllerTrait
     {
         $className = get_class();
         $pos = strrpos($className, '\\');
-        $class = str_replace("controller", "", strtolower(substr($className, $pos + 1)));
+        $class = str_replace("controller", "",
+            strtolower(substr($className, $pos + 1)));
         $messages = array();
 
         $actions = self::getActions();
@@ -74,9 +76,11 @@ trait TranslatableControllerTrait
 
         foreach ($actions as $action => $actionTrans) {
             foreach ($statuses as $status => $statusTrans) {
-                $message = new Message(sprintf("%s.crud.%s.%s", $class, $action, $status));
+                $message = new Message(sprintf("%s.crud.%s.%s", $class, $action,
+                        $status));
 
-                $message->setDesc(sprintf("%s was %s %s", self::getEntityEnglishName(), $actionTrans, $statusTrans));
+                $message->setDesc(sprintf("%s was %s %s",
+                        self::getEntityEnglishName(), $actionTrans, $statusTrans));
                 $message->addSource(new FileSource(__FILE__, __LINE__));
                 $messages[] = $message;
             }

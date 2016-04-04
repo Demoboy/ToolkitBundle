@@ -18,7 +18,6 @@ use Symfony\Component\Validator\Constraints\Callback;
  */
 class TranslatableCallback extends Callback
 {
-
     /**
      * A translation key
      * 

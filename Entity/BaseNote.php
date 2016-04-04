@@ -18,7 +18,6 @@ use DateTime;
  */
 abstract class BaseNote
 {
-
     /**
      * @var integer ID for the entity
      *
@@ -42,7 +41,6 @@ abstract class BaseNote
      */
     private $text;
 
-    
     /**
      * Basic clone function
      */

@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -21,7 +22,6 @@ use KMJ\ToolkitBundle\Entity\Address;
  */
 class Contact
 {
-
     /**
      * id for the contact
      *
@@ -195,7 +195,7 @@ class Contact
      */
     public function __toString()
     {
-        return $this->getFirstName() . " " . $this->getLastName();
+        return $this->getFirstName()." ".$this->getLastName();
     }
 
     /**
@@ -257,5 +257,4 @@ class Contact
 
         return $this;
     }
-
 }

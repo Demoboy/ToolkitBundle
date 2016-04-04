@@ -1,4 +1,6 @@
-<?php namespace KMJ\ToolkitBundle\Tests\Hierarchy;
+<?php
+
+namespace KMJ\ToolkitBundle\Tests\Hierarchy;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
@@ -30,24 +32,34 @@ class RoleHierarchyTest extends PHPUnit_Framework_TestCase
             return false;
         };
 
-        $this->assertTrue($roleInArray("ROLE_SUPER_ADMIN", $reachableSuperAdminRoles), "Super Admin does not have super admin rights");
-        $this->assertTrue($roleInArray("ROLE_ADMIN", $reachableSuperAdminRoles), "Super Admin does not have admin rights");
-        $this->assertTrue($roleInArray("ROLE_USER", $reachableSuperAdminRoles), "Super Admin does not have user rights");
+        $this->assertTrue($roleInArray("ROLE_SUPER_ADMIN",
+                $reachableSuperAdminRoles),
+            "Super Admin does not have super admin rights");
+        $this->assertTrue($roleInArray("ROLE_ADMIN", $reachableSuperAdminRoles),
+            "Super Admin does not have admin rights");
+        $this->assertTrue($roleInArray("ROLE_USER", $reachableSuperAdminRoles),
+            "Super Admin does not have user rights");
 
         $adminRole = new Role();
         $adminRole->setName("ROLE_ADMIN");
 
         $reachableAdminRoles = $hierarchy->getReachableRoles([$adminRole]);
 
-        $this->assertFalse($roleInArray("ROLE_SUPER_ADMIN", $reachableAdminRoles), "Admin has super admin rights");
-        $this->assertTrue($roleInArray("ROLE_ADMIN", $reachableAdminRoles), "Admin does not have admin rights");
-        $this->assertTrue($roleInArray("ROLE_USER", $reachableAdminRoles), "Admin does not have user rights");
+        $this->assertFalse($roleInArray("ROLE_SUPER_ADMIN", $reachableAdminRoles),
+            "Admin has super admin rights");
+        $this->assertTrue($roleInArray("ROLE_ADMIN", $reachableAdminRoles),
+            "Admin does not have admin rights");
+        $this->assertTrue($roleInArray("ROLE_USER", $reachableAdminRoles),
+            "Admin does not have user rights");
 
         $multiRoles = $hierarchy->getReachableRoles([$superAdminRole, $adminRole]);
 
-        $this->assertTrue($roleInArray("ROLE_SUPER_ADMIN", $multiRoles), "Super Admin does not have super admin rights");
-        $this->assertTrue($roleInArray("ROLE_ADMIN", $multiRoles), "Super Admin does not have admin rights");
-        $this->assertTrue($roleInArray("ROLE_USER", $multiRoles), "Super Admin does not have user rights");
+        $this->assertTrue($roleInArray("ROLE_SUPER_ADMIN", $multiRoles),
+            "Super Admin does not have super admin rights");
+        $this->assertTrue($roleInArray("ROLE_ADMIN", $multiRoles),
+            "Super Admin does not have admin rights");
+        $this->assertTrue($roleInArray("ROLE_USER", $multiRoles),
+            "Super Admin does not have user rights");
     }
 
     /**

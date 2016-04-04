@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
@@ -35,7 +36,7 @@ class EncryptedTextDataTransformer implements DataTransformerInterface
         if ($value === null) {
             return;
         }
-        
+
         return $value->decrypt();
     }
 }

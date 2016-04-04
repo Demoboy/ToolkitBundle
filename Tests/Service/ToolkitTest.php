@@ -1,4 +1,6 @@
-<?php namespace KMJ\ToolkitBundle\Tests\Service;
+<?php
+
+namespace KMJ\ToolkitBundle\Tests\Service;
 
 use FOS\UserBundle\Model\UserManager;
 use KMJ\ToolkitBundle\Entity\User;
@@ -25,7 +27,7 @@ abstract class ToolkitTest extends PHPUnit_Framework_TestCase
                 "password" => "password",
             ),
             "load_user_fixtures" => true,
-            "rootdir" => __DIR__ . "/..",
+            "rootdir" => __DIR__."/..",
             "enckey" => "enckey",
         );
 

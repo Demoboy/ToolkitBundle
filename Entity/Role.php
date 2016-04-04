@@ -19,7 +19,6 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  */
 class Role implements RoleInterface
 {
-
     /**
      * Id
      * @var integer
@@ -126,7 +125,7 @@ class Role implements RoleInterface
         $name = str_replace(' ', '_', strtoupper($name));
 
         if (substr($name, 0, 5) != "ROLE_") {
-            $name = 'ROLE_' . $name;
+            $name = 'ROLE_'.$name;
         }
 
         $this->name = $name;

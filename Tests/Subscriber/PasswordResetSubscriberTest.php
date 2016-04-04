@@ -19,7 +19,6 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
  */
 class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
 {
-
     protected $user;
 
     public function testGetSubscribedEvents()
@@ -28,7 +27,8 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
         $events = $password->getSubscribedEvents();
         $this->assertTrue(sizeof($events) === 2);
         $this->assertTrue(key_exists("kernel.request", $events));
-        $this->assertTrue(key_exists(FOSUserEvents::CHANGE_PASSWORD_SUCCESS, $events));
+        $this->assertTrue(key_exists(FOSUserEvents::CHANGE_PASSWORD_SUCCESS,
+                $events));
     }
 
     public function testIsPasswordReset()
@@ -52,7 +52,8 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
 
         $asseticEvent = $this->getEvent();
 
-        $asseticRequest = new Request(array(), array(), array("_route" => "_assetic"));
+        $asseticRequest = new Request(array(), array(),
+            array("_route" => "_assetic"));
 
         $asseticEvent->method('getRequest')
             ->will($this->returnValue($asseticRequest));
@@ -61,7 +62,8 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
         $this->assertNull($asseticEvent->getResponse());
 
         $toolbarEvent = $this->getEvent();
-        $toolbarRequest = new Request(array(), array(), array("_route" => "_wdt"));
+        $toolbarRequest = new Request(array(), array(),
+            array("_route" => "_wdt"));
         $toolbarEvent->method('getRequest')
             ->will($this->returnValue($toolbarRequest));
 
@@ -69,7 +71,8 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
         $this->assertNull($toolbarEvent->getResponse());
 
         $changePassEvent = $this->getEvent();
-        $changePassRequest = new Request(array(), array(), array("_route" => "fos_user_change_password"));
+        $changePassRequest = new Request(array(), array(),
+            array("_route" => "fos_user_change_password"));
         $changePassEvent->method('getRequest')
             ->will($this->returnValue($changePassRequest));
 
@@ -111,7 +114,8 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
         $security->method("getToken")
             ->will($this->returnValue($token));
 
-        return new PasswordResetSubscriber($security, $router, $session, ["password_reset_route" => 'fos_user_change_password']);
+        return new PasswordResetSubscriber($security, $router, $session,
+            ["password_reset_route" => 'fos_user_change_password']);
     }
 
     /**

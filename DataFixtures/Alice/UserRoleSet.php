@@ -25,10 +25,10 @@ $appDir = $this->getContainer()->get("kernel")->getRootDir();
 $bundlePath = "/Resources/KMJToolKit/DataFixtures/Alice/Fixtures";
 
 $loadFile = function ($filename) use ($set, $appDir, $bundlePath) {
-    if (file_exists($appDir . $bundlePath . "/{$filename}.yml")) {
-        $set->addFile($appDir . $bundlePath . "/{$filename}.yml", 'yaml');
+    if (file_exists($appDir.$bundlePath."/{$filename}.yml")) {
+        $set->addFile($appDir.$bundlePath."/{$filename}.yml", 'yaml');
     } else {
-        $set->addFile(__DIR__ . "/Fixtures/{$filename}.yml", 'yaml');
+        $set->addFile(__DIR__."/Fixtures/{$filename}.yml", 'yaml');
     }
 };
 
@@ -39,8 +39,8 @@ $loadFile("roles");
  * will be created in the system temp dir with the data from KMJToolkitBundle configs
  * as YML. It will also determine the user class to use when importing the data.
  */
-if (file_exists($appDir . $bundlePath . "/users.yml")) {
-    $set->addFile($appDir . $bundlePath . "/users.yml", 'yaml');
+if (file_exists($appDir.$bundlePath."/users.yml")) {
+    $set->addFile($appDir.$bundlePath."/users.yml", 'yaml');
 } else {
     //create user from toolkit and create a yml to quickly load
     $tk = $this->getContainer()->get("toolkit");
@@ -54,14 +54,15 @@ if (file_exists($appDir . $bundlePath . "/users.yml")) {
     $yml = $dumper->dump(
         array(
             get_class($user) => array(
-                "super_user:" => array_merge_recursive(array("userRoles" => array("@superadmin")), $adminUser),
+                "super_user:" => array_merge_recursive(array("userRoles" => array(
+                        "@superadmin")), $adminUser),
             )
         )
     );
 
     $cacheDir = $this->getContainer()->get("kernel")->getCacheDir();
 
-    $tmpFile = fopen($cacheDir . "/users.yml", "w");
+    $tmpFile = fopen($cacheDir."/users.yml", "w");
     fwrite($tmpFile, $yml);
     $fileMeta = stream_get_meta_data($tmpFile);
     fclose($tmpFile);

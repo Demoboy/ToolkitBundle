@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use KMJ\ToolkitBundle\Entity\Contact;
@@ -27,32 +28,38 @@ class ContactType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName', TextType::class, array(
+        $builder->add('firstName', TextType::class,
+                array(
                 "label" => "kmjtoolkit.contact.form.firstname.label",
             ))
-            ->add('lastName', TextType::class, array(
+            ->add('lastName', TextType::class,
+                array(
                 "label" => "kmjtoolkit.contact.form.lastname.label",));
 
         if ($options['include_company']) {
-            $builder->add('companyName', TextType::class, array(
+            $builder->add('companyName', TextType::class,
+                array(
                 "label" => "kmjtoolkit.contact.form.companyname.label",
                 "required" => false,
             ));
         }
-        
-        $builder->add('phoneNumber', PhoneNumberType::class, array(
+
+        $builder->add('phoneNumber', PhoneNumberType::class,
+                array(
                 "label" => "kmjtoolkit.contact.form.phonenumber.label",
                 'default_region' => 'US',
                 'format' => PhoneNumberFormat::NATIONAL,
                 "required" => false,
             ))
-            ->add("email", EmailType::class, array(
+            ->add("email", EmailType::class,
+                array(
                 "label" => "kmjtoolkit.contact.form.email.label",
                 "required" => false,
         ));
 
         if ($options["include_address"]) {
-            $builder->add('address', AddressType::class, array_merge([
+            $builder->add('address', AddressType::class,
+                array_merge([
                 "label" => "kmjtoolkit.contact.form.address.label",
                     ], $options['address_options']));
         }

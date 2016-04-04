@@ -62,7 +62,7 @@ class UserTest extends PHPUnit_Framework_TestCase
         $user->setFirstName("Tony")
             ->setLastName("Soprano");
 
-        $this->assertTrue($user->getUsername() === md5("Tony" . "Soprano" . time()));
+        $this->assertTrue($user->getUsername() === md5("Tony"."Soprano".time()));
     }
 
     /**

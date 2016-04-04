@@ -1,4 +1,6 @@
-<?php namespace KMJ\ToolkitBundle\Traits;
+<?php
+
+namespace KMJ\ToolkitBundle\Traits;
 
 /**
  * Description of SlugifyTrait

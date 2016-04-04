@@ -27,7 +27,7 @@ class HiddenDocument extends BaseDocument
     public function rootPath()
     {
         $toolkit = ToolkitService::getInstance();
-        return $toolkit->getRootDir() . '/Resources/protectedUploads/';
+        return $toolkit->getRootDir().'/Resources/protectedUploads/';
     }
 
     /**
@@ -37,8 +37,8 @@ class HiddenDocument extends BaseDocument
     {
         return "documents";
     }
-    
-     /**
+
+    /**
      * {@inheritdoc}
      * 
      * @ORM\PrePersist()

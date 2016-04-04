@@ -4,6 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 namespace KMJ\ToolkitBundle\TwigExtension;
 
 use InvalidArgumentException;
@@ -21,7 +22,6 @@ use Twig_SimpleFunction;
  */
 class AddressFormatExtension extends Twig_Extension
 {
-
     const INTERNATIONAL = "INTERNATIONAL";
     const NATIONAL = "NATIONAL";
 
@@ -31,22 +31,25 @@ class AddressFormatExtension extends Twig_Extension
     public function getFunctions()
     {
         return array(
-            new Twig_SimpleFunction("address_format", [$this, "addressFormat"], [ "is_safe" => ["html"]]),
+            new Twig_SimpleFunction("address_format", [$this, "addressFormat"],
+                [ "is_safe" => ["html"]]),
         );
     }
 
-    public function addressFormat(Address $address = null, $format = self::INTERNATIONAL)
+    public function addressFormat(Address $address = null,
+                                  $format = self::INTERNATIONAL)
     {
         if ($address === null) {
             return;
         }
 
         if (true === is_string($format)) {
-            $constant = self::class . "::" . $format;
+            $constant = self::class."::".$format;
             if (false === defined($constant)) {
-                throw new InvalidArgumentException(sprintf('The format must be either a constant value or name in %s', self::class));
+                throw new InvalidArgumentException(sprintf('The format must be either a constant value or name in %s',
+                    self::class));
             }
-            $format = constant(self::class . "::" . $format);
+            $format = constant(self::class."::".$format);
         }
 
         $zipcode = strip_tags($address->getZipcode());
@@ -63,13 +66,13 @@ class AddressFormatExtension extends Twig_Extension
             $country = null;
         }
 
-        $string = strip_tags($address->getStreet()) . "<br />";
+        $string = strip_tags($address->getStreet())."<br />";
 
         if ($address->getUnit() !== null) {
-            $string .= strip_tags($address->getUnit()) . "<br />";
+            $string .= strip_tags($address->getUnit())."<br />";
         }
 
-        $string .= strip_tags($address->getCity()) . " ";
+        $string .= strip_tags($address->getCity())." ";
 
         if ($state !== null) {
             $string .= $state;
@@ -78,10 +81,10 @@ class AddressFormatExtension extends Twig_Extension
                 $string .= ", ";
             }
         }
-        
+
         if ($format === self::INTERNATIONAL) {
             if ($country !== null) {
-                $string .= $country . " ";
+                $string .= $country." ";
             }
         } else {
             $string .= " ";

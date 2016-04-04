@@ -3,6 +3,7 @@
  * This file is part of the KMJToolkitBundle
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Controller;
 
 use KMJ\ToolkitBundle\Entity\BaseDocument;
@@ -51,7 +52,8 @@ class DocumentController extends Controller
         $doc = $this->getDecryptedDocument($document);
 
         $response->headers->set("Content-Type", "application/octet-stream");
-        $response->headers->set("Content-Disposition", "attachment; filename={$document->slug()}.{$document->getExtension()}");
+        $response->headers->set("Content-Disposition",
+            "attachment; filename={$document->slug()}.{$document->getExtension()}");
         $response->headers->set("Content-Length", strlen($doc));
 
         $response->setContent($doc);
@@ -68,7 +70,7 @@ class DocumentController extends Controller
     {
         $response = new Response();
         $s3Client = $this->get("kmj.aws.s3");
-        
+
         @mkdir(dirname($document->getAbsolutePath()), "0664", true);
 
         $s3Client->getObject([
@@ -80,11 +82,12 @@ class DocumentController extends Controller
         $doc = $this->getDecryptedDocument($document);
 
         $response->headers->set("Content-Type", "application/octet-stream");
-        $response->headers->set("Content-Disposition", "attachment; filename={$document->slug()}.{$document->getExtension()}");
+        $response->headers->set("Content-Disposition",
+            "attachment; filename={$document->slug()}.{$document->getExtension()}");
         $response->headers->set("Content-Length", strlen($doc));
-        
+
         $response->setContent($doc);
-        
+
         return $response;
     }
 
@@ -94,10 +97,12 @@ class DocumentController extends Controller
      * @Method({"GET"})
      * @param SecureDocument $document
      */
-    public function viewEncryptedAction(EncryptedDocument $document, $name = null)
+    public function viewEncryptedAction(EncryptedDocument $document,
+                                        $name = null)
     {
         if ($name === null) {
-            return $this->redirectToRoute("kmj_toolkit_document_viewencrypted", array("document" => $document->getId(), "name" => $document->getName()));
+            return $this->redirectToRoute("kmj_toolkit_document_viewencrypted",
+                    array("document" => $document->getId(), "name" => $document->getName()));
         }
 
         $response = new Response();
@@ -121,13 +126,15 @@ class DocumentController extends Controller
     public function viewHiddenAction(HiddenDocument $document, $name = null)
     {
         if ($name === null) {
-            return $this->redirectToRoute("kmj_toolkit_document_viewhidden", array("document" => $document->getId(), "name" => $document->getName()));
+            return $this->redirectToRoute("kmj_toolkit_document_viewhidden",
+                    array("document" => $document->getId(), "name" => $document->getName()));
         }
 
         $response = new Response();
 
         $response->headers->set("Content-Type", $document->getMimeType());
-        $response->headers->set("Content-Length", filesize($document->getAbsolutePath()));
+        $response->headers->set("Content-Length",
+            filesize($document->getAbsolutePath()));
 
         $response->setContent(file_get_contents($document->getAbsolutePath()));
 
