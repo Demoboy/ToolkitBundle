@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -18,9 +18,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Country
 {
     /**
-     * Id
+     * Id.
      *
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -29,7 +29,7 @@ class Country
     protected $id;
 
     /**
-     * Name of the country
+     * Name of the country.
      *
      * @var string
      *
@@ -38,7 +38,7 @@ class Country
     protected $name;
 
     /**
-     * Two letter country code
+     * Two letter country code.
      *
      * @var string
      *
@@ -49,22 +49,23 @@ class Country
     /**
      * Determines if a zipcode is required for the country. True if it is needed.
      *
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="zipCodeRequired", type="boolean")
      */
     protected $zipCodeRequired;
 
     /**
-     * States in the country
+     * States in the country.
      *
      * @ORM\OneToMany(targetEntity="State", mappedBy="country")
+     *
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $states;
 
     /**
-     * Basic constructor
+     * Basic constructor.
      */
     public function __construct()
     {
@@ -73,7 +74,8 @@ class Country
     }
 
     /**
-     * Translates the class into a string
+     * Translates the class into a string.
+     *
      * @return string
      */
     public function __toString()
@@ -82,9 +84,11 @@ class Country
     }
 
     /**
-     * Get the value of Id
+     * Get the value of Id.
+     *
      * @codeCoverageIgnore
-     * @return integer
+     *
+     * @return int
      */
     public function getId()
     {
@@ -92,7 +96,7 @@ class Country
     }
 
     /**
-     * Get the value of Name of the country
+     * Get the value of Name of the country.
      *
      * @return string
      */
@@ -102,7 +106,7 @@ class Country
     }
 
     /**
-     * Set the value of Name of the country
+     * Set the value of Name of the country.
      *
      * @param string $value name
      *
@@ -116,7 +120,7 @@ class Country
     }
 
     /**
-     * Get the value of Two letter country code
+     * Get the value of Two letter country code.
      *
      * @return string
      */
@@ -126,7 +130,7 @@ class Country
     }
 
     /**
-     * Set the value of Two letter country code
+     * Set the value of Two letter country code.
      *
      * @param string $value code
      *
@@ -142,7 +146,7 @@ class Country
     /**
      * Get the value of Determines if a zipcode is required for the country. True if it is needed.
      *
-     * @return boolean
+     * @return bool
      */
     public function isZipCodeRequired()
     {
@@ -152,7 +156,7 @@ class Country
     /**
      * Set the value of Determines if a zipcode is required for the country. True if it is needed.
      *
-     * @param boolean $value zipCodeRequired
+     * @param bool $value zipCodeRequired
      *
      * @return self
      */
@@ -164,7 +168,7 @@ class Country
     }
 
     /**
-     * Get the value of States in the country
+     * Get the value of States in the country.
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */

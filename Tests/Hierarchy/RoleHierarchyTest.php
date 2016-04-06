@@ -13,7 +13,6 @@ use PHPUnit_Framework_TestCase;
  */
 class RoleHierarchyTest extends PHPUnit_Framework_TestCase
 {
-
     public function testReachableRoles()
     {
         $hierarchy = $this->getHierarchy();
@@ -29,37 +28,28 @@ class RoleHierarchyTest extends PHPUnit_Framework_TestCase
                     return true;
                 }
             }
+
             return false;
         };
 
-        $this->assertTrue($roleInArray("ROLE_SUPER_ADMIN",
-                $reachableSuperAdminRoles),
-            "Super Admin does not have super admin rights");
-        $this->assertTrue($roleInArray("ROLE_ADMIN", $reachableSuperAdminRoles),
-            "Super Admin does not have admin rights");
-        $this->assertTrue($roleInArray("ROLE_USER", $reachableSuperAdminRoles),
-            "Super Admin does not have user rights");
+        $this->assertTrue($roleInArray('ROLE_SUPER_ADMIN', $reachableSuperAdminRoles), 'Super Admin does not have super admin rights');
+        $this->assertTrue($roleInArray('ROLE_ADMIN', $reachableSuperAdminRoles), 'Super Admin does not have admin rights');
+        $this->assertTrue($roleInArray('ROLE_USER', $reachableSuperAdminRoles), 'Super Admin does not have user rights');
 
         $adminRole = new Role();
-        $adminRole->setName("ROLE_ADMIN");
+        $adminRole->setName('ROLE_ADMIN');
 
         $reachableAdminRoles = $hierarchy->getReachableRoles([$adminRole]);
 
-        $this->assertFalse($roleInArray("ROLE_SUPER_ADMIN", $reachableAdminRoles),
-            "Admin has super admin rights");
-        $this->assertTrue($roleInArray("ROLE_ADMIN", $reachableAdminRoles),
-            "Admin does not have admin rights");
-        $this->assertTrue($roleInArray("ROLE_USER", $reachableAdminRoles),
-            "Admin does not have user rights");
+        $this->assertFalse($roleInArray('ROLE_SUPER_ADMIN', $reachableAdminRoles), 'Admin has super admin rights');
+        $this->assertTrue($roleInArray('ROLE_ADMIN', $reachableAdminRoles), 'Admin does not have admin rights');
+        $this->assertTrue($roleInArray('ROLE_USER', $reachableAdminRoles), 'Admin does not have user rights');
 
         $multiRoles = $hierarchy->getReachableRoles([$superAdminRole, $adminRole]);
 
-        $this->assertTrue($roleInArray("ROLE_SUPER_ADMIN", $multiRoles),
-            "Super Admin does not have super admin rights");
-        $this->assertTrue($roleInArray("ROLE_ADMIN", $multiRoles),
-            "Super Admin does not have admin rights");
-        $this->assertTrue($roleInArray("ROLE_USER", $multiRoles),
-            "Super Admin does not have user rights");
+        $this->assertTrue($roleInArray('ROLE_SUPER_ADMIN', $multiRoles), 'Super Admin does not have super admin rights');
+        $this->assertTrue($roleInArray('ROLE_ADMIN', $multiRoles), 'Super Admin does not have admin rights');
+        $this->assertTrue($roleInArray('ROLE_USER', $multiRoles), 'Super Admin does not have user rights');
     }
 
     /**
@@ -73,31 +63,31 @@ class RoleHierarchyTest extends PHPUnit_Framework_TestCase
             ->getMock();
 
         $repo = $this->getMockBuilder(EntityRepository::class)
-            ->setMethods(["findAll"])
+            ->setMethods(['findAll'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $superAdmin = new Role();
-        $superAdmin->setName("SUPER_ADMIN");
+        $superAdmin->setName('SUPER_ADMIN');
 
         $admin = new Role();
-        $admin->setName("ADMIN")
+        $admin->setName('ADMIN')
             ->setParent($superAdmin);
 
         $user = new Role();
-        $user->setName("USER")
+        $user->setName('USER')
             ->setParent($admin);
 
         $roles = [$superAdmin, $admin, $user];
 
-        $repo->method("findAll")
+        $repo->method('findAll')
             ->will($this->returnValue($roles));
 
-        $em->method("getRepository")
+        $em->method('getRepository')
             ->will($this->returnValue($repo));
 
-        $test = $em->getRepository("sdfsd");
+        $test = $em->getRepository('sdfsd');
 
-        return new RoleHierarchy(array(), $em);
+        return new RoleHierarchy([], $em);
     }
 }

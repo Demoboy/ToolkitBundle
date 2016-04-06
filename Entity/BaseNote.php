@@ -1,25 +1,27 @@
 <?php
 /**
- * This file is part of the IronmanAppBundle
+ * This file is part of the IronmanAppBundle.
+ *
  * @copyright (c) 2015, Ironman Reality LLC
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use KMJ\ToolkitBundle\Entity\User;
 use DateTime;
 
 /**
- * BaseNote class that handles a typical note. Just extend and set author object
+ * BaseNote class that handles a typical note. Just extend and set author object.
+ *
  * @ORM\MappedSuperclass()
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ *
  * @since 1.1
  */
 abstract class BaseNote
 {
     /**
-     * @var integer ID for the entity
+     * @var int ID for the entity
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -42,7 +44,7 @@ abstract class BaseNote
     private $text;
 
     /**
-     * Basic clone function
+     * Basic clone function.
      */
     public function __clone()
     {
@@ -52,14 +54,14 @@ abstract class BaseNote
     }
 
     /**
-     * Get the value of Author
+     * Get the value of Author.
      *
      * @return User The user that wrote the message
      */
     abstract public function getAuthor();
 
     /**
-     * Set the value of Author
+     * Set the value of Author.
      *
      * @param User The user that wrote the message author
      *
@@ -68,7 +70,7 @@ abstract class BaseNote
     abstract public function setAuthor($author);
 
     /**
-     * Basic constructor
+     * Basic constructor.
      */
     public function __construct()
     {
@@ -76,9 +78,9 @@ abstract class BaseNote
     }
 
     /**
-     * Get the value of Id
+     * Get the value of Id.
      *
-     * @return integer ID for the entity
+     * @return int ID for the entity
      */
     public function getId()
     {
@@ -86,7 +88,7 @@ abstract class BaseNote
     }
 
     /**
-     * Get the value of Date
+     * Get the value of Date.
      *
      * @return DateTime The datetime the note was created
      */
@@ -96,7 +98,7 @@ abstract class BaseNote
     }
 
     /**
-     * Set the value of Date
+     * Set the value of Date.
      *
      * @param DateTime The datetime the note was created date
      *
@@ -110,7 +112,7 @@ abstract class BaseNote
     }
 
     /**
-     * Get the value of Text
+     * Get the value of Text.
      *
      * @return string The text of the note
      */
@@ -120,7 +122,7 @@ abstract class BaseNote
     }
 
     /**
-     * Set the value of Text
+     * Set the value of Text.
      *
      * @param string The text of the note text
      *

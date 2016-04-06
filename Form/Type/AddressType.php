@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,71 +21,63 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Address form for address entity
+ * Address form for address entity.
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @codeCoverageIgnore
  */
 class AddressType extends AbstractType
 {
-    private $em;
+    private $entityManager;
 
     /**
-     * Basic constructor
-     * 
+     * Basic constructor.
      */
-    function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->em = $em;
+        $this->entityManager = $entityManager;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($options["default_country"] === null && $options["include_country"] === false) {
-            throw new InvalidArgumentException("Country was requested to be ignored, but no default country specified");
+        if ($options['default_country'] === null && $options['include_country'] === false) {
+            throw new InvalidArgumentException('Country was requested to be ignored, but no default country specified');
         }
 
         // initialize country to null if the order is unable to pull the address information
         // key relationship may be damaged from cloning the original database
-        $builder->addEventListener(FormEvents::PRE_SET_DATA,
-            array($this, 'onPreSetData'));
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
 
-        $builder->add('street', null,
-                array(
-                "label" => "kmjtoolkit.address.form.street.label",
-                "required" => $options['required'],
-            ))
-            ->add('unit', null,
-                array(
-                "label" => "kmjtoolkit.address.form.unit.label",
-                "required" => false,
-            ))
-            ->add('city', null,
-                array(
-                "label" => "kmjtoolkit.address.form.city.label",
-                "required" => $options['required'],
-            ))
-            ->add('country', EntityType::class,
-                array(
-                "label" => "kmjtoolkit.address.form.country.label",
+        $builder->add('street', null, [
+                'label' => 'kmjtoolkit.address.form.street.label',
+                'required' => $options['required'],
+            ])
+            ->add('unit', null, [
+                'label' => 'kmjtoolkit.address.form.unit.label',
+                'required' => false,
+            ])
+            ->add('city', null, [
+                'label' => 'kmjtoolkit.address.form.city.label',
+                'required' => $options['required'],
+            ])
+            ->add('country', EntityType::class, [
+                'label' => 'kmjtoolkit.address.form.country.label',
                 'class' => 'KMJToolkitBundle:Country',
-                "required" => $options['required'],
-                "placeholder" => "kmjtoolkit.address.form.country.empty_value",
-            ))
-            ->add('zipcode', null,
-                array(
-                "label" => "kmjtoolkit.address.form.zipcode.label",
-                "required" => (!$options['include_country'] || $options['required'])
-                        ? false : true,
-        ));
+                'required' => $options['required'],
+                'placeholder' => 'kmjtoolkit.address.form.country.empty_value',
+            ])
+            ->add('zipcode', null, [
+                'label' => 'kmjtoolkit.address.form.zipcode.label',
+                'required' => (!$options['include_country'] || $options['required']) ? false : true,
+            ]);
 
-        $builder->get("country")->addEventListener(FormEvents::POST_SUBMIT,
-            array($this, "onPostSubmit"));
+        $builder->get('country')->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmit']);
 
         if (!$options['include_country']) {
-            $builder->remove("country");
+            $builder->remove('country');
         }
     }
 
@@ -94,16 +86,16 @@ class AddressType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'KMJ\ToolkitBundle\Entity\Address',
-            "required" => true,
-            "default_country" => null,
-            "include_country" => true,
-        ));
+        $resolver->setDefaults([
+            'data_class' => Address::class,
+            'required' => true,
+            'default_country' => null,
+            'include_country' => true,
+        ]);
 
-        $resolver->setAllowedTypes("include_country", "boolean");
-        $resolver->setAllowedTypes("required", "boolean");
-        $resolver->setAllowedTypes("default_country", ["null", "string"]);
+        $resolver->setAllowedTypes('include_country', 'boolean');
+        $resolver->setAllowedTypes('required', 'boolean');
+        $resolver->setAllowedTypes('default_country', ['null', 'string']);
     }
 
     /**
@@ -111,7 +103,7 @@ class AddressType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return "kmj_toolkitbundle_address";
+        return 'kmj_toolkitbundle_address';
     }
 
     /**
@@ -132,37 +124,36 @@ class AddressType extends AbstractType
         }
 
         if ($country === null) {
-            $defaultCountry = $form->getConfig()->getOption("default_country");
+            $defaultCountry = $form->getConfig()->getOption('default_country');
 
             if ($defaultCountry !== null) {
-                $country = $this->em->getRepository("KMJToolkitBundle:Country")->findOneByCode($defaultCountry);
+                $country = $this->entityManager->getRepository('KMJToolkitBundle:Country')
+                    ->findOneByCode($defaultCountry);
             }
         }
 
         if ($country === null) {
-            $form->add("state", ChoiceType::class,
-                array(
-                "label" => "kmjtoolkit.address.form.state.label",
-                "choices" => array(),
-                "placeholder" => "kmjtoolkit.address.form.state.empty_value",
-            ));
+            $form->add('state', ChoiceType::class, [
+                'label' => 'kmjtoolkit.address.form.state.label',
+                'choices' => [],
+                'placeholder' => 'kmjtoolkit.address.form.state.empty_value',
+            ]);
         } else {
             $this->buildStateField($form, $country);
         }
     }
 
     /**
-     * Builds the state field
+     * Builds the state field.
      *
-     * @param Form $form The form to add the field to
+     * @param Form    $form    The form to add the field to
      * @param Country $country The country to add the states of
      */
     public function buildStateField(Form $form, Country $country)
     {
-        $form->add('state', EntityType::class,
-            array(
-            "label" => "kmjtoolkit.address.form.state.label",
-            "placeholder" => "kmjtoolkit.address.form.state.empty_value",
+        $form->add('state', EntityType::class, [
+            'label' => 'kmjtoolkit.address.form.state.label',
+            'placeholder' => 'kmjtoolkit.address.form.state.empty_value',
             'class' => 'KMJToolkitBundle:State',
             'required' => false,
             'query_builder' => function (EntityRepository $repository) use ($country) {
@@ -170,12 +161,12 @@ class AddressType extends AbstractType
 
                 if ($country !== null) {
                     $queryBuilder->where('s.country = :country')
-                        ->setParameter("country", $country);
+                        ->setParameter('country', $country);
                 }
 
                 return $queryBuilder;
             },
-        ));
+        ]);
     }
 
     /**
@@ -187,10 +178,10 @@ class AddressType extends AbstractType
         $form = $event->getForm()->getParent();
 
         if ($country === null) {
-            $defaultCountry = $form->getConfig()->getOption("default_country");
+            $defaultCountry = $form->getConfig()->getOption('default_country');
 
             if ($defaultCountry !== null) {
-                $country = $this->em->getRepository("KMJToolkitBundle:Country")->findOneByCode($defaultCountry);
+                $country = $this->entityManager->getRepository(Country::class)->findOneByCode($defaultCountry);
             }
         }
 

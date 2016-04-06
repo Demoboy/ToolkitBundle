@@ -1,19 +1,18 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
-use KMJ\ToolkitBundle\Entity\Address;
 
 /**
- * Entity that handles Contacts
+ * Entity that handles Contacts.
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
@@ -23,7 +22,7 @@ use KMJ\ToolkitBundle\Entity\Address;
 class Contact
 {
     /**
-     * id for the contact
+     * id for the contact.
      *
      * @var int
      *
@@ -34,41 +33,46 @@ class Contact
     protected $id;
 
     /**
-     * The first name for the contact
+     * The first name for the contact.
      *
      * @ORM\Column(name="firstName", type="string", length=50, nullable=true)
      * @Assert\NotBlank(message="kmjtoolkit.contact.firstname.validation.notblank.message")
+     *
      * @var string
      */
     protected $firstName;
 
     /**
-     * The last name for the contact
+     * The last name for the contact.
      *
      * @ORM\Column(name="lastName", type="string", length=50, nullable=true)
      * @Assert\NotBlank(message="kmjtoolkit.contact.lastname.validation.notblank.message")
+     *
      * @var string
      */
     protected $lastName;
 
     /**
-     * The company name for the contact
+     * The company name for the contact.
+     *
      * @ORM\Column(name="companyName", type="string", length=255, nullable=true)
+     *
      * @var string
      */
     protected $companyName;
 
     /**
-     * The phone number for the contact
+     * The phone number for the contact.
      *
      * @ORM\Column(name="phoneNumber", type="phone_number", nullable=true)
+     *
      * @var PhoneNumber
      * @AssertPhoneNumber(defaultRegion="US")
      */
     protected $phoneNumber;
 
     /**
-     * The email address for the contact
+     * The email address for the contact.
      *
      * @var string
      * @ORM\Column(name="email", type="string", length=255, nullable=true)
@@ -76,15 +80,19 @@ class Contact
     protected $email;
 
     /**
-     * The address of the contact
+     * The address of the contact.
+     *
      * @ORM\ManyToOne(targetEntity="Address", cascade={"all"})
+     *
      * @var Address
      */
     protected $address;
 
     /**
-     * Get the value of id for the contact
+     * Get the value of id for the contact.
+     *
      * @codeCoverageIgnore
+     *
      * @return int
      */
     public function getId()
@@ -93,7 +101,7 @@ class Contact
     }
 
     /**
-     * Get the value of The first name for the contact
+     * Get the value of The first name for the contact.
      *
      * @return string
      */
@@ -103,7 +111,7 @@ class Contact
     }
 
     /**
-     * Set the value of The first name for the contact
+     * Set the value of The first name for the contact.
      *
      * @param string $value firstName
      *
@@ -117,7 +125,7 @@ class Contact
     }
 
     /**
-     * Get the value of The last name for the contact
+     * Get the value of The last name for the contact.
      *
      * @return string
      */
@@ -127,7 +135,7 @@ class Contact
     }
 
     /**
-     * Set the value of The last name for the contact
+     * Set the value of The last name for the contact.
      *
      * @param string $value lastName
      *
@@ -141,7 +149,7 @@ class Contact
     }
 
     /**
-     * Get the value of The phone number for the contact
+     * Get the value of The phone number for the contact.
      *
      * @return PhoneNumber
      */
@@ -151,7 +159,7 @@ class Contact
     }
 
     /**
-     * Set the value of The phone number for the contact
+     * Set the value of The phone number for the contact.
      *
      * @param PhoneNumber $value phoneNumber
      *
@@ -165,7 +173,7 @@ class Contact
     }
 
     /**
-     * Get the value of The company name for the contact
+     * Get the value of The company name for the contact.
      *
      * @return string
      */
@@ -175,7 +183,7 @@ class Contact
     }
 
     /**
-     * Set the value of The company name for the contact
+     * Set the value of The company name for the contact.
      *
      * @param string $value companyName
      *
@@ -189,17 +197,18 @@ class Contact
     }
 
     /**
-     * Translates the contact into a string
+     * Translates the contact into a string.
      *
      * @return string
      */
     public function __toString()
     {
-        return $this->getFirstName()." ".$this->getLastName();
+        return $this->getFirstName().' '.$this->getLastName();
     }
 
     /**
-     * Allows cloning of this class
+     * Allows cloning of this class.
+     *
      * @codeCoverageIgnore
      */
     public function __clone()
@@ -211,7 +220,7 @@ class Contact
     }
 
     /**
-     * Get the value of The address of the contact
+     * Get the value of The address of the contact.
      *
      * @return Address
      */
@@ -221,7 +230,7 @@ class Contact
     }
 
     /**
-     * Set the value of The address of the contact
+     * Set the value of The address of the contact.
      *
      * @param Address address
      *
@@ -235,7 +244,7 @@ class Contact
     }
 
     /**
-     * Get the value of The email address for the contact
+     * Get the value of The email address for the contact.
      *
      * @return string
      */
@@ -245,7 +254,7 @@ class Contact
     }
 
     /**
-     * Set the value of The email address for the contact
+     * Set the value of The email address for the contact.
      *
      * @param string email
      *

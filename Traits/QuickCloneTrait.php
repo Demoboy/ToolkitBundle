@@ -7,9 +7,10 @@ use Doctrine\Common\Util\ClassUtils;
 use ReflectionClass;
 
 /**
- * Description of QuickCloneTrait
+ * Description of QuickCloneTrait.
  *
  * @author Kaelin Jacobson <kaelin@kaelinjacobson.com>
+ *
  * @since 1.1
  */
 trait QuickCloneTrait
@@ -24,7 +25,7 @@ trait QuickCloneTrait
     public function __clone()
     {
         if ($this->id || $this->allowClone) {
-            //entity is initalized you can preform a clone on the object data            
+            //entity is initalized you can preform a clone on the object data
             if ($this instanceof Proxy) {
                 $class = ClassUtils::getRealClass(get_class($this));
             } else {
@@ -34,8 +35,9 @@ trait QuickCloneTrait
             $rc = new ReflectionClass($class);
 
             foreach ($rc->getProperties() as $prop) {
-                if (in_array($prop->getName(), $this->ignoreClonedProperties()) || substr($prop->getName(),
-                        0, 2) === "__") {
+                if (in_array($prop->getName(), $this->ignoreClonedProperties()) ||
+                    substr($prop->getName(), 0, 2) === '__'
+                ) {
                     continue;
                 }
 
@@ -52,8 +54,7 @@ trait QuickCloneTrait
 
                     foreach ($value as $v) {
                         if (is_object($v)) {
-                            if ($this->allowClone && method_exists($v,
-                                    "allowClone")) {
+                            if ($this->allowClone && method_exists($v, 'allowClone')) {
                                 $v->allowClone(true);
                             }
                             $newValue[] = clone $v;
@@ -62,7 +63,7 @@ trait QuickCloneTrait
 
                     $prop->setValue($this, $newValue);
                 } elseif (is_object($value)) {
-                    if ($this->allowClone && method_exists($value, "allowClone")) {
+                    if ($this->allowClone && method_exists($value, 'allowClone')) {
                         $value->allowClone(true);
                     }
 
@@ -74,7 +75,8 @@ trait QuickCloneTrait
 
     /**
      * Returns the names of the properties to ignore while preforming
-     * a clone operation
+     * a clone operation.
+     *
      * @return array
      */
     private function ignoreClonedProperties()
@@ -83,14 +85,14 @@ trait QuickCloneTrait
     }
 
     /**
-     * Returns the names of properties to set to null instead of cloning them
-     * 
+     * Returns the names of properties to set to null instead of cloning them.
+     *
      * @return type
      */
     private function nullClonedProperties()
     {
         return [
-            "id",
+            'id',
         ];
     }
 }

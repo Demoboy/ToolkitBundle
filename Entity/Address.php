@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -13,7 +13,7 @@ use KMJ\ToolkitBundle\Constraints\TranslatableCallback;
 use JsonSerializable;
 
 /**
- * Entity that handles Addresses
+ * Entity that handles Addresses.
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @ORM\Table(name="kmj_toolkit_addresses")
@@ -22,7 +22,7 @@ use JsonSerializable;
 class Address implements JsonSerializable
 {
     /**
-     * id for the address
+     * id for the address.
      *
      * @var int
      *
@@ -33,7 +33,8 @@ class Address implements JsonSerializable
     protected $id;
 
     /**
-     * The street address
+     * The street address.
+     *
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -46,7 +47,8 @@ class Address implements JsonSerializable
     protected $street;
 
     /**
-     * The street address (line 2)
+     * The street address (line 2).
+     *
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -54,7 +56,8 @@ class Address implements JsonSerializable
     protected $unit;
 
     /**
-     * The city
+     * The city.
+     *
      * @var string
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
@@ -63,7 +66,8 @@ class Address implements JsonSerializable
     protected $city;
 
     /**
-     * The state
+     * The state.
+     *
      * @var State
      *
      * @ORM\ManyToOne(targetEntity="State", fetch="EAGER")
@@ -72,7 +76,8 @@ class Address implements JsonSerializable
     protected $state;
 
     /**
-     * The country
+     * The country.
+     *
      * @var Country
      *
      * @ORM\ManyToOne(targetEntity="Country",  fetch="EAGER")
@@ -82,7 +87,8 @@ class Address implements JsonSerializable
     protected $country;
 
     /**
-     * The zipcode
+     * The zipcode.
+     *
      * @var string
      *
      * @ORM\Column(name="zipcode", type="string", length=12, nullable=true)
@@ -90,7 +96,8 @@ class Address implements JsonSerializable
     protected $zipcode;
 
     /**
-     * The short name of the address (for address books)
+     * The short name of the address (for address books).
+     *
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
@@ -98,7 +105,7 @@ class Address implements JsonSerializable
     protected $name;
 
     /**
-     * The longitude of the address
+     * The longitude of the address.
      *
      * @var float
      *
@@ -107,7 +114,7 @@ class Address implements JsonSerializable
     protected $longitude;
 
     /**
-     * The latitude of the address
+     * The latitude of the address.
      *
      * @var float
      *
@@ -116,15 +123,18 @@ class Address implements JsonSerializable
     protected $latitude;
 
     /**
-     * Boolean to determine if the address is a residental address
-     * @var boolean
+     * Boolean to determine if the address is a residental address.
+     *
+     * @var bool
      * @ORM\Column(name="isResidential", type="boolean", nullable=true)
      */
     protected $residential;
 
     /**
-     * Get the value of id for the address
+     * Get the value of id for the address.
+     *
      * @codeCoverageIgnore
+     *
      * @return int
      */
     public function getId()
@@ -133,7 +143,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get the value of The street address
+     * Get the value of The street address.
      *
      * @return string
      */
@@ -143,7 +153,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Set the value of The street address
+     * Set the value of The street address.
      *
      * @param string $value street address
      *
@@ -157,7 +167,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get the value of The street address line 2
+     * Get the value of The street address line 2.
      *
      * @return string
      */
@@ -167,7 +177,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Set the value of The street address (line 2)
+     * Set the value of The street address (line 2).
      *
      * @param string $value unit
      *
@@ -181,7 +191,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get the value of The city
+     * Get the value of The city.
      *
      * @return string
      */
@@ -191,7 +201,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Set the value of The city
+     * Set the value of The city.
      *
      * @param string $value city
      *
@@ -205,7 +215,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get the value of The state
+     * Get the value of The state.
      *
      * @return State
      */
@@ -215,7 +225,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Set the value of The state
+     * Set the value of The state.
      *
      * @param State $value state
      *
@@ -233,7 +243,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get the value of The country
+     * Get the value of The country.
      *
      * @return Country
      */
@@ -243,7 +253,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Set the value of The country
+     * Set the value of The country.
      *
      * @param Country $value country
      *
@@ -257,7 +267,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get the value of The zipcode
+     * Get the value of The zipcode.
      *
      * @return string
      */
@@ -267,7 +277,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Set the value of The zipcode
+     * Set the value of The zipcode.
      *
      * @param string $value zipcode
      *
@@ -281,7 +291,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get the value of The short name of the address (for address books)
+     * Get the value of The short name of the address (for address books).
      *
      * @return string
      */
@@ -291,7 +301,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Set the value of The short name of the address (for address books)
+     * Set the value of The short name of the address (for address books).
      *
      * @param string $value name
      *
@@ -305,7 +315,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get the value of The longitude of the address
+     * Get the value of The longitude of the address.
      *
      * @return float
      */
@@ -315,7 +325,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Set the value of The longitude of the address
+     * Set the value of The longitude of the address.
      *
      * @param float $value longitude
      *
@@ -329,7 +339,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get the value of The latitude of the address
+     * Get the value of The latitude of the address.
      *
      * @return float
      */
@@ -339,7 +349,7 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Set the value of The latitude of the address
+     * Set the value of The latitude of the address.
      *
      * @param float $value latitude
      *
@@ -353,15 +363,15 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Basic constructor
+     * Basic constructor.
      */
     public function __construct()
     {
-        $this->name = "Default";
+        $this->name = 'Default';
     }
 
     /**
-     * Translates the address into a string (with html formating)
+     * Translates the address into a string (with html formating).
      *
      * @return string
      */
@@ -369,24 +379,32 @@ class Address implements JsonSerializable
     {
         $string = null;
 
-        $string .= $this->street." ";
+        $string .= $this->street.' ';
 
-        if ($this->unit != "") {
+        if ($this->unit != '') {
             $string .= $this->unit.' ';
         }
 
         if ($this->getState() instanceof State) {
-            $string .= $this->city.', '.$this->getState()->getCode().' '.$this->getCountry()->getCode().' '.$this->zipcode;
+            $string .= sprintf(
+                '%s, %s %s %s',
+                $this->city,
+                $this->getState()->getCode(),
+                $this->getCountry()->getCode(),
+                $this->zipcode
+            );
         } else {
-            $string .= $this->city.($this->getCountry() instanceof Country ? ", ".$this->getCountry()->getCode()
-                    : "").' '.$this->zipcode;
+            $string .= $this->city.
+                ($this->getCountry() instanceof Country ? ', '.$this->getCountry()->getCode() : '').
+                ' '.$this->zipcode;
         }
 
         return $string;
     }
 
     /**
-     * Allows cloning of this class
+     * Allows cloning of this class.
+     *
      * @codeCoverageIgnore
      */
     public function __clone()
@@ -397,9 +415,9 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Determines if the class is a valid address
+     * Determines if the class is a valid address.
      *
-     * @return boolean
+     * @return bool
      */
     public function isValid()
     {
@@ -411,9 +429,9 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Set the value of Boolean to determine if the address is a residental address
+     * Set the value of Boolean to determine if the address is a residental address.
      *
-     * @param boolean $value residential
+     * @param bool $value residential
      *
      * @return self
      */
@@ -425,9 +443,9 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get residential
+     * Get residential.
      *
-     * @return boolean
+     * @return bool
      */
     public function isResidential()
     {
@@ -435,19 +453,21 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Determines if a state is valid based on the current country
+     * Determines if a state is valid based on the current country.
      *
      * @param ExecutionContextInterface $context The form context
-     * @return boolean
+     *
+     * @return bool
      * @TranslatableCallback(message="kmjtoolkit.address.state.validation.valid")
      */
     public function isStateValid(ExecutionContextInterface $context)
     {
         if ($this->getCountry() !== null) {
-            if (($this->getCountry()->getCode() === "US" || $this->getCountry()->getCode()
-                === "CA") && $this->getState() === null) {
-                $context->addViolationAt("state",
-                    "kmjtoolkit.address.state.validation.valid");
+            if (($this->getCountry()->getCode() === 'US' || $this->getCountry()->getCode() === 'CA') &&
+                $this->getState() === null
+            ) {
+                $context->addViolationAt('state', 'kmjtoolkit.address.state.validation.valid');
+
                 return false;
             } else {
                 return true;
@@ -456,18 +476,19 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Determines if a zipcode is valid based on the current country
+     * Determines if a zipcode is valid based on the current country.
      *
      * @param ExecutionContextInterface $context The form context
-     * @return boolean
+     *
+     * @return bool
      * @TranslatableCallback(message="kmjtoolkit.address.zipcode.validation.valid")
      */
     public function isZipcodeValid(ExecutionContextInterface $context)
     {
         if ($this->getCountry() !== null) {
             if ($this->getCountry()->isZipCodeRequired() && $this->getZipcode() === null) {
-                $context->addViolationAt("zipcode",
-                    "kmjtoolkit.address.zipcode.validation.valid");
+                $context->addViolationAt('zipcode', 'kmjtoolkit.address.zipcode.validation.valid');
+
                 return false;
             } else {
                 return true;
@@ -480,13 +501,13 @@ class Address implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        return array(
-            "city" => $this->city,
-            "country" => ($this->country !== null ? $this->country->getName() : null),
-            "state" => ($this->state !== null ? $this->state->getName() : null),
-            "zipcode" => $this->zipcode,
-            "street" => $this->street,
-            "unit" => $this->unit,
-        );
+        return [
+            'city' => $this->city,
+            'country' => ($this->country !== null ? $this->country->getName() : null),
+            'state' => ($this->state !== null ? $this->state->getName() : null),
+            'zipcode' => $this->zipcode,
+            'street' => $this->street,
+            'unit' => $this->unit,
+        ];
     }
 }

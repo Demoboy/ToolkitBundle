@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -16,18 +16,20 @@ use KMJ\ToolkitBundle\Service\ToolkitService;
  * @ORM\Table(name="kmj_toolkit_docs_web")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ *
  * @since 1.1
  */
 class WebDocument extends BaseDocument
 {
-
     /**
      * {@inheritdoc}
      */
     public function rootPath()
     {
         $toolkit = ToolkitService::getInstance();
+
         return $toolkit->getRootDir().'/../web/';
     }
 
@@ -36,12 +38,12 @@ class WebDocument extends BaseDocument
      */
     public function getUploadDir()
     {
-        return "uploads/documents";
+        return 'uploads/documents';
     }
 
     /**
-     * Gets the path for file visible from the web directory
-     * 
+     * Gets the path for file visible from the web directory.
+     *
      * @return string|null The path from the web directory
      */
     public function getWebPath()
@@ -51,7 +53,7 @@ class WebDocument extends BaseDocument
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
@@ -62,7 +64,7 @@ class WebDocument extends BaseDocument
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */

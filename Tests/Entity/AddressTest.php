@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Tests\Entity;
 
 use PHPUnit_Framework_TestCase;
@@ -13,29 +13,28 @@ use PHPUnit_Framework_TestCase;
  */
 class AddressTest extends PHPUnit_Framework_TestCase
 {
-
     public function testStreet()
     {
         $address = $this->getAddress();
         $this->assertNull($address->getStreet());
-        $address->setStreet("123 Elm St SE");
-        $this->assertTrue($address->getStreet() === "123 Elm St SE");
+        $address->setStreet('123 Elm St SE');
+        $this->assertTrue($address->getStreet() === '123 Elm St SE');
     }
 
     public function testUnit()
     {
         $address = $this->getAddress();
         $this->assertNull($address->getUnit());
-        $address->setUnit("Unit 3B");
-        $this->assertTrue($address->getUnit() === "Unit 3B");
+        $address->setUnit('Unit 3B');
+        $this->assertTrue($address->getUnit() === 'Unit 3B');
     }
 
     public function testCity()
     {
         $address = $this->getAddress();
         $this->assertNull($address->getCity());
-        $address->setCity("Seattle");
-        $this->assertTrue($address->getCity() === "Seattle");
+        $address->setCity('Seattle');
+        $this->assertTrue($address->getCity() === 'Seattle');
     }
 
     /**
@@ -68,16 +67,16 @@ class AddressTest extends PHPUnit_Framework_TestCase
     {
         $address = $this->getAddress();
         $this->assertNull($address->getZipcode());
-        $address->setZipcode("98012");
-        $this->assertTrue($address->getZipcode() === "98012");
+        $address->setZipcode('98012');
+        $this->assertTrue($address->getZipcode() === '98012');
     }
 
     public function testName()
     {
         $address = $this->getAddress();
-        $this->assertTrue($address->getName() === "Default");
-        $address->setName("Seattle Address");
-        $this->assertTrue($address->getName() === "Seattle Address");
+        $this->assertTrue($address->getName() === 'Default');
+        $address->setName('Seattle Address');
+        $this->assertTrue($address->getName() === 'Seattle Address');
     }
 
     public function testLongitude()
@@ -104,29 +103,28 @@ class AddressTest extends PHPUnit_Framework_TestCase
     {
         $address = $this->getAddress();
 
-        $address->setStreet("123 Elm Street SE")
-            ->setCity("Seattle")
-            ->setZipcode("98002");
+        $address->setStreet('123 Elm Street SE')
+            ->setCity('Seattle')
+            ->setZipcode('98002');
 
-        $this->assertTrue($address->__toString() === "123 Elm Street SE Seattle 98002",
-            "no country and state");
+        $this->assertTrue($address->__toString() === '123 Elm Street SE Seattle 98002', 'no country and state');
 
         $state = new \KMJ\ToolkitBundle\Entity\State();
-        $state->setName("Washington")
-            ->setCode("WA");
+        $state->setName('Washington')
+            ->setCode('WA');
 
         $country = new \KMJ\ToolkitBundle\Entity\Country();
-        $country->setName("United States")
-            ->setCode("US");
+        $country->setName('United States')
+            ->setCode('US');
 
         $address->setState($state)
             ->setCountry($country);
 
-        $this->assertTrue($address->__toString() === "123 Elm Street SE Seattle, WA US 98002");
+        $this->assertTrue($address->__toString() === '123 Elm Street SE Seattle, WA US 98002');
 
-        $address->setUnit("Unit 3B");
+        $address->setUnit('Unit 3B');
 
-        $this->assertTrue($address->__toString() === "123 Elm Street SE Unit 3B Seattle, WA US 98002");
+        $this->assertTrue($address->__toString() === '123 Elm Street SE Unit 3B Seattle, WA US 98002');
     }
 
     public function testResidential()
@@ -149,7 +147,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
 
         $mock = $this->getMockBuilder("Symfony\Component\Validator\Context\ExecutionContextInterface")
             ->disableOriginalConstructor()
-            ->setMethods(["addViolationAt"])
+            ->setMethods(['addViolationAt'])
             ->getMock();
 
         $this->assertNull($address->isZipcodeValid($mock));
@@ -159,7 +157,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $country->setZipCodeRequired(true);
 
         $this->assertFalse($address->isZipcodeValid($mock));
-        $address->setZipcode("98012");
+        $address->setZipcode('98012');
 
         $this->assertTrue($address->isZipcodeValid($mock));
     }
@@ -175,13 +173,13 @@ class AddressTest extends PHPUnit_Framework_TestCase
 
         $mock = $this->getMockBuilder("Symfony\Component\Validator\Context\ExecutionContextInterface")
             ->disableOriginalConstructor()
-            ->setMethods(["addViolationAt"])
+            ->setMethods(['addViolationAt'])
             ->getMock();
 
         $this->assertNull($address->isStateValid($mock));
         $address->setCountry($country);
         $this->assertTrue($address->isStateValid($mock));
-        $country->setCode("US");
+        $country->setCode('US');
         $this->assertFalse($address->isStateValid($mock));
         $address->setState($state);
         $this->assertTrue($address->isStateValid($mock));
@@ -194,9 +192,9 @@ class AddressTest extends PHPUnit_Framework_TestCase
 
         $address->setCountry($country);
         $this->assertFalse($address->isValid());
-        $address->setCity("Seattle");
+        $address->setCity('Seattle');
         $this->assertFalse($address->isValid());
-        $address->setStreet("123 Elm st");
+        $address->setStreet('123 Elm st');
         $this->assertTrue($address->isValid());
     }
 

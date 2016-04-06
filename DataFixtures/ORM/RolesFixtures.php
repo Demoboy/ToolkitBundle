@@ -1,25 +1,28 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use KMJ\ToolkitBundle\Entity\Role;
 
 /**
- * Loads basic roles into the database and sets references to them
+ * Loads basic roles into the database and sets references to them.
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
 class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @codeCoverageIgnore
+     *
      * @return int The order to execute the fixture
      */
     public function getOrder()
@@ -28,16 +31,16 @@ class RolesFixtures extends AbstractFixture implements OrderedFixtureInterface
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager entity manager
+     * {@inheritdoc}
+     *
+     * @param ObjectManager $manager entity manager
      */
-    public function load(\Doctrine\Common\Persistence\ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
         $role3 = new Role();
-        $role3->setName("super_admin")
-            ->setDisplayName("Super Admin")
-            ->setDescription("Role for developer. Use with caution");
+        $role3->setName('super_admin')
+            ->setDisplayName('Super Admin')
+            ->setDescription('Role for developer. Use with caution');
 
         $role2 = new Role();
         $role2->setName('admin')

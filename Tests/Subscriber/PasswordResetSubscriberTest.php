@@ -26,9 +26,8 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
         $password = $this->getPasswordResetSubscriber();
         $events = $password->getSubscribedEvents();
         $this->assertTrue(sizeof($events) === 2);
-        $this->assertTrue(key_exists("kernel.request", $events));
-        $this->assertTrue(key_exists(FOSUserEvents::CHANGE_PASSWORD_SUCCESS,
-                $events));
+        $this->assertTrue(key_exists('kernel.request', $events));
+        $this->assertTrue(key_exists(FOSUserEvents::CHANGE_PASSWORD_SUCCESS, $events));
     }
 
     public function testIsPasswordReset()
@@ -37,7 +36,7 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
 
         $testEvent = $this->getEvent();
 
-        $testRequest = new Request(array(), array(), array("_route" => "test"));
+        $testRequest = new Request([], [], ['_route' => 'test']);
 
         $testEvent->method('getRequest')
             ->will($this->returnValue($testRequest));
@@ -52,8 +51,7 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
 
         $asseticEvent = $this->getEvent();
 
-        $asseticRequest = new Request(array(), array(),
-            array("_route" => "_assetic"));
+        $asseticRequest = new Request([], [], ['_route' => '_assetic']);
 
         $asseticEvent->method('getRequest')
             ->will($this->returnValue($asseticRequest));
@@ -62,8 +60,7 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
         $this->assertNull($asseticEvent->getResponse());
 
         $toolbarEvent = $this->getEvent();
-        $toolbarRequest = new Request(array(), array(),
-            array("_route" => "_wdt"));
+        $toolbarRequest = new Request([], [], ['_route' => '_wdt']);
         $toolbarEvent->method('getRequest')
             ->will($this->returnValue($toolbarRequest));
 
@@ -71,8 +68,7 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
         $this->assertNull($toolbarEvent->getResponse());
 
         $changePassEvent = $this->getEvent();
-        $changePassRequest = new Request(array(), array(),
-            array("_route" => "fos_user_change_password"));
+        $changePassRequest = new Request([], [], ['_route' => 'fos_user_change_password']);
         $changePassEvent->method('getRequest')
             ->will($this->returnValue($changePassRequest));
 
@@ -81,7 +77,6 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * 
      * @return PasswordResetSubscriber
      */
     protected function getPasswordResetSubscriber()
@@ -94,8 +89,8 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $router->method("generate")
-            ->will($this->returnValue("http://example.com/login"));
+        $router->method('generate')
+            ->will($this->returnValue('http://example.com/login'));
 
         $session = $this->getMockBuilder(Session::class)
             ->disableOriginalConstructor()
@@ -111,11 +106,12 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
         $token->method('getUser')
             ->will($this->returnValue($this->user));
 
-        $security->method("getToken")
+        $security->method('getToken')
             ->will($this->returnValue($token));
 
-        return new PasswordResetSubscriber($security, $router, $session,
-            ["password_reset_route" => 'fos_user_change_password']);
+        return new PasswordResetSubscriber($security, $router, $session, [
+            'password_reset_route' => 'fos_user_change_password',
+        ]);
     }
 
     /**
@@ -125,7 +121,7 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
     {
         return $this->getMockBuilder(GetResponseEvent::class)
                 ->disableOriginalConstructor()
-                ->setMethods(["getRequest"])
+                ->setMethods(['getRequest'])
                 ->getMock();
     }
 }

@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use DateTime;
@@ -16,13 +16,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  * disk.
  *
  * @ORM\MappedSuperclass
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
 abstract class BaseDocument
 {
     /**
-     * The id of the object 
-     * @var integer
+     * The id of the object.
+     *
+     * @var int
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -30,15 +32,15 @@ abstract class BaseDocument
     protected $id;
 
     /**
-     * The path of the document on the server
-     * 
+     * The path of the document on the server.
+     *
      * @var string
      * @ORM\Column(name="path", type="string", length=255)
      */
     protected $path;
 
     /**
-     * The mime type of the upload
+     * The mime type of the upload.
      *
      * @var string
      * @ORM\Column(type="string", length=25)
@@ -46,8 +48,8 @@ abstract class BaseDocument
     protected $mimeType;
 
     /**
-     * The file to be uploaded 
-     * 
+     * The file to be uploaded.
+     *
      * @var file
      * @Assert\NotBlank(message="kmjtoolkit.basedoc.file.validation.notblank.message")
      * @Assert\File(maxSize="6000000")
@@ -56,60 +58,64 @@ abstract class BaseDocument
     protected $file;
 
     /**
-     * The extension of the file
+     * The extension of the file.
+     *
      * @var string
      * @ORM\Column(type="string", length=5)
      */
     protected $extension;
 
     /**
-     * The name of the document
+     * The name of the document.
+     *
      * @var string
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     protected $name;
 
     /**
-     * The date the document was uploaded
+     * The date the document was uploaded.
+     *
      * @var DateTime
      * @ORM\Column(name="uploadedDate", type="datetime")
      */
     protected $uploadedDate;
 
     /**
-     * The checksum of the file
+     * The checksum of the file.
      *
      * @ORM\Column(type="string", length=32)
+     *
      * @var string
      */
     protected $checksum;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public function __construct()
     {
-        $this->uploadedDate = new DateTime("NOW");
+        $this->uploadedDate = new DateTime('NOW');
     }
 
     /**
-     * toString
+     * toString.
      *
      * @return string Document representation (Name)
      */
     public function __toString()
     {
         if ($this->name === null) {
-            return "unknown";
+            return 'unknown';
         }
 
         return $this->name;
     }
 
     /**
-     * Get id
+     * Get id.
      *
-     * @return integer
+     * @return int
      * @codeCoverageIgnore
      */
     public function getId()
@@ -118,7 +124,7 @@ abstract class BaseDocument
     }
 
     /**
-     * Get path
+     * Get path.
      *
      * @return string
      */
@@ -128,7 +134,7 @@ abstract class BaseDocument
     }
 
     /**
-     * Get file
+     * Get file.
      *
      * @return UploadedFile
      */
@@ -138,7 +144,7 @@ abstract class BaseDocument
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -148,7 +154,7 @@ abstract class BaseDocument
     }
 
     /**
-     * Get uploadedDate
+     * Get uploadedDate.
      *
      * @return DateTime
      */
@@ -158,21 +164,24 @@ abstract class BaseDocument
     }
 
     /**
-     * Set path
+     * Set path.
      *
      * @param string $path
+     *
      * @return Document
      */
     public function setPath($path)
     {
         $this->path = $path;
+
         return $this;
     }
 
     /**
-     * Set file
+     * Set file.
      *
      * @param UploadedFile $file
+     *
      * @return Document
      */
     public function setFile(UploadedFile $file)
@@ -190,31 +199,35 @@ abstract class BaseDocument
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
+     *
      * @return Document
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
     /**
-     * Set uploadedDate
+     * Set uploadedDate.
      *
      * @param DateTime $uploadedDate
+     *
      * @return Document
      */
     public function setUploadedDate(DateTime $uploadedDate)
     {
         $this->uploadedDate = $uploadedDate;
+
         return $this;
     }
 
     /**
-     * Moves $this->file to the filesystem
+     * Moves $this->file to the filesystem.
      */
     public function uploadFile()
     {
@@ -222,41 +235,40 @@ abstract class BaseDocument
             return;
         }
 
-        $date = date("Y-m-d");
+        $date = date('Y-m-d');
 
-        $this->getFile()->move(
-            $this->getUploadRootDir()."/{$date}", $this->path
-        );
+        $this->getFile()->move($this->getUploadRootDir()."/{$date}", $this->path);
 
         $this->file = null;
     }
 
     /**
-     * Gets the root directory where uploads should be placed
-     * 
+     * Gets the root directory where uploads should be placed.
+     *
      * @return string
      */
     public function getUploadRootDir()
     {
         $path = $this->rootPath().$this->getUploadDir();
+
         return $path;
     }
 
     /**
-     * The root path of the document
+     * The root path of the document.
      */
-    abstract function rootPath();
+    abstract public function rootPath();
 
     /**
-     * The upload directory added to the root durring uploads
-     * 
+     * The upload directory added to the root durring uploads.
+     *
      * @return string
      */
-    abstract function getUploadDir();
+    abstract public function getUploadDir();
 
     /**
-     * Gets the absolute path to the file
-     * 
+     * Gets the absolute path to the file.
+     *
      * @return string|null
      */
     public function getAbsolutePath()
@@ -265,17 +277,17 @@ abstract class BaseDocument
     }
 
     /**
-     * Prepares the file for being moved by making directories if they dont 
+     * Prepares the file for being moved by making directories if they dont
      * exist and determining the filename of the file.
      */
     public function preUpload()
     {
         if (null !== $this->getFile()) {
             $filename = sha1(uniqid(mt_rand(), true));
-            $date = date("Y-m-d");
-            @mkdir($this->getUploadRootDir()."/".$date, 0777, true);
+            $date = date('Y-m-d');
+            @mkdir($this->getUploadRootDir().'/'.$date, 0777, true);
 
-            $this->path = $date."/".$filename.'.'.$this->getFile()->guessExtension();
+            $this->path = $date.'/'.$filename.'.'.$this->getFile()->guessExtension();
 
             if ($this->getName() === null) {
                 $this->name = $this->file->getClientOriginalName();
@@ -284,7 +296,7 @@ abstract class BaseDocument
     }
 
     /**
-     * Get the value of The mime type of the upload
+     * Get the value of The mime type of the upload.
      *
      * @return string
      */
@@ -294,7 +306,7 @@ abstract class BaseDocument
     }
 
     /**
-     * Set the value of The mime type of the upload
+     * Set the value of The mime type of the upload.
      *
      * @param string mimeType
      *
@@ -308,7 +320,7 @@ abstract class BaseDocument
     }
 
     /**
-     * Get the value of The checksum of the file
+     * Get the value of The checksum of the file.
      *
      * @return string
      */
@@ -318,7 +330,7 @@ abstract class BaseDocument
     }
 
     /**
-     * Set the value of The checksum of the file
+     * Set the value of The checksum of the file.
      *
      * @param string checksum
      *
@@ -332,7 +344,7 @@ abstract class BaseDocument
     }
 
     /**
-     * Get the value of The extension of the file
+     * Get the value of The extension of the file.
      *
      * @return string
      */
@@ -342,7 +354,7 @@ abstract class BaseDocument
     }
 
     /**
-     * Set the value of The extension of the file
+     * Set the value of The extension of the file.
      *
      * @param string extension
      *
@@ -356,7 +368,8 @@ abstract class BaseDocument
     }
 
     /**
-     * Slugifies the name of the document for URL generation
+     * Slugifies the name of the document for URL generation.
+     *
      * @return string
      */
     public function slug()

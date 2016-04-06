@@ -1,15 +1,16 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Entity class that holds information about states
+ * Entity class that holds information about states.
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
  * @ORM\Table(name="kmj_toolkit_states")
@@ -18,8 +19,9 @@ use Doctrine\ORM\Mapping as ORM;
 class State
 {
     /**
-     * Id
-     * @var integer
+     * Id.
+     *
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -28,7 +30,8 @@ class State
     protected $id;
 
     /**
-     * Name of the state
+     * Name of the state.
+     *
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=100)
@@ -36,7 +39,8 @@ class State
     protected $name;
 
     /**
-     * Two letter state code
+     * Two letter state code.
+     *
      * @var string
      *
      * @ORM\Column(name="code", type="string", length=2, nullable=true)
@@ -44,7 +48,8 @@ class State
     protected $code;
 
     /**
-     * Country to which the state belongs to
+     * Country to which the state belongs to.
+     *
      * @var Country
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="states")
      * @ORM\JoinColumn(name="countryID", referencedColumnName="id")
@@ -52,7 +57,8 @@ class State
     protected $country;
 
     /**
-     * Translates the state into a string
+     * Translates the state into a string.
+     *
      * @return string
      */
     public function __toString()
@@ -61,9 +67,11 @@ class State
     }
 
     /**
-     * Get the value of Id
+     * Get the value of Id.
+     *
      * @codeCoverageIgnore
-     * @return integer
+     *
+     * @return int
      */
     public function getId()
     {
@@ -71,7 +79,7 @@ class State
     }
 
     /**
-     * Get the value of Name of the state
+     * Get the value of Name of the state.
      *
      * @return string
      */
@@ -81,7 +89,7 @@ class State
     }
 
     /**
-     * Set the value of Name of the state
+     * Set the value of Name of the state.
      *
      * @param string $value name
      *
@@ -95,7 +103,7 @@ class State
     }
 
     /**
-     * Get the value of Two letter state code
+     * Get the value of Two letter state code.
      *
      * @return string
      */
@@ -105,7 +113,7 @@ class State
     }
 
     /**
-     * Set the value of Two letter state code
+     * Set the value of Two letter state code.
      *
      * @param string $value code
      *
@@ -119,7 +127,7 @@ class State
     }
 
     /**
-     * Get the value of Country to which the state belongs to
+     * Get the value of Country to which the state belongs to.
      *
      * @return Country
      */
@@ -129,7 +137,7 @@ class State
     }
 
     /**
-     * Set the value of Country to which the state belongs to
+     * Set the value of Country to which the state belongs to.
      *
      * @param Country $value country
      *

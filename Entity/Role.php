@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use DateTime;
@@ -11,7 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
- * Entity class that handles roles for users
+ * Entity class that handles roles for users.
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
  * @ORM\Table(name="kmj_toolkit_roles")
@@ -20,8 +21,9 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
 class Role implements RoleInterface
 {
     /**
-     * Id
-     * @var integer
+     * Id.
+     *
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -30,44 +32,53 @@ class Role implements RoleInterface
     protected $id;
 
     /**
-     * Name of the role
+     * Name of the role.
+     *
      * @ORM\Column(name="name", type="string", length=255, unique=true)
+     *
      * @var string
      */
     protected $name;
 
     /**
-     * Display name for the role
+     * Display name for the role.
      *
      * @ORM\Column(name="displayName", type="string", length=255)
+     *
      * @var string
      */
     protected $displayName;
 
     /**
-     * Description of the role
+     * Description of the role.
+     *
      * @ORM\Column(type="string", length=255)
+     *
      * @var string
      */
     protected $description;
 
     /**
-     * Date role was created on
+     * Date role was created on.
      *
      * @ORM\Column(type="datetime")
+     *
      * @var DateTime
      */
     protected $createdOn;
 
     /**
-     * Parent role
+     * Parent role.
+     *
      * @ORM\ManyToOne(targetEntity="Role")
+     *
      * @var Role
      */
     protected $parent;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @return string
      */
     public function getRole()
@@ -76,16 +87,16 @@ class Role implements RoleInterface
     }
 
     /**
-     * Basic constructor
+     * Basic constructor.
      */
-    function __construct()
+    public function __construct()
     {
         $this->createdOn = new DateTime('NOW');
     }
 
     /**
-     * Translates role into string by using the display name
-     * 
+     * Translates role into string by using the display name.
+     *
      * @return string
      */
     public function __toString()
@@ -94,9 +105,11 @@ class Role implements RoleInterface
     }
 
     /**
-     * Get the value of Id
+     * Get the value of Id.
+     *
      * @codeCoverageIgnore
-     * @return integer
+     *
+     * @return int
      */
     public function getId()
     {
@@ -104,7 +117,7 @@ class Role implements RoleInterface
     }
 
     /**
-     * Get the value of Name of the role
+     * Get the value of Name of the role.
      *
      * @return string
      */
@@ -114,7 +127,7 @@ class Role implements RoleInterface
     }
 
     /**
-     * Set the value of Name of the role
+     * Set the value of Name of the role.
      *
      * @param string $name name
      *
@@ -124,16 +137,17 @@ class Role implements RoleInterface
     {
         $name = str_replace(' ', '_', strtoupper($name));
 
-        if (substr($name, 0, 5) != "ROLE_") {
+        if (substr($name, 0, 5) != 'ROLE_') {
             $name = 'ROLE_'.$name;
         }
 
         $this->name = $name;
+
         return $this;
     }
 
     /**
-     * Get the value of Display name for the role
+     * Get the value of Display name for the role.
      *
      * @return string
      */
@@ -143,7 +157,7 @@ class Role implements RoleInterface
     }
 
     /**
-     * Set the value of Display name for the role
+     * Set the value of Display name for the role.
      *
      * @param string $value displayName
      *
@@ -157,7 +171,7 @@ class Role implements RoleInterface
     }
 
     /**
-     * Get the value of Description of the role
+     * Get the value of Description of the role.
      *
      * @return string
      */
@@ -167,7 +181,7 @@ class Role implements RoleInterface
     }
 
     /**
-     * Set the value of Description of the role
+     * Set the value of Description of the role.
      *
      * @param string $value description
      *
@@ -181,7 +195,7 @@ class Role implements RoleInterface
     }
 
     /**
-     * Get the value of Date role was created on
+     * Get the value of Date role was created on.
      *
      * @return DateTime
      */
@@ -191,7 +205,7 @@ class Role implements RoleInterface
     }
 
     /**
-     * Get the value of Parent role
+     * Get the value of Parent role.
      *
      * @return Role
      */
@@ -201,7 +215,7 @@ class Role implements RoleInterface
     }
 
     /**
-     * Set the value of Parent role
+     * Set the value of Parent role.
      *
      * @param Role $value parent
      *

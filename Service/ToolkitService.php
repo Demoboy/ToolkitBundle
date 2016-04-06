@@ -1,53 +1,54 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Service;
 
 use FOS\UserBundle\Model\UserManagerInterface;
 use Exception;
 
 /**
- * Service class that creates FOSUser based on Symfony configs
+ * Service class that creates FOSUser based on Symfony configs.
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
 class ToolkitService
 {
     /**
-     * Used for Doctrine Fixtures, if set to true the default fixture is not loaded
+     * Used for Doctrine Fixtures, if set to true the default fixture is not loaded.
      *
-     * @var boolean 
+     * @var bool
      */
     private $overrideFixture;
 
     /**
-     * The configs
-     * 
-     * @var array 
+     * The configs.
+     *
+     * @var array
      */
     private $config;
 
     /**
-     * The FOS user manager
+     * The FOS user manager.
+     *
      * @var UserManagerInterface
-     * 
      */
     protected $fosUM;
 
     /**
-     * Creates a singleton
-     * 
-     * @var Singleton 
+     * Creates a singleton.
+     *
+     * @var Singleton
      */
     protected static $instance;
 
     /**
-     * Basic constructor
-     * @param array $config The configs
-     * @param UserManagerInterface $fosUM The FOS User manager
+     * Basic constructor.
+     *
+     * @param array                $config The configs
+     * @param UserManagerInterface $fosUM  The FOS User manager
      * @codeCoverageIgnore
      */
     public function __construct(array $config, UserManagerInterface $fosUM)
@@ -60,14 +61,16 @@ class ToolkitService
     }
 
     /**
-     * Gets an initalized verson of self for a singleton
+     * Gets an initalized verson of self for a singleton.
+     *
      * @return ToolkitService
+     *
      * @throws Exception
      */
     public static function getInstance()
     {
         if (static::$instance === null) {
-            throw new Exception("Toolkit has not been initalized");
+            throw new Exception('Toolkit has not been initalized');
         }
 
         return static::$instance;
@@ -75,8 +78,8 @@ class ToolkitService
 
     /**
      * Creates a new user and returns it populated with
-     * data from the configs
-     * 
+     * data from the configs.
+     *
      * @return mixed
      */
     public function createAdminUser()
@@ -94,26 +97,28 @@ class ToolkitService
     }
 
     /**
-     * Creates an array with user data for Alice fixtures
+     * Creates an array with user data for Alice fixtures.
+     *
      * @return array
      */
     public function createAdminUserArray()
     {
-        return array(
-            "firstName" => $this->config['administrator']['firstname'],
-            "lastName" => $this->config['administrator']['lastname'],
-            "email" => $this->config['administrator']['email'],
-            "plainPassword" => $this->config['administrator']['password'],
-            "enabled" => true,
-            "username" => $this->config['administrator']['username'],
-        );
+        return [
+            'firstName' => $this->config['administrator']['firstname'],
+            'lastName' => $this->config['administrator']['lastname'],
+            'email' => $this->config['administrator']['email'],
+            'plainPassword' => $this->config['administrator']['password'],
+            'enabled' => true,
+            'username' => $this->config['administrator']['username'],
+        ];
     }
 
     /**
      * Determines if a Doctrine Fixtures loading user accounts has already be loaded.
-     * 
-     * @param null|boolean $overrideFixture if boolean overridefixtures will be set to the value
-     * @return boolean
+     *
+     * @param null|bool $overrideFixture if boolean overridefixtures will be set to the value
+     *
+     * @return bool
      */
     public function overrideFixture($overrideFixture = null)
     {
@@ -125,7 +130,7 @@ class ToolkitService
     }
 
     /**
-     * Responds to kernel requests to initalize service on start up 
+     * Responds to kernel requests to initalize service on start up.
      */
     public function onKernelRequest()
     {
@@ -133,7 +138,8 @@ class ToolkitService
     }
 
     /**
-     * Return the encryption key
+     * Return the encryption key.
+     *
      * @return string
      */
     public function getEncKey()
@@ -142,7 +148,8 @@ class ToolkitService
     }
 
     /**
-     * Return the root directory for file uploads
+     * Return the root directory for file uploads.
+     *
      * @return string
      */
     public function getRootDir()

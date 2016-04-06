@@ -1,28 +1,29 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use KMJ\ToolkitBundle\Entity\WebDocument;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Form type for web documents 
+ * Form type for web documents.
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ *
  * @since 1.1
  */
 class WebDocumentType extends BaseDocumentType
 {
-
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            "empty_data" => new WebDocument(),
-            'data_class' => 'KMJ\ToolkitBundle\Entity\WebDocument'
-        ));
+        $resolver->setDefaults([
+            'empty_data' => new WebDocument(),
+            'data_class' => 'KMJ\ToolkitBundle\Entity\WebDocument',
+        ]);
     }
 
     /**

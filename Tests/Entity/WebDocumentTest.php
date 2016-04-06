@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 /**
@@ -14,11 +14,11 @@ class WebDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     /**
      * @var \KMJ\ToolkitBundle\Service\ToolkitService
      */
-    protected $tk;
+    protected $toolkit;
 
     public function setUp()
     {
-        $this->tk = $this->getToolkit();
+        $this->toolkit = $this->getToolkit();
     }
 
     /**
@@ -27,8 +27,10 @@ class WebDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     public function testRootPath()
     {
         $webDoc = $this->getWebDocument();
-        $this->assertTrue($webDoc->rootPath() === $this->tk->getRootDir()."/../web/",
-            "Web document root path incorrect");
+        $this->assertTrue(
+            $webDoc->rootPath() === $this->toolkit->getRootDir().'/../web/',
+            'Web document root path incorrect'
+        );
     }
 
     /**
@@ -38,12 +40,15 @@ class WebDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     {
         $webDoc = $this->getWebDocument();
 
-        $this->assertTrue($webDoc->getUploadDir() === "uploads/documents",
-            "Web document directory incorrect");
+        $this->assertTrue(
+            $webDoc->getUploadDir() === 'uploads/documents',
+            'Web document directory incorrect'
+        );
     }
 
     /**
-     * Gets a new WebDocument
+     * Gets a new WebDocument.
+     *
      * @return \KMJ\ToolkitBundle\Entity\WebDocument
      */
     private function getWebDocument()

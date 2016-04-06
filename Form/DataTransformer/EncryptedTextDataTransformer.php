@@ -1,22 +1,22 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2015, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 
 /**
- * Transforms encryted text into a string and back again
+ * Transforms encryted text into a string and back again.
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
+ *
  * @since 1.1
  */
 class EncryptedTextDataTransformer implements DataTransformerInterface
 {
-
     /**
      * {@inheritdoc}
      */
@@ -25,6 +25,7 @@ class EncryptedTextDataTransformer implements DataTransformerInterface
         $encryptedText = new \KMJ\ToolkitBundle\Entity\EncryptedText();
         $encryptedText->setRawText($value);
         $encryptedText->encrypt();
+
         return $encryptedText;
     }
 

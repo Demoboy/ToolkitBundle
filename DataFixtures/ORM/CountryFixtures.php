@@ -1,25 +1,28 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\DataFixtures\ORM;
 
-use KMJ\ToolkitBundle\Entity\Country;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+use KMJ\ToolkitBundle\Entity\Country;
 
 /**
- * Loads \KMJ\ToolkitBundle\Entity\Country from csv file
+ * Loads \KMJ\ToolkitBundle\Entity\Country from csv file.
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
 class CountryFixtures extends AbstractFixture implements OrderedFixtureInterface
 {
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     *
      * @codeCoverageIgnore
+     *
      * @return int The order to execute the fixture
      */
     public function getOrder()
@@ -28,16 +31,16 @@ class CountryFixtures extends AbstractFixture implements OrderedFixtureInterface
     }
 
     /**
-     * {@inheritDoc}
-     * 
-     * @param \Doctrine\Common\Persistence\ObjectManager $manager entity manager
+     * {@inheritdoc}
+     *
+     * @param ObjectManager $manager entity manager
      */
-    public function load(\Doctrine\Common\Persistence\ObjectManager $manager)
+    public function load(ObjectManager $manager)
     {
-        $fh = fopen(__DIR__.'/Fixtures/countries.csv', 'r');
+        $fileHandle = fopen(__DIR__.'/Fixtures/countries.csv', 'r');
 
-        $country = array();
-        while (($data = fgetcsv($fh)) !== false) {
+        $country = [];
+        while (($data = fgetcsv($fileHandle)) !== false) {
             $country = new Country();
             $country->setName($data[1]);
             $country->setCode($data[2]);

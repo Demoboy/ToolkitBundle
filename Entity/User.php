@@ -1,9 +1,9 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
-
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +15,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Mapped superclass for a basic user. 
+ * Mapped superclass for a basic user.
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
  * @ORM\MappedSuperclass
@@ -23,11 +24,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 abstract class User extends BaseUser implements DeleteableEntityInterface, HideableEntityInterface
 {
-
     use \KMJ\ToolkitBundle\Traits\HideableEntityTrait;
+
     /**
-     * Id
-     * @var integer
+     * Id.
+     *
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -36,7 +38,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     protected $id;
 
     /**
-     * The roles for the user
+     * The roles for the user.
      *
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="KMJ\ToolkitBundle\Entity\Role")
@@ -46,7 +48,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     protected $userRoles;
 
     /**
-     * The user's first name
+     * The user's first name.
      *
      * @var string
      *
@@ -56,7 +58,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     protected $firstName;
 
     /**
-     * The user's last name
+     * The user's last name.
      *
      * @var string
      * @ORM\Column(name="lastName", type="string", length=75, nullable=true)
@@ -66,15 +68,17 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
 
     /**
      * Determines whether the user needs to reset their password. True if so.
-     * @var boolean
+     *
+     * @var bool
      * @ORM\Column(name="passwordReset", type="boolean")
      */
     protected $passwordReset;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      *
      * @param mixed $role The role to add
+     *
      * @return self
      */
     public function addRole($role)
@@ -88,7 +92,8 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Removes a users role by role
+     * Removes a users role by role.
+     *
      * @param Role $role
      */
     public function removeUserRole(Role $role)
@@ -101,7 +106,8 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Removes a users role by name
+     * Removes a users role by name.
+     *
      * @param string $role
      */
     public function removeUserRoleByName($role)
@@ -114,7 +120,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Gets the user roles as an array
+     * Gets the user roles as an array.
      *
      * @return array
      */
@@ -124,9 +130,11 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Determines if a user has a specified role
+     * Determines if a user has a specified role.
+     *
      * @param mixed $role The role to check against
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasRole($role)
     {
@@ -141,10 +149,11 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
 
     /**
      * Determines if user has a specified role
-     * by comparing role names
+     * by comparing role names.
      *
      * @param string $role The role name to check against
-     * @return boolean
+     *
+     * @return bool
      */
     public function hasRoleByName($role)
     {
@@ -158,7 +167,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Basic constructor
+     * Basic constructor.
      */
     public function __construct()
     {
@@ -169,7 +178,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Translates the user into a string
+     * Translates the user into a string.
      *
      * @return string
      */
@@ -179,19 +188,19 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Builds a random but unique username
+     * Builds a random but unique username.
      */
     public function buildUsername()
     {
-        if ($this->firstName != "" && $this->lastName != "") {
+        if ($this->firstName != '' && $this->lastName != '') {
             $this->username = md5($this->firstName.$this->lastName.time());
         }
     }
 
     /**
-     * Does the user need to reset password
+     * Does the user need to reset password.
      *
-     * @return boolean
+     * @return bool
      */
     public function isPasswordReset()
     {
@@ -199,9 +208,11 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Get the value of Id
+     * Get the value of Id.
+     *
      * @codeCoverageIgnore
-     * @return integer
+     *
+     * @return int
      */
     public function getId()
     {
@@ -209,7 +220,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Get the value of The roles for the user
+     * Get the value of The roles for the user.
      *
      * @return ArrayCollection
      */
@@ -219,7 +230,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Get the value of The user's first name
+     * Get the value of The user's first name.
      *
      * @return string
      */
@@ -229,7 +240,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Set the value of The user's first name
+     * Set the value of The user's first name.
      *
      * @param string $value firstName
      *
@@ -244,7 +255,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Get the value of The user's last name
+     * Get the value of The user's last name.
      *
      * @return string
      */
@@ -254,7 +265,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Set the value of The user's last name
+     * Set the value of The user's last name.
      *
      * @param string $value lastName
      *
@@ -271,7 +282,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     /**
      * Get the value of Determines whether the user needs to reset their password. True if so.
      *
-     * @return boolean
+     * @return bool
      */
     public function getPasswordReset()
     {
@@ -281,7 +292,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     /**
      * Set the value of Determines whether the user needs to reset their password. True if so.
      *
-     * @param boolean $value passwordReset
+     * @param bool $value passwordReset
      *
      * @return self
      */
@@ -297,18 +308,20 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
      */
     public function removeRelated()
     {
-        return array();
+        return [];
     }
 
     /**
-     * Sets the user roles
-     * 
+     * Sets the user roles.
+     *
      * @param ArrayCollection $userRoles
+     *
      * @return \KMJ\ToolkitBundle\Entity\User
      */
     public function setUserRoles($userRoles)
     {
         $this->userRoles = $userRoles;
+
         return $this;
     }
 }

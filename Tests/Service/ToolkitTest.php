@@ -12,24 +12,23 @@ use PHPUnit_Framework_TestCase;
  */
 abstract class ToolkitTest extends PHPUnit_Framework_TestCase
 {
-
     /**
      * @covers KMJ\ToolkitBundle\Service\ToolkitService::__construct
      */
     protected function getToolkit()
     {
-        $config = array(
-            "administrator" => array(
-                "firstname" => "Tony",
-                "lastname" => "Soprano",
-                "username" => "mobster1",
-                "email" => "tonysoprano@gmail.com",
-                "password" => "password",
-            ),
-            "load_user_fixtures" => true,
-            "rootdir" => __DIR__."/..",
-            "enckey" => "enckey",
-        );
+        $config = [
+            'administrator' => [
+                'firstname' => 'Tony',
+                'lastname' => 'Soprano',
+                'username' => 'mobster1',
+                'email' => 'tonysoprano@gmail.com',
+                'password' => 'password',
+            ],
+            'load_user_fixtures' => true,
+            'rootdir' => __DIR__.'/..',
+            'enckey' => 'enckey',
+        ];
 
         $user = $this->getMockForAbstractClass(User::class);
 
@@ -37,7 +36,7 @@ abstract class ToolkitTest extends PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $fosUser->method("createUser")
+        $fosUser->method('createUser')
             ->will($this->returnValue($user));
 
         return new ToolkitService($config, $fosUser);

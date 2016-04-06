@@ -8,15 +8,15 @@ use Zend\Filter\Decrypt;
 use Zend\Filter\File\Encrypt;
 
 /**
- * Description of EncryptedDocumentTrait
+ * Description of EncryptedDocumentTrait.
  *
  * @author Kaelin Jacobson <kaelin@supercru.com>
+ *
  * @since 1.0
  */
 trait EncryptedDocumentTrait
 {
-
-    abstract function getChecksum();
+    abstract public function getChecksum();
 
     /**
      * {@inheritdoc}
@@ -24,17 +24,20 @@ trait EncryptedDocumentTrait
     public function rootPath()
     {
         $toolkit = ToolkitService::getInstance();
+
         return $toolkit->getRootDir().'/Resources/protectedUploads/';
     }
+
     /**
-     * The key to use to encrypt the file
+     * The key to use to encrypt the file.
      *
      * @var string
      */
     protected $key;
 
     /**
-     * Basic Constructor
+     * Basic Constructor.
+     *
      * @param string $key The key to use to encrypt the file
      */
     public function load($key = null)
@@ -45,7 +48,7 @@ trait EncryptedDocumentTrait
         } elseif ($key !== null) {
             $this->key = $key;
         } else {
-            throw new InvalidArgumentException("Encryption key was not initalized");
+            throw new InvalidArgumentException('Encryption key was not initalized');
         }
     }
 
@@ -58,7 +61,7 @@ trait EncryptedDocumentTrait
     }
 
     /**
-     * Decrypts the document and returns the ninary content
+     * Decrypts the document and returns the ninary content.
      */
     public function decrypt()
     {
@@ -68,12 +71,13 @@ trait EncryptedDocumentTrait
         }
 
         $decrypt = new Decrypt($this->getZendEncryptOptions());
+
         return $decrypt->filter(file_get_contents($this->getAbsolutePath()));
     }
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
@@ -85,30 +89,32 @@ trait EncryptedDocumentTrait
     }
 
     /**
-     * Gets the options to use when encrypting documents
-     * 
+     * Gets the options to use when encrypting documents.
+     *
      * @return array
      */
     private function getZendEncryptOptions()
     {
-        return array(
-            "adapter" => "BlockCipher",
-            "vector" => $this->getChecksum(),
-            "algorithm" => "twofish",
-            "key" => $this->key,
-            "compression" => "bz2",
-        );
+        return [
+            'adapter' => 'BlockCipher',
+            'vector' => $this->getChecksum(),
+            'algorithm' => 'twofish',
+            'key' => $this->key,
+            'compression' => 'bz2',
+        ];
     }
 
     /**
-     * Sets the encryption key
-     * 
+     * Sets the encryption key.
+     *
      * @param string $key The string to use as an encryption key
+     *
      * @return self
      */
     public function setKey($key)
     {
         $this->key = $key;
+
         return $this;
     }
 }
