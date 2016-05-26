@@ -1,0 +1,25 @@
+{% block select2_widget %}
+    {{ block('choice_widget') }}
+    
+    {% if form.vars.include_source %}
+        <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/css/select2.min.css" />
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.2/js/select2.min.js"></script>
+    {% endif %}
+    
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $("#{{ form.vars.id }}").select2({
+                tags: {{ form.vars.tags ? "true" : "false" }},
+                minimumInputLength: {{ form.vars.minimum_input }},
+                ajax: {
+                    url: "{{ path(form.vars.route) }}",
+                    delay: 250,
+                    dataType: 'json',
+                    type: 'post',
+                    data: {% autoescape false %}{{ form.vars.handle_data }}{% endautoescape %},
+                    processResults: {% autoescape false %}{{ form.vars.process_results }}{% endautoescape %},
+                },
+            });
+        });
+    </script>
+{% endblock %}

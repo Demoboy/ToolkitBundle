@@ -4,10 +4,12 @@
  *
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Events;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Event class used when triggering an crud action.
@@ -18,6 +20,7 @@ use Symfony\Component\Form\FormInterface;
  */
 class CrudEvent extends Event
 {
+
     /**
      * The event trigger name.
      */
@@ -67,7 +70,7 @@ class CrudEvent extends Event
      * @param FormInterface $entity    The entity that the action is being performed on
      * @param FormInterfact $form      The form for the entity (if action includes a form)
      */
-    public function __construct($action, $extraVars, &$entity, FormInterface $form = null)
+    public function __construct($action, &$extraVars, &$entity, FormInterface $form = null)
     {
         $this->action = $action;
         $this->entity = $entity;
@@ -144,5 +147,9 @@ class CrudEvent extends Event
         $this->entities = $entities;
 
         return $this;
+    }
+    
+    public function addExtraVar($key, $value) {
+        $this->extraVars[$key] = $value;
     }
 }
