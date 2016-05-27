@@ -29,7 +29,7 @@ class S3Document extends BaseDocument
      *
      * @var string
      */
-    private $fileKey;
+    protected $fileKey;
 
     public function __construct($key = null)
     {
