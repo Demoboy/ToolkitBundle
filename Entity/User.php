@@ -13,6 +13,7 @@ use KMJ\ToolkitBundle\Interfaces\DeleteableEntityInterface;
 use KMJ\ToolkitBundle\Interfaces\HideableEntityInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use KMJ\ToolkitBundle\Interfaces\EnableableEntityInterface;
 
 /**
  * Mapped superclass for a basic user.
@@ -22,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\MappedSuperclass
  * @UniqueEntity(fields="email", message="That email is already in use. Please enter another one")
  */
-abstract class User extends BaseUser implements DeleteableEntityInterface, HideableEntityInterface
+abstract class User extends BaseUser implements DeleteableEntityInterface, HideableEntityInterface, EnableableEntityInterface
 {
     use \KMJ\ToolkitBundle\Traits\HideableEntityTrait;
 
@@ -73,6 +74,14 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
      * @ORM\Column(name="passwordReset", type="boolean")
      */
     protected $passwordReset;
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function isDisabled()
+    {
+        return !$this->enabled;
+    }
 
     /**
      * {@inheritdoc}
@@ -175,6 +184,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
         $this->userRoles = new ArrayCollection();
         $this->assignedLocations = new ArrayCollection();
         $this->setPasswordReset(false);
+        $this->enabled = true;
     }
 
     /**

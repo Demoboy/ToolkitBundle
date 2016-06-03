@@ -7,7 +7,7 @@
 namespace KMJ\ToolkitBundle\Interfaces;
 
 /**
- * Interace for hiding an entity from being displayed.
+ * Interface for hiding an entity from being displayed.
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *

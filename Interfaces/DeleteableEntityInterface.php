@@ -7,7 +7,7 @@
 namespace KMJ\ToolkitBundle\Interfaces;
 
 /**
- * Interace for deleting an entity from the db.
+* Interface for deleting an entity from the db.
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
