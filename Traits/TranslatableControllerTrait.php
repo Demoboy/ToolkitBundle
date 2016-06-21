@@ -43,7 +43,7 @@ trait TranslatableControllerTrait
             CrudController::ACTION_EDIT => 'updated',
             CrudController::ACTION_HIDE => 'hidden',
             CrudController::ACTION_VIEW => 'displayed',
-            CrudController::ACTION_UNHIDE => 'visible',
+            CrudController::ACTION_UNHIDE => 'made visible',
             CrudController::ACTION_ENABLE => "enabled",
             CrudController::ACTION_DISABLE => "disabled",
         ];
