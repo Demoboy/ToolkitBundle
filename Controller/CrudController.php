@@ -225,6 +225,10 @@ abstract class CrudController extends Controller
 
         $this->get('event_dispatcher')->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
         if ($event->getForm() !== null) {
@@ -235,6 +239,10 @@ abstract class CrudController extends Controller
             $this->get('event_dispatcher')->dispatch(
                 $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
             );
+            if ($event->getResponse() !== null) {
+                return $event->getResponse();
+            }
+
 
             $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
@@ -312,6 +320,11 @@ abstract class CrudController extends Controller
             $this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
+
         $entity->setHidden(true);
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -319,12 +332,21 @@ abstract class CrudController extends Controller
             $this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $entityManager->persist($entity);
         $entityManager->flush();
 
         $this->get('event_dispatcher')->dispatch(
             $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
         );
+
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
 
         return $this->setFlashAndRedirect(self::ACTION_HIDE, $entity);
     }
@@ -398,15 +420,27 @@ abstract class CrudController extends Controller
             $this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $entity->setHidden(false);
         $this->get('event_dispatcher')->dispatch(
             $this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $this->save($entity);
         $this->get('event_dispatcher')->dispatch(
             $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
         );
+
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
 
         return $this->setFlashAndRedirect($action, $entity);
     }
@@ -452,6 +486,10 @@ abstract class CrudController extends Controller
         $event = new CrudEvent($action, $this->extraVars, $entity);
         $this->get('event_dispatcher')->dispatch($this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event);
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $entityManager = $this->getDoctrine()->getManager();
 
         foreach ($entity->removeRelated() as $r) {
@@ -464,6 +502,10 @@ abstract class CrudController extends Controller
         $this->get('event_dispatcher')->dispatch(
             $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
         );
+
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
 
         return $this->setFlashAndRedirect($action, $entity);
     }
@@ -490,6 +532,10 @@ abstract class CrudController extends Controller
             $this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         if ($event->getForm() !== null) {
             $form = $event->getForm();
         }
@@ -500,6 +546,10 @@ abstract class CrudController extends Controller
             $this->get('event_dispatcher')->dispatch(
                 $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
             );
+
+            if ($event->getResponse() !== null) {
+                return $event->getResponse();
+            }
 
             $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
@@ -535,6 +585,10 @@ abstract class CrudController extends Controller
             $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
         return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
@@ -564,6 +618,10 @@ abstract class CrudController extends Controller
             $this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
         if ($event->getEntities() === null) {
@@ -583,6 +641,10 @@ abstract class CrudController extends Controller
         $this->get('event_dispatcher')->dispatch(
             $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
         );
+
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
 
         $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
@@ -626,15 +688,29 @@ abstract class CrudController extends Controller
             $this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $entity->setEnabled(true);
+
         $this->get('event_dispatcher')->dispatch(
             $this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $this->save($entity);
+
         $this->get('event_dispatcher')->dispatch(
             $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
         );
+
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
 
         return $this->setFlashAndRedirect($action, $entity);
     }
@@ -674,15 +750,27 @@ abstract class CrudController extends Controller
             $this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $entity->setEnabled(false);
         $this->get('event_dispatcher')->dispatch(
             $this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event
         );
 
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
+
         $this->save($entity);
         $this->get('event_dispatcher')->dispatch(
             $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
         );
+
+        if ($event->getResponse() !== null) {
+            return $event->getResponse();
+        }
 
         return $this->setFlashAndRedirect($action, $entity);
     }
@@ -713,6 +801,11 @@ abstract class CrudController extends Controller
                 $this->generateEventToken($action, self::TIMELINE_PRE_VALID), $event
             );
 
+            if ($event->getResponse() !== null) {
+                return $event->getResponse();
+            }
+
+
             $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
             if ($form->isValid()) {
@@ -721,6 +814,11 @@ abstract class CrudController extends Controller
                 $this->get('event_dispatcher')->dispatch(
                     $this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event
                 );
+
+                if ($event->getResponse() !== null) {
+                    return $event->getResponse();
+                }
+
 
                 $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 

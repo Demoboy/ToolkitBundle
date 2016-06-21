@@ -9,7 +9,7 @@ namespace KMJ\ToolkitBundle\Events;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Event class used when triggering an crud action.
@@ -53,6 +53,11 @@ class CrudEvent extends Event
      * @var array
      */
     protected $extraVars;
+
+    /**
+     * @var Response
+     */
+    protected $response;
 
     /**
      * Allows overridding of a view action, make this property not null and the entities
@@ -148,8 +153,20 @@ class CrudEvent extends Event
 
         return $this;
     }
-    
-    public function addExtraVar($key, $value) {
+
+    public function addExtraVar($key, $value)
+    {
         $this->extraVars[$key] = $value;
+    }
+
+    public function getResponse()
+    {
+        return $this->response;
+    }
+
+    public function setResponse(Response $response)
+    {
+        $this->response = $response;
+        return $this;
     }
 }
