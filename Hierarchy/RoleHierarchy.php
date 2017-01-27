@@ -45,7 +45,7 @@ class RoleHierarchy extends SymfonyRoleHierarchy
 
     public function getReachableRoles(array $roles)
     {
-        if (sizeof($this->map) === 0) {
+        if (count($this->map) === 0) {
             $this->buildRoleMap();
         }
 
@@ -88,6 +88,7 @@ class RoleHierarchy extends SymfonyRoleHierarchy
         } catch (Exception $exc) {
             $roles = [];
         }
+
 
         foreach ($roles as $role) {
             /** @var $role Role */
