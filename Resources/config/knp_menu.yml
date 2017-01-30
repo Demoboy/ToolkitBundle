@@ -1,0 +1,6 @@
+services:
+    kmj_toolkit.twig.extension.menu:
+        class: KMJ\ToolkitBundle\TwigExtension\MenuExtension
+        arguments: ["@knp_menu.helper"]
+        tags:
+            - { name: "twig.extension" }

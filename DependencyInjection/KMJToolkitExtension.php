@@ -41,5 +41,10 @@ class KMJToolkitExtension extends Extension
         if (true === class_exists("Nelmio\Alice\ProcessorInterface")) {
             $loader->load('alice.yml');
         }
+
+
+        if (true === class_exists("Knp\Menu\MenuItem")) {
+            $loader->load('knp_menu.yml');
+        }
     }
 }
