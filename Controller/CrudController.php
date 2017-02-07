@@ -625,10 +625,16 @@ abstract class CrudController extends Controller
         $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
         if ($event->getEntities() === null) {
-            if ($entity instanceof HideableEntityInterface && $request->query->get("show_hidden") !== "1") {
-                $entities = $repo->findBy([
-                    'hidden' => false,
-                ]);
+            if ($entity instanceof HideableEntityInterface) {
+                if ($entity instanceof HideableEntityInterface && $request->query->get('show_hidden') !== '1') {
+                    $entities = $repo->findBy([
+                        'hidden' => false,
+                    ]);
+                } else {
+                    $entities = $repo->findBy([
+                        'hidden' => true,
+                    ]);
+                }
             } else {
                 $entities = $repo->findAll();
             }
