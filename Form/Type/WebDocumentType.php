@@ -20,9 +20,11 @@ class WebDocumentType extends BaseDocumentType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
+        parent::configureOptions($resolver);
+
         $resolver->setDefaults([
             'empty_data' => new WebDocument(),
-            'data_class' => 'KMJ\ToolkitBundle\Entity\WebDocument',
+            'data_class' => WebDocument::class,
         ]);
     }
 
