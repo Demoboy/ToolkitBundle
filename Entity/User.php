@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -74,7 +75,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
      * @ORM\Column(name="passwordReset", type="boolean")
      */
     protected $passwordReset;
-    
+
     /**
      * {@inheritdoc}
      */

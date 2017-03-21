@@ -4,12 +4,13 @@
  *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This is the class that loads and manages your bundle configuration.
@@ -42,9 +43,38 @@ class KMJToolkitExtension extends Extension
             $loader->load('alice.yml');
         }
 
-
         if (true === class_exists("Knp\Menu\MenuItem")) {
             $loader->load('knp_menu.yml');
         }
+
+        if ($config['aws']['enabled'] === true) {
+            foreach ($this->convertToStringParams($config['aws'], 'kmj.toolkit.aws') as $key => $value) {
+                $container->setParameter($key, $value);
+            }
+
+            $container->setParameter('kmj.toolkit.aws', $config['aws']);
+            $loader->load('aws.yml');
+        }
+    }
+
+    private function convertToStringParams(array $configs, string $prefix): array
+    {
+        $normalizedConfigs = [];
+
+        if ($prefix !== '') {
+            $prefix = $prefix.'.';
+        }
+
+        foreach ($configs as $key => $value) {
+            if (is_array($value)) {
+                foreach ($this->convertToStringParams($value, '') as $nestedKey => $nestedValue) {
+                    $normalizedConfigs[$prefix.strtolower($key).'.'.$nestedKey] = $nestedValue;
+                }
+            } else {
+                $normalizedConfigs[$prefix.strtolower($key)] = $value;
+            }
+        }
+
+        return $normalizedConfigs;
     }
 }

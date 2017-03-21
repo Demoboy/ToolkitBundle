@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use FOS\UserBundle\Form\Type\RegistrationFormType;

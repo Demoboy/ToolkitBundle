@@ -1,0 +1,13 @@
+services:
+  aws.s3:
+    class: Aws\S3\S3Client
+    arguments:
+        - { version: "%kmj.toolkit.aws.services.s3.version%", region: "%kmj.toolkit.aws.services.s3.region%", credentials: { key: "%kmj.toolkit.aws.key%", secret: "%kmj.toolkit.aws.secret%" }}
+
+  kmj_toolkit.aws.s3.twig:
+    class: KMJ\ToolkitBundle\TwigExtension\S3Extension
+    arguments:
+      - "@aws.s3"
+      - "%kmj.toolkit.aws.services.s3.bucket%"
+    tags:
+      - { name: "twig.extension" }

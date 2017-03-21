@@ -4,10 +4,11 @@
  *
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Interfaces;
 
 /**
-* Interface for deleting an entity from the db.
+ * Interface for deleting an entity from the db.
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *

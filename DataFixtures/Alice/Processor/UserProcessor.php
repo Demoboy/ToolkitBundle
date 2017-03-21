@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\DataFixtures\Alice\Processor;
 
 use FOS\UserBundle\Model\User;

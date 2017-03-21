@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Interfaces;
 
 /**

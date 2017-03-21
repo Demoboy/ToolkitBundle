@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Traits;
 
 /**
@@ -21,20 +22,24 @@ trait EnableableEntityTrait
      * @var bool determine is the entity is enabled
      */
     protected $enabled = true;
-    
+
     /**
      * {@inheritdoc}
      */
-    public function setEnabled($enabled) {
+    public function setEnabled($enabled)
+    {
         $this->enabled = $enabled;
+
         return $this;
     }
-    
-    public function isEnabled() {
+
+    public function isEnabled()
+    {
         return $this->enabled;
     }
-    
-    public function isDisabled() {
+
+    public function isDisabled()
+    {
         return !$this->enabled;
-    }   
+    }
 }

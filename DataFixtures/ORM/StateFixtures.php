@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\DataFixtures\ORM;
 
 use KMJ\ToolkitBundle\Entity\State;

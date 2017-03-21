@@ -24,7 +24,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::__toString
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::__toString
      */
     public function test__toString()
     {
@@ -35,7 +35,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getPath
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getPath
      */
     public function testGetPath()
     {
@@ -55,7 +55,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getFile
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getFile
      *
      * @todo   Implement testGetFile().
      */
@@ -68,7 +68,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getName
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getName
      *
      * @todo   Implement testGetName().
      */
@@ -81,7 +81,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getUploadedBy
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getUploadedBy
      *
      * @todo   Implement testGetUploadedBy().
      */
@@ -94,7 +94,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getUploadedDate
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getUploadedDate
      *
      * @todo   Implement testGetUploadedDate().
      */
@@ -107,7 +107,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::setPath
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::setPath
      *
      * @todo   Implement testSetPath().
      */
@@ -120,7 +120,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::setFile
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::setFile
      *
      * @todo   Implement testSetFile().
      */
@@ -133,7 +133,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::setName
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::setName
      *
      * @todo   Implement testSetName().
      */
@@ -146,7 +146,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::setUploadedBy
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::setUploadedBy
      *
      * @todo   Implement testSetUploadedBy().
      */
@@ -159,7 +159,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::setUploadedDate
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::setUploadedDate
      *
      * @todo   Implement testSetUploadedDate().
      */
@@ -172,7 +172,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::uploadPath
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::uploadPath
      *
      * @todo   Implement testUploadPath().
      */
@@ -185,7 +185,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getUploadRootDir
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getUploadRootDir
      *
      * @todo   Implement testGetUploadRootDir().
      */
@@ -198,7 +198,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getAbsolutePath
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getAbsolutePath
      *
      * @todo   Implement testGetAbsolutePath().
      */
@@ -211,7 +211,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getWebPath
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getWebPath
      *
      * @todo   Implement testGetWebPath().
      */
@@ -224,7 +224,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::preUpload
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::preUpload
      *
      * @todo   Implement testPreUpload().
      */
@@ -237,7 +237,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::isImage
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::isImage
      *
      * @todo   Implement testIsImage().
      */
@@ -250,7 +250,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getMimeType
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getMimeType
      *
      * @todo   Implement testGetMimeType().
      */
@@ -263,7 +263,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::setMimeType
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::setMimeType
      *
      * @todo   Implement testSetMimeType().
      */
@@ -276,7 +276,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getChecksum
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getChecksum
      *
      * @todo   Implement testGetChecksum().
      */
@@ -289,7 +289,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::setChecksum
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::setChecksum
      *
      * @todo   Implement testSetChecksum().
      */
@@ -302,7 +302,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::getExtension
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getExtension
      *
      * @todo   Implement testGetExtension().
      */
@@ -315,7 +315,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::setExtension
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::setExtension
      *
      * @todo   Implement testSetExtension().
      */
@@ -328,7 +328,7 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\BaseDocument::slug
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::slug
      *
      * @todo   Implement testSlug().
      */

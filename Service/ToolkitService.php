@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Service;
 
 use FOS\UserBundle\Model\UserManagerInterface;

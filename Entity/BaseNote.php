@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2015, Ironman Reality LLC
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;

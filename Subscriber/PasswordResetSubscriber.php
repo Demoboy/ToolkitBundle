@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Subscriber;
 
 use FOS\UserBundle\Event\FormEvent;

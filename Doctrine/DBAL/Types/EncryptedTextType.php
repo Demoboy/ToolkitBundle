@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2016, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Doctrine\DBAL\Types;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;

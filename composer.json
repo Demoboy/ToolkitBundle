@@ -28,7 +28,7 @@
                     "type": "vcs",
                     "url": "https://github.com/Demoboy/AliceFixturesBundle"
                 }
-            ],
+            ],w
     "autoload": {
         "psr-4": {
             "KMJ\\ToolkitBundle\\": ""

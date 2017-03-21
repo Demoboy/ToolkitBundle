@@ -1,13 +1,13 @@
 <?php
 /**
- * This file is part of the KMJToolkitBundle.
+ * This file is part of the BarcodeBundle.
  *
- * @copyright (c) 2015, Kaelin Jacobson
+ * @copyright (c) 2017, Electronic Responsible Recyclers
  */
 
 namespace KMJ\ToolkitBundle\Form\Type;
 
-use KMJ\ToolkitBundle\Entity\S3EncryptedDocument;
+use KMJ\ToolkitBundle\Entity\S3Document;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -15,9 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since 1.2
  */
-class S3EncryptedDocumentType extends EncryptedDocumentType
+class S3DocumentType extends BaseDocumentType
 {
     /**
      * {@inheritdoc}
@@ -27,8 +27,7 @@ class S3EncryptedDocumentType extends EncryptedDocumentType
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'empty_data' => new S3EncryptedDocument(),
-            'data_class' => S3EncryptedDocument::class,
+            'data_class' => S3Document::class,
         ]);
     }
 
@@ -37,6 +36,6 @@ class S3EncryptedDocumentType extends EncryptedDocumentType
      */
     public function getBlockPrefix()
     {
-        return 'kmj_toolkit_s3encrypteddocument';
+        return 'kmj_toolkit_s3document';
     }
 }

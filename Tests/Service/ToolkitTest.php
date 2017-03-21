@@ -13,7 +13,7 @@ use PHPUnit_Framework_TestCase;
 abstract class ToolkitTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @covers KMJ\ToolkitBundle\Service\ToolkitService::__construct
+     * @covers \KMJ\ToolkitBundle\Service\ToolkitService::__construct
      */
     protected function getToolkit()
     {

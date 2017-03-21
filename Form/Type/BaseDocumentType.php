@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;

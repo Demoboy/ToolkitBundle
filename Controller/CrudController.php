@@ -32,7 +32,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  */
 abstract class CrudController extends Controller
 {
-
     /**
      * Action constant for hideAction method.
      */
@@ -71,12 +70,12 @@ abstract class CrudController extends Controller
     /**
      * Action constant for enableAction method.
      */
-    const ACTION_ENABLE = "enable";
+    const ACTION_ENABLE = 'enable';
 
     /**
      * Action constant for disableAction method.
      */
-    const ACTION_DISABLE = "disable";
+    const ACTION_DISABLE = 'disable';
 
     /**
      * Status for successful action.
@@ -167,9 +166,9 @@ abstract class CrudController extends Controller
     protected function getFlashKey($status)
     {
         if ($status === self::STATUS_SUCCESS) {
-            return "success";
+            return 'success';
         } else {
-            return "error";
+            return 'error';
         }
     }
 
@@ -243,7 +242,6 @@ abstract class CrudController extends Controller
                 return $event->getResponse();
             }
 
-
             $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
             return $this->setFlashAndRedirect($action, $entity);
@@ -255,9 +253,10 @@ abstract class CrudController extends Controller
     }
 
     /**
-     * Determines the template to use for rendering a twig view
+     * Determines the template to use for rendering a twig view.
      *
      * @param string $action
+     *
      * @return string
      */
     protected function determineTemplate($action)
@@ -324,7 +323,6 @@ abstract class CrudController extends Controller
             return $event->getResponse();
         }
 
-
         $entity->setHidden(true);
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -346,7 +344,6 @@ abstract class CrudController extends Controller
         if ($event->getResponse() !== null) {
             return $event->getResponse();
         }
-
 
         return $this->setFlashAndRedirect(self::ACTION_HIDE, $entity);
     }
@@ -660,7 +657,7 @@ abstract class CrudController extends Controller
     }
 
     /**
-     * Enables the given entity
+     * Enables the given entity.
      *
      * @param int $id The id of the entity to hide
      *
@@ -722,7 +719,7 @@ abstract class CrudController extends Controller
     }
 
     /**
-     * Disables the given entity
+     * Disables the given entity.
      *
      * @param int $id The id of the entity to hide
      *
@@ -811,7 +808,6 @@ abstract class CrudController extends Controller
                 return $event->getResponse();
             }
 
-
             $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
             if ($form->isValid()) {
@@ -824,7 +820,6 @@ abstract class CrudController extends Controller
                 if ($event->getResponse() !== null) {
                     return $event->getResponse();
                 }
-
 
                 $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 

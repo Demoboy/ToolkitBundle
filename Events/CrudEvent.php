@@ -20,7 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class CrudEvent extends Event
 {
-
     /**
      * The event trigger name.
      */
@@ -167,6 +166,7 @@ class CrudEvent extends Event
     public function setResponse(Response $response)
     {
         $this->response = $response;
+
         return $this;
     }
 }

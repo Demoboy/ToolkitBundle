@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use Aws\S3\S3Client;
@@ -21,7 +22,6 @@ use KMJ\ToolkitBundle\Service\ToolkitService;
  */
 class S3Document extends BaseDocument
 {
-    
     /**
      * The key for the file on S3.
      *
@@ -30,12 +30,6 @@ class S3Document extends BaseDocument
      * @var string
      */
     protected $fileKey;
-
-    public function __construct($key = null)
-    {
-        parent::__construct();
-        $this->load($key);
-    }
 
     /**
      * {@inheritdoc}
@@ -47,7 +41,7 @@ class S3Document extends BaseDocument
         return $toolkit->getRootDir().'/Resources/protectedUploads/';
     }
 
-    public function uploadToS3(S3Client $s3, $bucket, $key, $encrypt = true)
+    public function uploadToS3(S3Client $s3, $bucket, $key, $encrypt = true, $acl = 'private')
     {
         $this->preUpload();
         $this->uploadFile();
@@ -59,7 +53,7 @@ class S3Document extends BaseDocument
             'Bucket' => $bucket,
             'Key' => $this->fileKey,
             'SourceFile' => $absolutePath,
-            'ACL' => 'private',
+            'ACL' => $acl,
         ];
 
         if ($encrypt) {
@@ -103,6 +97,6 @@ class S3Document extends BaseDocument
 
     public function getUploadDir()
     {
-        return "s3_upload";
+        return 's3_upload';
     }
 }

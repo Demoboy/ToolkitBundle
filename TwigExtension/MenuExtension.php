@@ -1,9 +1,8 @@
 <?php
 /**
+ * This file is part of the BarcodeBundle.
  *
- * This file is part of the BarcodeBundle
  * @copyright (c) 2017, Electronic Responsible Recyclers
- *
  */
 
 namespace KMJ\ToolkitBundle\TwigExtension;

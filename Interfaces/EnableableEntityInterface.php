@@ -16,23 +16,24 @@ namespace KMJ\ToolkitBundle\Interfaces;
  */
 interface EnableableEntityInterface
 {
-
     /**
-     * Determines id the entity is enabled
-     * @return boolean
+     * Determines id the entity is enabled.
+     *
+     * @return bool
      */
     public function isEnabled();
 
     /**
-     * Sets the enabled var
-     * 
-     * @param boolean $enabled
+     * Sets the enabled var.
+     *
+     * @param bool $enabled
      */
     public function setEnabled($enabled);
-    
+
     /**
-     * Determines if the entity is disabled
-     * @return boolean
+     * Determines if the entity is disabled.
+     *
+     * @return bool
      */
     public function isDisabled();
 }

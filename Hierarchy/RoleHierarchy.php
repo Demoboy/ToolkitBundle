@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Hierarchy;
 
 use Doctrine\ORM\EntityManager;
@@ -88,7 +89,6 @@ class RoleHierarchy extends SymfonyRoleHierarchy
         } catch (Exception $exc) {
             $roles = [];
         }
-
 
         foreach ($roles as $role) {
             /** @var $role Role */

@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Traits;
 
 use JMS\TranslationBundle\Model\FileSource;
@@ -44,8 +45,8 @@ trait TranslatableControllerTrait
             CrudController::ACTION_HIDE => 'hidden',
             CrudController::ACTION_VIEW => 'displayed',
             CrudController::ACTION_UNHIDE => 'made visible',
-            CrudController::ACTION_ENABLE => "enabled",
-            CrudController::ACTION_DISABLE => "disabled",
+            CrudController::ACTION_ENABLE => 'enabled',
+            CrudController::ACTION_DISABLE => 'disabled',
         ];
     }
 

@@ -4,13 +4,14 @@
  *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Entity class that holds country information.
- * 
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @ORM\Table(name="kmj_toolkit_countries")
  * @ORM\Entity

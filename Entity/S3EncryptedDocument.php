@@ -7,7 +7,6 @@
 
 namespace KMJ\ToolkitBundle\Entity;
 
-use Aws\S3\S3Client;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,6 +20,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class S3EncryptedDocument extends S3Document
 {
-
     use \KMJ\ToolkitBundle\Traits\EncryptedDocumentTrait;
+
+    public function __construct($key = null)
+    {
+        parent::__construct();
+        $this->load($key);
+    }
 }

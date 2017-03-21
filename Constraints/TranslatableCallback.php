@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2015, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Constraints;
 
 use Symfony\Component\Validator\Constraints\Callback;

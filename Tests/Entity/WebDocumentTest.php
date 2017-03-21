@@ -4,6 +4,7 @@
  *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
 /**
@@ -22,7 +23,7 @@ class WebDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\WebDocument::rootPath
+     * @covers \KMJ\ToolkitBundle\Entity\WebDocument::rootPath
      */
     public function testRootPath()
     {
@@ -34,7 +35,7 @@ class WebDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     }
 
     /**
-     * @covers KMJ\ToolkitBundle\Entity\WebDocument::getUploadDir
+     * @covers \KMJ\ToolkitBundle\Entity\WebDocument::getUploadDir
      */
     public function testGetUploadDir()
     {
