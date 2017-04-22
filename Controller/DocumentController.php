@@ -161,7 +161,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Gets the decryted document as a string.
+     * Gets the decrypted document as a string.
      *
      * @param BaseDocument $document
      *

@@ -71,7 +71,7 @@ class CrudEvent extends Event
      *
      * @param string        $action    The action being performed
      * @param mixed         $extraVars Extra vars passed through to the event
-     * @param FormInterface $entity    The entity that the action is being performed on
+     * @param mixed $entity    The entity that the action is being performed on
      * @param FormInterfact $form      The form for the entity (if action includes a form)
      */
     public function __construct($action, &$extraVars, &$entity, FormInterface $form = null)

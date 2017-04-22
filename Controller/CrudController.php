@@ -12,23 +12,25 @@ use KMJ\ToolkitBundle\Events\CrudEvent;
 use KMJ\ToolkitBundle\Interfaces\DeleteableEntityInterface;
 use KMJ\ToolkitBundle\Interfaces\EnableableEntityInterface;
 use KMJ\ToolkitBundle\Interfaces\HideableEntityInterface;
+use KMJ\ToolkitBundle\Repository\FilterableEntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Abstract class used for basic crud functions. This class will handle
  * adding, editing, deleting, hiding, viewing, and displaying single objects.
- * The fucntions use EventListener to trigger events during the method execution,
+ * The functions use EventListener to trigger events during the method execution,
  * allowing code to be "injected" into these methods and modify the underlying entity.
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 abstract class CrudController extends Controller
 {
@@ -122,90 +124,11 @@ abstract class CrudController extends Controller
     protected $request;
 
     /**
-     * Gets the entity object for the CRUD controller.
-     *
-     * @return mixed A new entity object
-     */
-    abstract protected function getEntityClass();
-
-    /**
-     * Gets a new form type for the given entity.
-     *
-     * @return mixed A form type for the entity
-     */
-    abstract protected function getFormType($action);
-
-    /**
-     * Creates a redirect response for a given action.
-     *
-     * @param string $action The actions that is being performed
-     * @param string $status The status of the request
-     * @param string $entity The entity that has had the action performed on it
-     *
-     * @return RedirectResponse A redirect response for the action
-     */
-    abstract protected function createRedirectResponse($action, $status, $entity);
-
-    /**
-     * returns a string to use for key when referencing the entity. This
-     * customizes the varible to use in twig templates.
-     *
-     * @param bool $multi If true, the returned name should be plural
-     *
-     * @return $string
-     */
-    abstract protected function getTwigEntityName($multi = false);
-
-    /**
-     * The key to use for flash messages.
-     *
-     * @param $status The status to get the key for
-     *
-     * @return string
-     */
-    protected function getFlashKey($status)
-    {
-        if ($status === self::STATUS_SUCCESS) {
-            return 'success';
-        } else {
-            return 'error';
-        }
-    }
-
-    /**
-     * If the function returns false, the function calling this method will
-     * return a NotFoundHttpException, preventing execution.
-     *
-     * @param string $action The action being preformed
-     *
-     * @return bool True if the current action should be allowed to run
-     */
-    protected function allowAction($action)
-    {
-        return true;
-    }
-
-    /**
-     * Determine if the action is allowed to be preformed on the given entity. Unlike
-     * allowAction, returning false will cause a AccessDeniedException to be thrown.
-     * This is a great opportunity to check the object against any ACL or any other requirements i.e. status.
-     *
-     * @param string $action The action being preformed
-     * @param type   $entity The entity the action will be preformed against
-     *
-     * @return bool True if the action is allowed
-     */
-    protected function actionShouldRun($action, $entity)
-    {
-        return true;
-    }
-
-    /**
      * Handles adding a new entity to the db.
      *
      * @param Request $request The http request
      *
-     * @return array
+     * @return Response
      * @Route("/add")
      *
      * @throws NotFoundHttpException
@@ -216,7 +139,7 @@ abstract class CrudController extends Controller
         $this->request = $request;
         $action = self::ACTION_ADD;
         $form = null;
-        $entity = $this->getEntityClass();
+        $entity = $this->getEntity();
 
         $this->checkAction($action, $entity);
 
@@ -248,9 +171,261 @@ abstract class CrudController extends Controller
         }
 
         return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
-                'form' => $form->createView(),
+            'form' => $form->createView(),
         ]));
     }
+
+    /**
+     * Gets the entity from an id.
+     *
+     * @param int $id The id of the object to get
+     *
+     * @return mixed|null The object, null if not found
+     */
+    protected function getEntity($id = null)
+    {
+        if ($id === null) {
+            $class = $this->getEntityClass();
+
+            if (is_object($class)) {
+                @trigger_error("Use of getEntityClass returning an object is depreacted. Please use a string via ::class");
+
+                return $class;
+            }
+
+            return new $class();
+        }
+
+        return $this->getDoctrine()->getRepository($this->getEntityClassName())->find($id);
+    }
+
+    /**
+     * Gets the entity object for the CRUD controller.
+     *
+     * @return mixed A new entity object
+     */
+    abstract protected function getEntityClass();
+
+    /**
+     * Gets the classname of the entity as a string
+     *
+     * @return string
+     */
+    private function getEntityClassName()
+    {
+        $class = $this->getEntityClass();
+
+        if (is_object($class)) {
+            @trigger_error("Use of getEntityClass returning an object is depreacted. Please use a string via ::class");
+
+            return get_class($class);
+        }
+
+        return $class;
+    }
+
+    /**
+     * Determines if the action can be executed. Throws exceptions if not.
+     *
+     * @param string $action
+     * @param mixed  $entity
+     *
+     * @throws NotFoundHttpException
+     * @throws AccessDeniedException
+     */
+    protected function checkAction($action, $entity)
+    {
+        if (!$this->allowAction($action)) {
+            throw $this->createNotFoundException();
+        }
+
+        if (!$this->actionShouldRun($action, $entity)) {
+            throw $this->createAccessDeniedException();
+        }
+    }
+
+    /**
+     * If the function returns false, the function calling this method will
+     * return a NotFoundHttpException, preventing execution.
+     *
+     * @param string $action The action being preformed
+     *
+     * @return bool True if the current action should be allowed to run
+     */
+    protected function allowAction($action)
+    {
+        return true;
+    }
+
+    /**
+     * Determine if the action is allowed to be preformed on the given entity. Unlike
+     * allowAction, returning false will cause a AccessDeniedException to be thrown.
+     * This is a great opportunity to check the object against any ACL or any other requirements i.e. status.
+     *
+     * @param string $action The action being preformed
+     * @param string $entity The entity the action will be preformed against
+     *
+     * @return bool True if the action is allowed
+     */
+    protected function actionShouldRun($action, $entity)
+    {
+        return true;
+    }
+
+    /**
+     * Generates a token to use when calling an event.
+     *
+     * @param string $action The action being applied
+     * @param string $time   The time in function processing that the event is being dispatched
+     *
+     * @return string
+     */
+    protected function generateEventToken($action, $time)
+    {
+        return sprintf('%s.%s.%s.%s', CrudEvent::EVENT, $this->getClassName(), $action, $time);
+    }
+
+    /**
+     * Gets the current classname as a lower-case string.
+     *
+     * @return string The current class name
+     */
+    private function getClassName()
+    {
+        $className = get_class($this);
+        $pos = strrpos($className, '\\');
+
+        return str_replace('controller', '', strtolower(substr($className, $pos + 1)));
+    }
+
+    /**
+     * Creates and handles the entity's form. If the submitted form is valid, the entity is persisted.
+     * the $form varaible is passed as reference so that a boolean value could be returned,
+     * but still be able to access the form to pass to the view.
+     *
+     * @param Request $request The http request
+     * @param mixed   $entity  The entity
+     * @param string  $action  The action being performed
+     * @param null    $form    Passed by reference to allow accessing the form
+     *
+     * @return bool True if the form was valid and persisted to the db
+     */
+    protected function handleEntityForm(Request $request, $entity, $action, FormInterface &$form = null)
+    {
+        if ($form === null) {
+            $form = $this->createForm($this->getFormType($action), $entity);
+        }
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+            $event = new CrudEvent($action, $this->extraVars, $entity, $form);
+            $this->get('event_dispatcher')->dispatch(
+                $this->generateEventToken($action, self::TIMELINE_PRE_VALID), $event
+            );
+
+            if ($event->getResponse() !== null) {
+                return $event->getResponse();
+            }
+
+            $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
+
+            if ($form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+
+                $this->get('event_dispatcher')->dispatch(
+                    $this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event
+                );
+
+                if ($event->getResponse() !== null) {
+                    return $event->getResponse();
+                }
+
+                $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
+
+                $entityManager->persist($entity);
+                $entityManager->flush();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets a new form type for the given entity.
+     *
+     * @return mixed A form type for the entity
+     */
+    abstract protected function getFormType($action);
+
+    /**
+     * Sets a flash message reguarding a successful action, then creates
+     * a redirect response and returns it.
+     *
+     * @param string $action The action that was being preformed
+     * @param mixed  $entity The entity the action was preformed on
+     *
+     * @return RedirectResponse The response
+     *
+     * @throws InvalidArgumentException Only thrown if there is an invalid result of createRedirectResponse
+     */
+    private function setFlashAndRedirect($action, $entity)
+    {
+        $this->addFlash($this->getFlashKey(
+            self::STATUS_SUCCESS), $this->buildTranslationKey($action, self::STATUS_SUCCESS, $this->getClassName())
+        );
+
+        $response = $this->createRedirectResponse($action, self::STATUS_SUCCESS, $entity);
+
+        if (!($response instanceof RedirectResponse)) {
+            throw new InvalidArgumentException('Redirect response was not received');
+        }
+
+        return $response;
+    }
+
+    /**
+     * The key to use for flash messages.
+     *
+     * @param $status The status to get the key for
+     *
+     * @return string
+     */
+    protected function getFlashKey($status)
+    {
+        if ($status === self::STATUS_SUCCESS) {
+            return 'success';
+        } else {
+            return 'error';
+        }
+    }
+
+    /**
+     * Builds a translation key for the action and status for the class.
+     *
+     * @param string $action The action being preformed
+     * @param string $status The status of the action
+     * @param string $class  The class name
+     *
+     * @return string
+     */
+    protected function buildTranslationKey($action, $status, $class)
+    {
+        return sprintf('%s.crud.%s.%s', $class, $action, $status);
+    }
+
+    /**
+     * Creates a redirect response for a given action.
+     *
+     * @param string $action The actions that is being performed
+     * @param string $status The status of the request
+     * @param string $entity The entity that has had the action performed on it
+     *
+     * @return RedirectResponse A redirect response for the action
+     */
+    abstract protected function createRedirectResponse($action, $status, $entity);
 
     /**
      * Determines the template to use for rendering a twig view.
@@ -269,19 +444,6 @@ abstract class CrudController extends Controller
         $controller = str_replace('Controller', '', substr($class, $controllerPos + 1));
 
         return sprintf('%s:%s:%s.html.twig', $bundle, $controller, $action);
-    }
-
-    /**
-     * Generates a token to use when calling an event.
-     *
-     * @param string $action The action being applied
-     * @param string $time   The time in function processing that the event is being dispatched
-     *
-     * @return string
-     */
-    protected function generateEventToken($action, $time)
-    {
-        return sprintf('%s.%s.%s.%s', CrudEvent::EVENT, $this->getClassName(), $action, $time);
     }
 
     /**
@@ -315,6 +477,7 @@ abstract class CrudController extends Controller
         }
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
+
         $this->get('event_dispatcher')->dispatch(
             $this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event
         );
@@ -360,26 +523,6 @@ abstract class CrudController extends Controller
     {
         if ($entity === null) {
             throw $this->createNotFoundException();
-        }
-    }
-
-    /**
-     * Determines if the action can be executed. Throws exceptions if not.
-     *
-     * @param string $action
-     * @param mixed  $entity
-     *
-     * @throws NotFoundHttpException
-     * @throws AccessDeniedException
-     */
-    protected function checkAction($action, $entity)
-    {
-        if (!$this->allowAction($action)) {
-            throw $this->createNotFoundException();
-        }
-
-        if (!$this->actionShouldRun($action, $entity)) {
-            throw $this->createAccessDeniedException();
         }
     }
 
@@ -443,17 +586,15 @@ abstract class CrudController extends Controller
     }
 
     /**
-     * Builds a translation key for the action and status for the class.
+     * Saves an object to the database.
      *
-     * @param string $action The action being preformed
-     * @param string $status The status of the action
-     * @param string $class  The class name
-     *
-     * @return string
+     * @param mixed $entity The entity to be saved
      */
-    protected function buildTranslationKey($action, $status, $class)
+    protected function save($entity)
     {
-        return sprintf('%s.crud.%s.%s', $class, $action, $status);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($entity);
+        $entityManager->flush();
     }
 
     /**
@@ -513,6 +654,7 @@ abstract class CrudController extends Controller
      * @param Request $request The http request
      * @param int     $id      The task to edit
      * @Route("/edit/{id}", requirements={"id" = "\d+"})
+     * @return Response
      */
     public function editAction(Request $request, $id)
     {
@@ -554,10 +696,20 @@ abstract class CrudController extends Controller
         }
 
         return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
-                'form' => $form->createView(),
-                $this->getTwigEntityName() => $entity,
+            'form' => $form->createView(),
+            $this->getTwigEntityName() => $entity,
         ]));
     }
+
+    /**
+     * returns a string to use for key when referencing the entity. This
+     * customizes the varible to use in twig templates.
+     *
+     * @param bool $multi If true, the returned name should be plural
+     *
+     * @return $string
+     */
+    abstract protected function getTwigEntityName($multi = false);
 
     /**
      * Provides a detailed output of the task.
@@ -565,7 +717,7 @@ abstract class CrudController extends Controller
      * @param Request $request The symfony request
      * @param int     $id      The entity to view
      *
-     * @return array
+     * @return Response
      * @Route("/details/{id}",  requirements={"id" = "\d+"})
      */
     public function detailsAction(Request $request, $id)
@@ -578,8 +730,10 @@ abstract class CrudController extends Controller
         $this->cantBeNull($entity);
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
+
         $this->get('event_dispatcher')->dispatch(
-            $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
+            $this->generateEventToken($action, self::TIMELINE_POST_ACTION),
+            $event
         );
 
         if ($event->getResponse() !== null) {
@@ -588,9 +742,16 @@ abstract class CrudController extends Controller
 
         $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
-        return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
-                $this->getTwigEntityName() => $entity,
-        ]));
+        return $this->render(
+            $this->determineTemplate($action),
+            array_merge(
+                $this->extraVars,
+                [
+
+                    $this->getTwigEntityName() => $entity,
+                ]
+            )
+        );
     }
 
     /**
@@ -598,21 +759,25 @@ abstract class CrudController extends Controller
      *
      * @param Request $request The symfony request
      * @Route("/view")
+     * @return Response
      */
     public function viewAction(Request $request)
     {
         $this->request = $request;
         $action = self::ACTION_VIEW;
-        $entity = $this->getEntityClass();
+        $entity = $this->getEntity();
         $entities = null;
+        $filterForm = null;
 
         $this->checkAction($action, $entity);
 
-        $repo = $this->getDoctrine()->getRepository(get_class($this->getEntityClass()));
+        $repo = $this->getDoctrine()->getRepository($this->getEntityClassName());
 
         $event = new CrudEvent($action, $this->extraVars, $entity);
+
         $this->get('event_dispatcher')->dispatch(
-            $this->generateEventToken($action, self::TIMELINE_PRE_ACTION), $event
+            $this->generateEventToken($action, self::TIMELINE_PRE_ACTION),
+            $event
         );
 
         if ($event->getResponse() !== null) {
@@ -622,18 +787,35 @@ abstract class CrudController extends Controller
         $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
         if ($event->getEntities() === null) {
-            if ($entity instanceof HideableEntityInterface) {
-                if ($entity instanceof HideableEntityInterface && $request->query->get('show_hidden') !== '1') {
-                    $entities = $repo->findBy([
-                        'hidden' => false,
-                    ]);
+            if ($repo instanceof FilterableEntityRepository && $this->getFilterForm() !== null) {
+                //repo is correct to filter and form type is set
+                $filterForm = $this->createForm($this->getFilterForm());
+
+                $filterForm->handleRequest($request);
+
+                if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+                    $filter = $filterForm->getData();
+
+                    $entities = $repo->filter($filter);
                 } else {
-                    $entities = $repo->findBy([
-                        'hidden' => true,
-                    ]);
+                    //no filter since form hasn't been submitted
+                    //TODO allow injection of filter through request
+                    $entities = $repo->filter([]);
                 }
             } else {
-                $entities = $repo->findAll();
+                if ($entity instanceof HideableEntityInterface) {
+                    if ($entity instanceof HideableEntityInterface && $request->query->get('show_hidden') !== '1') {
+                        $entities = $repo->findBy([
+                            'hidden' => false,
+                        ]);
+                    } else {
+                        $entities = $repo->findBy([
+                            'hidden' => true,
+                        ]);
+                    }
+                } else {
+                    $entities = $repo->findAll();
+                }
             }
 
             $event->setEntities($entities);
@@ -642,7 +824,8 @@ abstract class CrudController extends Controller
         }
 
         $this->get('event_dispatcher')->dispatch(
-            $this->generateEventToken($action, self::TIMELINE_POST_ACTION), $event
+            $this->generateEventToken($action, self::TIMELINE_POST_ACTION),
+            $event
         );
 
         if ($event->getResponse() !== null) {
@@ -652,8 +835,19 @@ abstract class CrudController extends Controller
         $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
 
         return $this->render($this->determineTemplate($action), array_merge($this->extraVars, [
-                $this->getTwigEntityName(true) => $entities,
+            $this->getTwigEntityName(true) => $entities,
+            'filterForm' => $filterForm !== null ? $filterForm->createView() : null,
         ]));
+    }
+
+    /**
+     * Get the form to use for filtering view action. If returned null, filtering is disabled
+     *
+     * @return string|null
+     */
+    protected function getFilterForm()
+    {
+        return null;
     }
 
     /**
@@ -776,123 +970,5 @@ abstract class CrudController extends Controller
         }
 
         return $this->setFlashAndRedirect($action, $entity);
-    }
-
-    /**
-     * Creates and handles the entity's form. If the submitted form is valid, the entity is persisted.
-     * the $form varaible is passed as reference so that a boolean value could be returned,
-     * but still be able to access the form to pass to the view.
-     *
-     * @param Request $request The http request
-     * @param mixed   $entity  The entity
-     * @param string  $action  The action being performed
-     * @param null    $form    Passed by reference to allow accessing the form
-     *
-     * @return bool True if the form was valid and persisted to the db
-     */
-    protected function handleEntityForm(Request $request, $entity, $action, FormInterface &$form = null)
-    {
-        if ($form === null) {
-            $form = $this->createForm($this->getFormType($action), $entity);
-        }
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $event = new CrudEvent($action, $this->extraVars, $entity, $form);
-            $this->get('event_dispatcher')->dispatch(
-                $this->generateEventToken($action, self::TIMELINE_PRE_VALID), $event
-            );
-
-            if ($event->getResponse() !== null) {
-                return $event->getResponse();
-            }
-
-            $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
-
-            if ($form->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
-
-                $this->get('event_dispatcher')->dispatch(
-                    $this->generateEventToken($action, self::TIMELINE_ENTITY_PERSIST), $event
-                );
-
-                if ($event->getResponse() !== null) {
-                    return $event->getResponse();
-                }
-
-                $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
-
-                $entityManager->persist($entity);
-                $entityManager->flush();
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Gets the entity from an id.
-     *
-     * @param int $id The id of the object to get
-     *
-     * @return mixed|null The object, null if not found
-     */
-    protected function getEntity($id)
-    {
-        return $this->getDoctrine()->getRepository(get_class($this->getEntityClass()))->find($id);
-    }
-
-    /**
-     * Sets a flash message reguarding a successful action, then creates
-     * a redirect response and returns it.
-     *
-     * @param string $action The action that was being preformed
-     * @param string $entity The entity the action was preformed on
-     *
-     * @return RedirectResponse The response
-     *
-     * @throws InvalidArgumentException Only thrown if there is an invalid result of createRedirectResponse
-     */
-    private function setFlashAndRedirect($action, $entity)
-    {
-        $this->addFlash($this->getFlashKey(
-                self::STATUS_SUCCESS), $this->buildTranslationKey($action, self::STATUS_SUCCESS, $this->getClassName())
-        );
-
-        $response = $this->createRedirectResponse($action, self::STATUS_SUCCESS, $entity);
-
-        if (!($response instanceof RedirectResponse)) {
-            throw new InvalidArgumentException('Redirect response was not received');
-        }
-
-        return $response;
-    }
-
-    /**
-     * Gets the current classname as a lower-case string.
-     *
-     * @return string The current class name
-     */
-    private function getClassName()
-    {
-        $className = get_class($this);
-        $pos = strrpos($className, '\\');
-
-        return str_replace('controller', '', strtolower(substr($className, $pos + 1)));
-    }
-
-    /**
-     * Saves an object to the database.
-     *
-     * @param mixed $entity The entity to be saved
-     */
-    protected function save($entity)
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($entity);
-        $entityManager->flush();
     }
 }

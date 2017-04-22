@@ -1,4 +1,11 @@
 services:
+    kmj_toolkit.form.select2type:
+        class: KMJ\ToolkitBundle\Form\Type\Select2Type
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: form.type }
+
     kmj_toolkit.subscriber.password_reset:
         class: KMJ\ToolkitBundle\Subscriber\PasswordResetSubscriber
         arguments:
