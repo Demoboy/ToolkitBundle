@@ -24,7 +24,7 @@ class WebDocumentType extends BaseDocumentType
         parent::configureOptions($resolver);
 
         $resolver->setDefaults([
-            'empty_data' => new WebDocument(),
+            'empty_data' => null,
             'data_class' => WebDocument::class,
         ]);
     }
