@@ -12,11 +12,16 @@ use Zend\Filter\File\Encrypt;
  *
  * @author Kaelin Jacobson <kaelin@supercru.com>
  *
- * @since 1.0
+ * @since  1.0
  */
 trait EncryptedDocumentTrait
 {
-    abstract public function getChecksum();
+    /**
+     * The key to use to encrypt the file.
+     *
+     * @var string
+     */
+    protected $key;
 
     /**
      * {@inheritdoc}
@@ -27,13 +32,6 @@ trait EncryptedDocumentTrait
 
         return $toolkit->getRootDir().'/Resources/protectedUploads/';
     }
-
-    /**
-     * The key to use to encrypt the file.
-     *
-     * @var string
-     */
-    protected $key;
 
     /**
      * Basic Constructor.
@@ -76,19 +74,6 @@ trait EncryptedDocumentTrait
     }
 
     /**
-     * {@inheritdoc}
-     *
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
-     */
-    public function uploadFile()
-    {
-        parent::uploadFile();
-        $encrypt = new Encrypt($this->getZendEncryptOptions());
-        $encrypt->filter($this->getAbsolutePath());
-    }
-
-    /**
      * Gets the options to use when encrypting documents.
      *
      * @return array
@@ -102,6 +87,21 @@ trait EncryptedDocumentTrait
             'key' => $this->key,
             'compression' => 'bz2',
         ];
+    }
+
+    abstract public function getChecksum();
+
+    /**
+     * {@inheritdoc}
+     *
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function uploadFile()
+    {
+        parent::uploadFile();
+        $encrypt = new Encrypt($this->getZendEncryptOptions());
+        $encrypt->filter($this->getAbsolutePath());
     }
 
     /**

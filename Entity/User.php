@@ -7,14 +7,14 @@
 
 namespace KMJ\ToolkitBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 use KMJ\ToolkitBundle\Interfaces\DeleteableEntityInterface;
+use KMJ\ToolkitBundle\Interfaces\EnableableEntityInterface;
 use KMJ\ToolkitBundle\Interfaces\HideableEntityInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use KMJ\ToolkitBundle\Interfaces\EnableableEntityInterface;
 
 /**
  * Mapped superclass for a basic user.
@@ -77,6 +77,32 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     protected $passwordReset;
 
     /**
+     * Basic constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->userRoles = new ArrayCollection();
+        $this->assignedLocations = new ArrayCollection();
+        $this->setPasswordReset(false);
+        $this->enabled = true;
+    }
+
+    /**
+     * Set the value of Determines whether the user needs to reset their password. True if so.
+     *
+     * @param bool $value passwordReset
+     *
+     * @return self
+     */
+    public function setPasswordReset($value)
+    {
+        $this->passwordReset = $value;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function isDisabled()
@@ -99,6 +125,24 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
         }
 
         return $this;
+    }
+
+    /**
+     * Determines if a user has a specified role.
+     *
+     * @param mixed $role The role to check against
+     *
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        foreach ($this->userRoles as $userRole) {
+            if ($userRole === $role) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -140,24 +184,6 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Determines if a user has a specified role.
-     *
-     * @param mixed $role The role to check against
-     *
-     * @return bool
-     */
-    public function hasRole($role)
-    {
-        foreach ($this->userRoles as $userRole) {
-            if ($userRole === $role) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Determines if user has a specified role
      * by comparing role names.
      *
@@ -177,18 +203,6 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Basic constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->userRoles = new ArrayCollection();
-        $this->assignedLocations = new ArrayCollection();
-        $this->setPasswordReset(false);
-        $this->enabled = true;
-    }
-
-    /**
      * Translates the user into a string.
      *
      * @return string
@@ -196,6 +210,56 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     public function __toString()
     {
         return $this->getFirstName().' '.$this->getLastName();
+    }
+
+    /**
+     * Get the value of The user's first name.
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Get the value of The user's last name.
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set the value of The user's first name.
+     *
+     * @param string $value firstName
+     *
+     * @return self
+     */
+    public function setFirstName($value)
+    {
+        $this->firstName = $value;
+        $this->buildUsername();
+
+        return $this;
+    }
+
+    /**
+     * Set the value of The user's last name.
+     *
+     * @param string $value lastName
+     *
+     * @return self
+     */
+    public function setLastName($value)
+    {
+        $this->lastName = $value;
+        $this->buildUsername();
+
+        return $this;
     }
 
     /**
@@ -216,6 +280,16 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     public function isPasswordReset()
     {
         return $this->getPasswordReset();
+    }
+
+    /**
+     * Get the value of Determines whether the user needs to reset their password. True if so.
+     *
+     * @return bool
+     */
+    public function getPasswordReset()
+    {
+        return $this->passwordReset;
     }
 
     /**
@@ -241,88 +315,6 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
     }
 
     /**
-     * Get the value of The user's first name.
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set the value of The user's first name.
-     *
-     * @param string $value firstName
-     *
-     * @return self
-     */
-    public function setFirstName($value)
-    {
-        $this->firstName = $value;
-        $this->buildUsername();
-
-        return $this;
-    }
-
-    /**
-     * Get the value of The user's last name.
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * Set the value of The user's last name.
-     *
-     * @param string $value lastName
-     *
-     * @return self
-     */
-    public function setLastName($value)
-    {
-        $this->lastName = $value;
-        $this->buildUsername();
-
-        return $this;
-    }
-
-    /**
-     * Get the value of Determines whether the user needs to reset their password. True if so.
-     *
-     * @return bool
-     */
-    public function getPasswordReset()
-    {
-        return $this->passwordReset;
-    }
-
-    /**
-     * Set the value of Determines whether the user needs to reset their password. True if so.
-     *
-     * @param bool $value passwordReset
-     *
-     * @return self
-     */
-    public function setPasswordReset($value)
-    {
-        $this->passwordReset = $value;
-
-        return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeRelated()
-    {
-        return [];
-    }
-
-    /**
      * Sets the user roles.
      *
      * @param ArrayCollection $userRoles
@@ -334,5 +326,13 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
         $this->userRoles = $userRoles;
 
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeRelated()
+    {
+        return [];
     }
 }

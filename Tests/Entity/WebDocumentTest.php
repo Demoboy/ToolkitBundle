@@ -35,6 +35,16 @@ class WebDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     }
 
     /**
+     * Gets a new WebDocument.
+     *
+     * @return \KMJ\ToolkitBundle\Entity\WebDocument
+     */
+    private function getWebDocument()
+    {
+        return new WebDocument();
+    }
+
+    /**
      * @covers \KMJ\ToolkitBundle\Entity\WebDocument::getUploadDir
      */
     public function testGetUploadDir()
@@ -45,15 +55,5 @@ class WebDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
             $webDoc->getUploadDir() === 'uploads/documents',
             'Web document directory incorrect'
         );
-    }
-
-    /**
-     * Gets a new WebDocument.
-     *
-     * @return \KMJ\ToolkitBundle\Entity\WebDocument
-     */
-    private function getWebDocument()
-    {
-        return new WebDocument();
     }
 }

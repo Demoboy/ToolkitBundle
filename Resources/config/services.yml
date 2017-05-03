@@ -32,6 +32,13 @@ services:
         public: false
         tags:
             - { name: twig.extension }
+
+    kmj_toolkit.form.type.deep_linked_entity_filter:
+      class: KMJ\ToolkitBundle\Form\Type\DeepLinkedEntityFilterType
+      arguments:
+        - "@doctrine.orm.entity_manager"
+      tags:
+        - { name: form.type }
         
     kmj_toolkit.form.type.address:
         class: KMJ\ToolkitBundle\Form\Type\AddressType

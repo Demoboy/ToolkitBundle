@@ -32,9 +32,18 @@ class RoleHierarchyTest extends PHPUnit_Framework_TestCase
             return false;
         };
 
-        $this->assertTrue($roleInArray('ROLE_SUPER_ADMIN', $reachableSuperAdminRoles), 'Super Admin does not have super admin rights');
-        $this->assertTrue($roleInArray('ROLE_ADMIN', $reachableSuperAdminRoles), 'Super Admin does not have admin rights');
-        $this->assertTrue($roleInArray('ROLE_USER', $reachableSuperAdminRoles), 'Super Admin does not have user rights');
+        $this->assertTrue(
+            $roleInArray('ROLE_SUPER_ADMIN', $reachableSuperAdminRoles),
+            'Super Admin does not have super admin rights'
+        );
+        $this->assertTrue(
+            $roleInArray('ROLE_ADMIN', $reachableSuperAdminRoles),
+            'Super Admin does not have admin rights'
+        );
+        $this->assertTrue(
+            $roleInArray('ROLE_USER', $reachableSuperAdminRoles),
+            'Super Admin does not have user rights'
+        );
 
         $adminRole = new Role();
         $adminRole->setName('ROLE_ADMIN');
@@ -47,7 +56,10 @@ class RoleHierarchyTest extends PHPUnit_Framework_TestCase
 
         $multiRoles = $hierarchy->getReachableRoles([$superAdminRole, $adminRole]);
 
-        $this->assertTrue($roleInArray('ROLE_SUPER_ADMIN', $multiRoles), 'Super Admin does not have super admin rights');
+        $this->assertTrue(
+            $roleInArray('ROLE_SUPER_ADMIN', $multiRoles),
+            'Super Admin does not have super admin rights'
+        );
         $this->assertTrue($roleInArray('ROLE_ADMIN', $multiRoles), 'Super Admin does not have admin rights');
         $this->assertTrue($roleInArray('ROLE_USER', $multiRoles), 'Super Admin does not have user rights');
     }

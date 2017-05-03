@@ -76,6 +76,17 @@ class PasswordResetSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * {@inheritdoc}.
+     */
+    public static function getSubscribedEvents()
+    {
+        return [
+            'kernel.request' => ['isPasswordReset'],
+            FOSUserEvents::CHANGE_PASSWORD_SUCCESS => ['passwordChanged'],
+        ];
+    }
+
+    /**
      * Determines if the user has a password that needs to be reset.
      *
      * If the user needs a password reset and the current route is not that of the password reset page,
@@ -126,16 +137,5 @@ class PasswordResetSubscriber implements EventSubscriberInterface
 
         $event->setResponse($response);
         $this->session->remove('locationReferUri');
-    }
-
-    /**
-     * {@inheritdoc}.
-     */
-    public static function getSubscribedEvents()
-    {
-        return [
-            'kernel.request' => ['isPasswordReset'],
-            FOSUserEvents::CHANGE_PASSWORD_SUCCESS => ['passwordChanged'],
-        ];
     }
 }

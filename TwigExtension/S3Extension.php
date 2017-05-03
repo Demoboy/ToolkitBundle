@@ -55,13 +55,16 @@ class S3Extension extends Twig_Extension
 
     public function createS3SignedUrl(S3Document $doc)
     {
-        $cmd = $this->s3->getCommand('GetObject', [
-            'Bucket' => $this->bucket,
-            'Key' => $doc->getFileKey(),
-        ]);
+        $cmd = $this->s3->getCommand(
+            'GetObject',
+            [
+                'Bucket' => $this->bucket,
+                'Key' => $doc->getFileKey(),
+            ]
+        );
 
         $request = $this->s3->createPresignedRequest($cmd, '+5 minutes');
 
-        return (string) $request->getUri();
+        return (string)$request->getUri();
     }
 }

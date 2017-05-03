@@ -15,16 +15,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 class HiddenDocumentType extends BaseDocumentType
 {
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'empty_data' => new HiddenDocument(),
-            'data_class' => HiddenDocument::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'empty_data' => new HiddenDocument(),
+                'data_class' => HiddenDocument::class,
+            ]
+        );
     }
 
     /**

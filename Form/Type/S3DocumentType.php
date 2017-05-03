@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.2
+ * @since  1.2
  */
 class S3DocumentType extends BaseDocumentType
 {
@@ -26,9 +26,11 @@ class S3DocumentType extends BaseDocumentType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults([
-            'data_class' => S3Document::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => S3Document::class,
+            ]
+        );
     }
 
     /**

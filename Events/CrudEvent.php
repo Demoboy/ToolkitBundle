@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 class CrudEvent extends Event
 {
@@ -71,7 +71,7 @@ class CrudEvent extends Event
      *
      * @param string        $action    The action being performed
      * @param mixed         $extraVars Extra vars passed through to the event
-     * @param mixed $entity    The entity that the action is being performed on
+     * @param mixed         $entity    The entity that the action is being performed on
      * @param FormInterfact $form      The form for the entity (if action includes a form)
      */
     public function __construct($action, &$extraVars, &$entity, FormInterface $form = null)
@@ -132,7 +132,7 @@ class CrudEvent extends Event
     /**
      * Gets entities.
      *
-     * @return array
+     * @return iterable
      */
     public function getEntities()
     {
@@ -142,11 +142,11 @@ class CrudEvent extends Event
     /**
      * Sets entities.
      *
-     * @param array $entities Collection of entities
+     * @param iterable $entities Collection of entities
      *
      * @return CrudEvent
      */
-    public function setEntities(array $entities)
+    public function setEntities($entities)
     {
         $this->entities = $entities;
 

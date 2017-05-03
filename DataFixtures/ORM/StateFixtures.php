@@ -7,9 +7,9 @@
 
 namespace KMJ\ToolkitBundle\DataFixtures\ORM;
 
-use KMJ\ToolkitBundle\Entity\State;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
+use KMJ\ToolkitBundle\Entity\State;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 /**

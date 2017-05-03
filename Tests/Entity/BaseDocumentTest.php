@@ -8,6 +8,17 @@ namespace KMJ\ToolkitBundle\Entity;
 class BaseDocumentTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::__toString
+     */
+    public function test__toString()
+    {
+        $bd = $this->getBaseDocument();
+        $this->assertSame($bd->__toString(), 'unknown', "Document toString should be 'unknown'");
+        $bd->setName('Test document');
+        $this->assertSame($bd->__toString(), 'Test document', 'Document toString is not returning the name');
+    }
+
+    /**
      * @return BaseDocument
      */
     private function getBaseDocument()
@@ -24,17 +35,6 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::__toString
-     */
-    public function test__toString()
-    {
-        $bd = $this->getBaseDocument();
-        $this->assertTrue($bd->__toString() === 'unknown', "Document toString should be 'unknown'");
-        $bd->setName('Test document');
-        $this->assertTrue($bd->__toString() === 'Test document', 'Document toString is not returning the name');
-    }
-
-    /**
      * @covers \KMJ\ToolkitBundle\Entity\BaseDocument::getPath
      */
     public function testGetPath()
@@ -47,7 +47,14 @@ class BaseDocumentTest extends \PHPUnit_Framework_TestCase
 
         $tmpFileInfo = stream_get_meta_data($tmpFile);
 
-        $uploadedFile = new \Symfony\Component\HttpFoundation\File\UploadedFile($tmpFileInfo['uri'], 'tmpfile.txt', null, null, null, true);
+        $uploadedFile = new \Symfony\Component\HttpFoundation\File\UploadedFile(
+            $tmpFileInfo['uri'],
+            'tmpfile.txt',
+            null,
+            null,
+            null,
+            true
+        );
 
         $document->setFile($uploadedFile);
         $document->preUpload();

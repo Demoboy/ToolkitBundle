@@ -25,6 +25,14 @@ class RoleTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($role->getParent()->getName() === 'ROLE_PARENT');
     }
 
+    /**
+     * @return Role
+     */
+    protected function getRole()
+    {
+        return new Role();
+    }
+
     public function testToString()
     {
         $role = $this->getRole();
@@ -65,13 +73,5 @@ class RoleTest extends PHPUnit_Framework_TestCase
             ->setDescription('Testing Role Description');
 
         $this->assertTrue($role->getRole() === 'ROLE_TESTING_ROLE');
-    }
-
-    /**
-     * @return Role
-     */
-    protected function getRole()
-    {
-        return new Role();
     }
 }

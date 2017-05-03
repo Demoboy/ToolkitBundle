@@ -12,7 +12,7 @@ class UserProcessorTest extends \PHPUnit_Framework_TestCase
         $processor = $this->getProcessor();
         $user = $this->getMockForAbstractClass("KMJ\ToolkitBundle\Entity\User");
         $this->assertTrue($processor->postProcess($user));
-        $this->assertFalse($processor->postProcess((object) ['test' => 'test']));
+        $this->assertFalse($processor->postProcess((object)['test' => 'test']));
     }
 
     protected function getProcessor()

@@ -14,7 +14,8 @@ if ($this->getContainer()->get('toolkit')->overrideFixture() == true) {
     return new h4cc\AliceFixturesBundle\Fixtures\FixtureSet();
 }
 
-$set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet([
+$set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet(
+    [
         'seed' => rand(),
         'do_drop' => false,
         'do_persist' => true,
@@ -55,9 +56,12 @@ if (file_exists($appDir.$bundlePath.'/users.yml')) {
     $yml = $dumper->dump(
         [
             get_class($user) => [
-                'super_user:' => array_merge_recursive([
-                    'userRoles' => ['@superadmin'],
-                ], $adminUser),
+                'super_user:' => array_merge_recursive(
+                    [
+                        'userRoles' => ['@superadmin'],
+                    ],
+                    $adminUser
+                ),
             ],
         ]
     );

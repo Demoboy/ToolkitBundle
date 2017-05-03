@@ -28,25 +28,42 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName', null, [
+        $builder->add(
+            'firstName',
+            null,
+            [
                 'label' => 'kmjtoolkit.user.form.firstname.label',
-            ])
-            ->add('lastName', null, [
-                'label' => 'kmjtoolkit.user.form.lastname.label',
-            ]);
+            ]
+        )
+            ->add(
+                'lastName',
+                null,
+                [
+                    'label' => 'kmjtoolkit.user.form.lastname.label',
+                ]
+            );
 
         parent::buildForm($builder, $options);
 
         $emailOptions = $builder->get('email')->getOptions();
 
-        $builder->add('email', EmailType::class, array_merge($emailOptions, [
-            'constraints' => [
-                new Email([
-                    'groups' => ['simple'],
-                    'checkMX' => true,
-                    ]),
-            ],
-        ]));
+        $builder->add(
+            'email',
+            EmailType::class,
+            array_merge(
+                $emailOptions,
+                [
+                    'constraints' => [
+                        new Email(
+                            [
+                                'groups' => ['simple'],
+                                'checkMX' => true,
+                            ]
+                        ),
+                    ],
+                ]
+            )
+        );
 
         $builder->remove('username');
     }
@@ -56,9 +73,11 @@ class UserType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => User::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => User::class,
+            ]
+        );
     }
 
     public function getParent()

@@ -8,6 +8,7 @@
 namespace KMJ\ToolkitBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -15,7 +16,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 abstract class BaseNoteType extends AbstractType
 {
@@ -24,9 +25,13 @@ abstract class BaseNoteType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('text', 'textarea', [
-            'label' => 'kmjtoolkit.note.form.text.label',
-        ]);
+        $builder->add(
+            'text',
+            TextareaType::class,
+            [
+                'label' => 'kmjtoolkit.note.form.text.label',
+            ]
+        );
     }
 
     /**

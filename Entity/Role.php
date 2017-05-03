@@ -78,16 +78,6 @@ class Role implements RoleInterface
     protected $parent;
 
     /**
-     * {@inheritdoc}
-     *
-     * @return string
-     */
-    public function getRole()
-    {
-        return $this->getName();
-    }
-
-    /**
      * Basic constructor.
      */
     public function __construct()
@@ -96,25 +86,13 @@ class Role implements RoleInterface
     }
 
     /**
-     * Translates role into string by using the display name.
+     * {@inheritdoc}
      *
      * @return string
      */
-    public function __toString()
+    public function getRole()
     {
-        return $this->getDisplayName();
-    }
-
-    /**
-     * Get the value of Id.
-     *
-     * @codeCoverageIgnore
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
+        return $this->getName();
     }
 
     /**
@@ -148,6 +126,16 @@ class Role implements RoleInterface
     }
 
     /**
+     * Translates role into string by using the display name.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getDisplayName();
+    }
+
+    /**
      * Get the value of Display name for the role.
      *
      * @return string
@@ -169,6 +157,18 @@ class Role implements RoleInterface
         $this->displayName = $value;
 
         return $this;
+    }
+
+    /**
+     * Get the value of Id.
+     *
+     * @codeCoverageIgnore
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

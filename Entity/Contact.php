@@ -102,54 +102,6 @@ class Contact
     }
 
     /**
-     * Get the value of The first name for the contact.
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set the value of The first name for the contact.
-     *
-     * @param string $value firstName
-     *
-     * @return self
-     */
-    public function setFirstName($value)
-    {
-        $this->firstName = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of The last name for the contact.
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * Set the value of The last name for the contact.
-     *
-     * @param string $value lastName
-     *
-     * @return self
-     */
-    public function setLastName($value)
-    {
-        $this->lastName = $value;
-
-        return $this;
-    }
-
-    /**
      * Get the value of The phone number for the contact.
      *
      * @return PhoneNumber
@@ -205,6 +157,54 @@ class Contact
     public function __toString()
     {
         return $this->getFirstName().' '.$this->getLastName();
+    }
+
+    /**
+     * Get the value of The first name for the contact.
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Get the value of The last name for the contact.
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set the value of The last name for the contact.
+     *
+     * @param string $value lastName
+     *
+     * @return self
+     */
+    public function setLastName($value)
+    {
+        $this->lastName = $value;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of The first name for the contact.
+     *
+     * @param string $value firstName
+     *
+     * @return self
+     */
+    public function setFirstName($value)
+    {
+        $this->firstName = $value;
+
+        return $this;
     }
 
     /**

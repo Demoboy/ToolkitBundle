@@ -7,8 +7,8 @@
 
 namespace KMJ\ToolkitBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * BaseNote class that handles a typical note. Just extend and set author object.
@@ -17,7 +17,7 @@ use DateTime;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 abstract class BaseNote
 {
@@ -45,6 +45,14 @@ abstract class BaseNote
     private $text;
 
     /**
+     * Basic constructor.
+     */
+    public function __construct()
+    {
+        $this->date = new DateTime();
+    }
+
+    /**
      * Basic clone function.
      */
     public function __clone()
@@ -69,14 +77,6 @@ abstract class BaseNote
      * @return self
      */
     abstract public function setAuthor($author);
-
-    /**
-     * Basic constructor.
-     */
-    public function __construct()
-    {
-        $this->date = new DateTime();
-    }
 
     /**
      * Get the value of Id.

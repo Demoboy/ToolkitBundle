@@ -12,7 +12,7 @@ namespace KMJ\ToolkitBundle\Interfaces;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.2
+ * @since  1.2
  */
 interface EnableableEntityInterface
 {

@@ -15,7 +15,7 @@ use KMJ\ToolkitBundle\Entity\Role;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 class UserRepository extends EntityRepository
 {

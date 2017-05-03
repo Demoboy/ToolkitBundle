@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 class S3EncryptedDocumentType extends EncryptedDocumentType
 {
@@ -26,10 +26,12 @@ class S3EncryptedDocumentType extends EncryptedDocumentType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults([
-            'empty_data' => new S3EncryptedDocument(),
-            'data_class' => S3EncryptedDocument::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'empty_data' => new S3EncryptedDocument(),
+                'data_class' => S3EncryptedDocument::class,
+            ]
+        );
     }
 
     /**

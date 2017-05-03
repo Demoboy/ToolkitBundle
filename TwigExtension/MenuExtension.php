@@ -18,7 +18,7 @@ use Twig_SimpleFunction;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.0
+ * @since  1.0
  */
 class MenuExtension extends Twig_Extension
 {
@@ -63,13 +63,16 @@ class MenuExtension extends Twig_Extension
      */
     public function renderMenu($menu, array $options = [], $renderer = null)
     {
-        $options = array_merge([
-            'template' => 'KMJToolkitBundle:Menu:menu.html.twig',
-            'currentClass' => 'active',
-            'ancestorClass' => 'active',
-            'childrenClasses' => 'dropdown-menu',
-            'firstClass' => 'start',
-            ], $options);
+        $options = array_merge(
+            [
+                'template' => 'KMJToolkitBundle:Menu:menu.html.twig',
+                'currentClass' => 'active',
+                'ancestorClass' => 'active',
+                'childrenClasses' => 'dropdown-menu',
+                'firstClass' => 'start',
+            ],
+            $options
+        );
 
         if (!$menu instanceof ItemInterface) {
             $path = [];
@@ -102,7 +105,7 @@ class MenuExtension extends Twig_Extension
 
             if ($child->hasChildren()) {
                 $child->setChildrenAttribute('class', 'dropdown-menu');
-               // $child->setLinkAttribute('class', 'nav-link nav-toggle');
+                // $child->setLinkAttribute('class', 'nav-link nav-toggle');
                 $this->updateChildren($child->getChildren());
             } else {
                 $child->setLinkAttribute('class', 'nav-link');

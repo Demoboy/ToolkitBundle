@@ -63,18 +63,20 @@ class Select2Type extends AbstractType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults([
-            'tags' => false,
-            'include_source' => false,
-            'minimum_input' => 0,
-            'route' => null,
-            'process_results' => null,
-            'handle_data' => null,
-            'entity_class' => null,
-            'entity_property' => null,
-            'choices_as_values' => true,
-            'theme' => 'classic',
-        ]);
+        $resolver->setDefaults(
+            [
+                'tags' => false,
+                'include_source' => false,
+                'minimum_input' => 0,
+                'route' => null,
+                'process_results' => null,
+                'handle_data' => null,
+                'entity_class' => null,
+                'entity_property' => null,
+                'choices_as_values' => true,
+                'theme' => 'classic',
+            ]
+        );
 
         $resolver->setRequired('process_results');
         $resolver->setRequired('route');
@@ -95,15 +97,18 @@ class Select2Type extends AbstractType
     {
         parent::buildView($view, $form, $options);
 
-        $view->vars = array_merge($view->vars, [
-            'tags' => $options['tags'],
-            'include_source' => $options['include_source'],
-            'minimum_input' => $options['minimum_input'],
-            'route' => $options['route'],
-            'handle_data' => $options['handle_data'],
-            'process_results' => $options['process_results'],
-            'theme' => $options['theme'],
-        ]);
+        $view->vars = array_merge(
+            $view->vars,
+            [
+                'tags' => $options['tags'],
+                'include_source' => $options['include_source'],
+                'minimum_input' => $options['minimum_input'],
+                'route' => $options['route'],
+                'handle_data' => $options['handle_data'],
+                'process_results' => $options['process_results'],
+                'theme' => $options['theme'],
+            ]
+        );
     }
 
     public function getParent()

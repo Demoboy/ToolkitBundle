@@ -35,15 +35,6 @@ class HiddenDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     }
 
     /**
-     * @covers \KMJ\ToolkitBundle\Entity\HiddenDocument::getUploadDir
-     */
-    public function testGetUploadDir()
-    {
-        $hiddenDoc = $this->getHiddenDocument();
-        $this->assertTrue($hiddenDoc->getUploadDir() === 'documents', 'Hidden document directory incorrect');
-    }
-
-    /**
      * Gets a new WebDocument.
      *
      * @return HiddenDocument
@@ -51,5 +42,14 @@ class HiddenDocumentTest extends \KMJ\ToolkitBundle\Tests\Service\ToolkitTest
     private function getHiddenDocument()
     {
         return new HiddenDocument();
+    }
+
+    /**
+     * @covers \KMJ\ToolkitBundle\Entity\HiddenDocument::getUploadDir
+     */
+    public function testGetUploadDir()
+    {
+        $hiddenDoc = $this->getHiddenDocument();
+        $this->assertTrue($hiddenDoc->getUploadDir() === 'documents', 'Hidden document directory incorrect');
     }
 }

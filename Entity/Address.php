@@ -8,10 +8,10 @@
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
+use KMJ\ToolkitBundle\Constraints\TranslatableCallback;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-use KMJ\ToolkitBundle\Constraints\TranslatableCallback;
-use JsonSerializable;
 
 /**
  * Entity that handles Addresses.
@@ -25,7 +25,7 @@ class Address implements JsonSerializable
     /**
      * id for the address.
      *
-     * @var int
+     * @var int|null
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -36,7 +36,7 @@ class Address implements JsonSerializable
     /**
      * The street address.
      *
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="kmjtoolkit.address.street.validation.blank", groups={"simple", "full"})
@@ -50,7 +50,7 @@ class Address implements JsonSerializable
     /**
      * The street address (line 2).
      *
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -59,7 +59,7 @@ class Address implements JsonSerializable
     /**
      * The city.
      *
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="city", type="string", length=255, nullable=true)
      * @Assert\NotBlank(message="kmjtoolkit.address.city.validation.blank", groups={"simple", "full"})
@@ -69,7 +69,7 @@ class Address implements JsonSerializable
     /**
      * The state.
      *
-     * @var State
+     * @var State|null
      *
      * @ORM\ManyToOne(targetEntity="State", fetch="EAGER")
      * @ORM\JoinColumn(name="stateID", referencedColumnName="id", nullable=true)
@@ -79,7 +79,7 @@ class Address implements JsonSerializable
     /**
      * The country.
      *
-     * @var Country
+     * @var Country|null
      *
      * @ORM\ManyToOne(targetEntity="Country",  fetch="EAGER")
      * @ORM\JoinColumn(name="countryID", referencedColumnName="id", nullable=true)
@@ -90,7 +90,7 @@ class Address implements JsonSerializable
     /**
      * The zipcode.
      *
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="zipcode", type="string", length=12, nullable=true)
      */
@@ -99,7 +99,7 @@ class Address implements JsonSerializable
     /**
      * The short name of the address (for address books).
      *
-     * @var string
+     * @var string|null
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
@@ -108,7 +108,7 @@ class Address implements JsonSerializable
     /**
      * The longitude of the address.
      *
-     * @var float
+     * @var float|null
      *
      * @ORM\Column(name="longitude", type="decimal", scale=7, precision=10, nullable=true)
      */
@@ -117,7 +117,7 @@ class Address implements JsonSerializable
     /**
      * The latitude of the address.
      *
-     * @var float
+     * @var float|null
      *
      * @ORM\Column(name="latitude", type="decimal", scale=7, precision=10, nullable=true)
      */
@@ -126,17 +126,25 @@ class Address implements JsonSerializable
     /**
      * Boolean to determine if the address is a residental address.
      *
-     * @var bool
+     * @var bool|null
      * @ORM\Column(name="isResidential", type="boolean", nullable=true)
      */
     protected $residential;
+
+    /**
+     * Basic constructor.
+     */
+    public function __construct()
+    {
+        $this->name = 'Default';
+    }
 
     /**
      * Get the value of id for the address.
      *
      * @codeCoverageIgnore
      *
-     * @return int
+     * @return int|null
      */
     public function getId()
     {
@@ -216,82 +224,6 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get the value of The state.
-     *
-     * @return State
-     */
-    public function getState()
-    {
-        return $this->state;
-    }
-
-    /**
-     * Set the value of The state.
-     *
-     * @param State $value state
-     *
-     * @return self
-     */
-    public function setState(State $value = null)
-    {
-        $this->state = $value;
-
-        if ($this->country === null && $value !== null) {
-            $this->country = $this->state->getCountry();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get the value of The country.
-     *
-     * @return Country
-     */
-    public function getCountry()
-    {
-        return $this->country;
-    }
-
-    /**
-     * Set the value of The country.
-     *
-     * @param Country $value country
-     *
-     * @return self
-     */
-    public function setCountry(Country $value = null)
-    {
-        $this->country = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of The zipcode.
-     *
-     * @return string
-     */
-    public function getZipcode()
-    {
-        return $this->zipcode;
-    }
-
-    /**
-     * Set the value of The zipcode.
-     *
-     * @param string $value zipcode
-     *
-     * @return self
-     */
-    public function setZipcode($value)
-    {
-        $this->zipcode = $value;
-
-        return $this;
-    }
-
-    /**
      * Get the value of The short name of the address (for address books).
      *
      * @return string
@@ -364,14 +296,6 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Basic constructor.
-     */
-    public function __construct()
-    {
-        $this->name = 'Default';
-    }
-
-    /**
      * Translates the address into a string (with html formating).
      *
      * @return string
@@ -404,6 +328,58 @@ class Address implements JsonSerializable
     }
 
     /**
+     * Get the value of The state.
+     *
+     * @return State
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Get the value of The country.
+     *
+     * @return Country
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set the value of The country.
+     *
+     * @param Country $value country
+     *
+     * @return self
+     */
+    public function setCountry(Country $value = null)
+    {
+        $this->country = $value;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of The state.
+     *
+     * @param State $value state
+     *
+     * @return self
+     */
+    public function setState(State $value = null)
+    {
+        $this->state = $value;
+
+        if ($this->country === null && $value !== null) {
+            $this->country = $this->state->getCountry();
+        }
+
+        return $this;
+    }
+
+    /**
      * Allows cloning of this class.
      *
      * @codeCoverageIgnore
@@ -430,6 +406,16 @@ class Address implements JsonSerializable
     }
 
     /**
+     * Get residential.
+     *
+     * @return bool
+     */
+    public function isResidential()
+    {
+        return $this->residential;
+    }
+
+    /**
      * Set the value of Boolean to determine if the address is a residental address.
      *
      * @param bool $value residential
@@ -444,16 +430,6 @@ class Address implements JsonSerializable
     }
 
     /**
-     * Get residential.
-     *
-     * @return bool
-     */
-    public function isResidential()
-    {
-        return $this->residential;
-    }
-
-    /**
      * Determines if a state is valid based on the current country.
      *
      * @param ExecutionContextInterface $context The form context
@@ -464,8 +440,12 @@ class Address implements JsonSerializable
     public function isStateValid(ExecutionContextInterface $context)
     {
         if ($this->getCountry() !== null) {
-            if (($this->getCountry()->getCode() === 'US' || $this->getCountry()->getCode() === 'CA') &&
+            if (
                 $this->getState() === null
+                && (
+                    $this->getCountry()->getCode() === 'US'
+                    || $this->getCountry()->getCode() === 'CA'
+                )
             ) {
                 $context->addViolationAt('state', 'kmjtoolkit.address.state.validation.valid');
 
@@ -487,7 +467,7 @@ class Address implements JsonSerializable
     public function isZipcodeValid(ExecutionContextInterface $context)
     {
         if ($this->getCountry() !== null) {
-            if ($this->getCountry()->isZipCodeRequired() && $this->getZipcode() === null) {
+            if ($this->getZipcode() === null && $this->getCountry()->isZipCodeRequired()) {
                 $context->addViolationAt('zipcode', 'kmjtoolkit.address.zipcode.validation.valid');
 
                 return false;
@@ -498,14 +478,38 @@ class Address implements JsonSerializable
     }
 
     /**
+     * Get the value of The zipcode.
+     *
+     * @return string
+     */
+    public function getZipcode()
+    {
+        return $this->zipcode;
+    }
+
+    /**
+     * Set the value of The zipcode.
+     *
+     * @param string $value zipcode
+     *
+     * @return self
+     */
+    public function setZipcode($value)
+    {
+        $this->zipcode = $value;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function jsonSerialize()
     {
         return [
             'city' => $this->city,
-            'country' => ($this->country !== null ? $this->country->getName() : null),
-            'state' => ($this->state !== null ? $this->state->getName() : null),
+            'country' => $this->country !== null ? $this->country->getName() : null,
+            'state' => $this->state !== null ? $this->state->getName() : null,
             'zipcode' => $this->zipcode,
             'street' => $this->street,
             'unit' => $this->unit,

@@ -85,18 +85,6 @@ class Country
     }
 
     /**
-     * Get the value of Id.
-     *
-     * @codeCoverageIgnore
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * Get the value of Name of the country.
      *
      * @return string
@@ -118,6 +106,18 @@ class Country
         $this->name = $value;
 
         return $this;
+    }
+
+    /**
+     * Get the value of Id.
+     *
+     * @codeCoverageIgnore
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**

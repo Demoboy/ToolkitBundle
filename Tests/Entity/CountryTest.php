@@ -24,6 +24,14 @@ class CountryTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($country->__toString() === 'Country');
     }
 
+    /**
+     * @return Country
+     */
+    protected function getCountry()
+    {
+        return new Country();
+    }
+
     public function testName()
     {
         $country = $this->getCountry();
@@ -62,13 +70,5 @@ class CountryTest extends PHPUnit_Framework_TestCase
 
         $country->getStates()->add($state);
         $this->assertTrue(sizeof($country->getStates()) === 1);
-    }
-
-    /**
-     * @return Country
-     */
-    protected function getCountry()
-    {
-        return new Country();
     }
 }

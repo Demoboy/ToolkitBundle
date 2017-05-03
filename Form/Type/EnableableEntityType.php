@@ -18,15 +18,17 @@ class EnableableEntityType extends AbstractType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults([
-            'query_builder' => function (EntityRepository $er) {
-                $qb = $er->createQueryBuilder('e');
+        $resolver->setDefaults(
+            [
+                'query_builder' => function (EntityRepository $er) {
+                    $qb = $er->createQueryBuilder('e');
 
-                $qb->andWhere($qb->expr()->eq('e.enabled', true));
+                    $qb->andWhere($qb->expr()->eq('e.enabled', true));
 
-                return $qb;
-            },
-        ]);
+                    return $qb;
+                },
+            ]
+        );
     }
 
     public function getParent()

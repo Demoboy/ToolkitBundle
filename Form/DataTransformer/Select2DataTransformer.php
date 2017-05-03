@@ -2,6 +2,7 @@
 /**
  *
  * This file is part of the BarcodeBundle
+ *
  * @copyright (c) 2017, Electronic Responsible Recyclers
  *
  */
@@ -16,7 +17,7 @@ use Symfony\Component\Form\DataTransformerInterface;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 class Select2DataTransformer implements DataTransformerInterface
 {
@@ -33,6 +34,7 @@ class Select2DataTransformer implements DataTransformerInterface
 
     /**
      * Should the transformer create an entity if the passed value is not a int
+     *
      * @var bool
      */
     private $createTags;
@@ -44,10 +46,11 @@ class Select2DataTransformer implements DataTransformerInterface
 
     /**
      * Select2DataTransformer constructor.
+     *
      * @param EntityManager $manager
-     * @param string $class
-     * @param string $valueProperty
-     * @param bool $createTags
+     * @param string        $class
+     * @param string        $valueProperty
+     * @param bool          $createTags
      */
     public function __construct(EntityManager $manager, string $class, string $valueProperty, bool $createTags = false)
     {

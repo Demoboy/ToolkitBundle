@@ -60,9 +60,7 @@ class S3Document extends BaseDocument
             $putRequest['ServerSideEncryption'] = 'AES256';
         }
 
-        $promise = $s3->putObjectAsync($putRequest);
-
-        return $promise;
+        return $s3->putObjectAsync($putRequest);
     }
 
     public function __destruct()

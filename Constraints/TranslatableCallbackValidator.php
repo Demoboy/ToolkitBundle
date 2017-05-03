@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints\CallbackValidator;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 class TranslatableCallbackValidator extends CallbackValidator
 {

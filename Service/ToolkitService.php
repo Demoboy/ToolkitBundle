@@ -7,8 +7,8 @@
 
 namespace KMJ\ToolkitBundle\Service;
 
-use FOS\UserBundle\Model\UserManagerInterface;
 use Exception;
+use FOS\UserBundle\Model\UserManagerInterface;
 
 /**
  * Service class that creates FOSUser based on Symfony configs.
@@ -18,12 +18,23 @@ use Exception;
 class ToolkitService
 {
     /**
+     * Creates a singleton.
+     *
+     * @var Singleton
+     */
+    protected static $instance;
+    /**
+     * The FOS user manager.
+     *
+     * @var UserManagerInterface
+     */
+    protected $fosUM;
+    /**
      * Used for Doctrine Fixtures, if set to true the default fixture is not loaded.
      *
      * @var bool
      */
     private $overrideFixture;
-
     /**
      * The configs.
      *
@@ -32,24 +43,11 @@ class ToolkitService
     private $config;
 
     /**
-     * The FOS user manager.
-     *
-     * @var UserManagerInterface
-     */
-    protected $fosUM;
-
-    /**
-     * Creates a singleton.
-     *
-     * @var Singleton
-     */
-    protected static $instance;
-
-    /**
      * Basic constructor.
      *
      * @param array                $config The configs
      * @param UserManagerInterface $fosUM  The FOS User manager
+     *
      * @codeCoverageIgnore
      */
     public function __construct(array $config, UserManagerInterface $fosUM)

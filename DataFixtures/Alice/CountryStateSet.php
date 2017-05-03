@@ -12,12 +12,14 @@
  */
 $manager = $this->getContainer()->get('h4cc_alice_fixtures.manager');
 
-$set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet([
-    'seed' => rand(),
-    'do_drop' => false,
-    'do_persist' => true,
-    'order' => 50,
-]);
+$set = new \h4cc\AliceFixturesBundle\Fixtures\FixtureSet(
+    [
+        'seed' => rand(),
+        'do_drop' => false,
+        'do_persist' => true,
+        'order' => 50,
+    ]
+);
 $appDir = $this->getContainer()->get('kernel')->getRootDir();
 
 $loadFile = function ($filename) use ($set, $appDir) {

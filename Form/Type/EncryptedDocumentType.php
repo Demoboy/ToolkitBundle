@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 class EncryptedDocumentType extends BaseDocumentType
 {
@@ -35,10 +35,12 @@ class EncryptedDocumentType extends BaseDocumentType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults([
-            'empty_data' => new EncryptedDocument(),
-            'data_class' => EncryptedDocument::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'empty_data' => new EncryptedDocument(),
+                'data_class' => EncryptedDocument::class,
+            ]
+        );
     }
 
     /**

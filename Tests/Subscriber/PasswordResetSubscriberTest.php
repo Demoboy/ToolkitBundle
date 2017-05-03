@@ -30,6 +30,46 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(key_exists(FOSUserEvents::CHANGE_PASSWORD_SUCCESS, $events));
     }
 
+    /**
+     * @return PasswordResetSubscriber
+     */
+    protected function getPasswordResetSubscriber()
+    {
+        $security = $this->getMockBuilder(TokenStorage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $router = $this->getMockBuilder(Router::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $router->method('generate')
+            ->will($this->returnValue('http://example.com/login'));
+
+        $session = $this->getMockBuilder(Session::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $token = $this->getMockBuilder(AbstractToken::class)
+            ->getMock();
+
+        $this->user = $this->getMockForAbstractClass(User::class);
+
+        $security->setToken($token);
+
+        $token->method('getUser')
+            ->will($this->returnValue($this->user));
+
+        $security->method('getToken')
+            ->will($this->returnValue($token));
+
+        return new PasswordResetSubscriber(
+            $security, $router, $session, [
+                'password_reset_route' => 'fos_user_change_password',
+            ]
+        );
+    }
+
     public function testIsPasswordReset()
     {
         $password = $this->getPasswordResetSubscriber();
@@ -77,51 +117,13 @@ class PasswordResetSubscriberTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return PasswordResetSubscriber
-     */
-    protected function getPasswordResetSubscriber()
-    {
-        $security = $this->getMockBuilder(TokenStorage::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $router = $this->getMockBuilder(Router::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $router->method('generate')
-            ->will($this->returnValue('http://example.com/login'));
-
-        $session = $this->getMockBuilder(Session::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $token = $this->getMockBuilder(AbstractToken::class)
-            ->getMock();
-
-        $this->user = $this->getMockForAbstractClass(User::class);
-
-        $security->setToken($token);
-
-        $token->method('getUser')
-            ->will($this->returnValue($this->user));
-
-        $security->method('getToken')
-            ->will($this->returnValue($token));
-
-        return new PasswordResetSubscriber($security, $router, $session, [
-            'password_reset_route' => 'fos_user_change_password',
-        ]);
-    }
-
-    /**
      * @return GetResponseEvent
      */
     protected function getEvent()
     {
         return $this->getMockBuilder(GetResponseEvent::class)
-                ->disableOriginalConstructor()
-                ->setMethods(['getRequest'])
-                ->getMock();
+            ->disableOriginalConstructor()
+            ->setMethods(['getRequest'])
+            ->getMock();
     }
 }

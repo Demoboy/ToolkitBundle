@@ -23,6 +23,11 @@ class StateTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($state->getName() == 'State');
     }
 
+    protected function getState()
+    {
+        return new State();
+    }
+
     public function testCode()
     {
         $state = $this->getState();
@@ -53,10 +58,5 @@ class StateTest extends PHPUnit_Framework_TestCase
         $this->assertNull($state->__toString());
         $state->setName('State');
         $this->assertTrue($state->__toString() === 'State');
-    }
-
-    protected function getState()
-    {
-        return new State();
     }
 }

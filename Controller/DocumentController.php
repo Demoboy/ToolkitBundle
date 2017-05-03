@@ -71,6 +71,21 @@ class DocumentController extends Controller
     }
 
     /**
+     * Gets the decrypted document as a string.
+     *
+     * @param BaseDocument $document
+     *
+     * @return string the decrypted document
+     */
+    private function getDecryptedDocument(BaseDocument $document)
+    {
+        $toolkit = $this->get('toolkit');
+        $document->setKey($toolkit->getEncKey());
+
+        return $document->decrypt();
+    }
+
+    /**
      * @Route("/download/s3/encrypted/{document}")
      * @Method({"GET"})
      *
@@ -83,11 +98,13 @@ class DocumentController extends Controller
 
         @mkdir(dirname($document->getAbsolutePath()), '0664', true);
 
-        $s3Client->getObject([
-            'Bucket' => $this->getParameter('kmj_aws.s3.bucket'),
-            'Key' => $document->getFileKey(),
-            'SaveAs' => $document->getAbsolutePath(),
-        ]);
+        $s3Client->getObject(
+            [
+                'Bucket' => $this->getParameter('kmj_aws.s3.bucket'),
+                'Key' => $document->getFileKey(),
+                'SaveAs' => $document->getAbsolutePath(),
+            ]
+        );
         //file has been saved can now call decrypt on it
         $doc = $this->getDecryptedDocument($document);
 
@@ -115,10 +132,13 @@ class DocumentController extends Controller
     public function viewEncryptedAction(EncryptedDocument $document, $name = null)
     {
         if ($name === null) {
-            return $this->redirectToRoute('kmj_toolkit_document_viewencrypted', [
-                'document' => $document->getId(),
-                'name' => $document->getName(),
-            ]);
+            return $this->redirectToRoute(
+                'kmj_toolkit_document_viewencrypted',
+                [
+                    'document' => $document->getId(),
+                    'name' => $document->getName(),
+                ]
+            );
         }
 
         $response = new Response();
@@ -144,10 +164,13 @@ class DocumentController extends Controller
     public function viewHiddenAction(HiddenDocument $document, $name = null)
     {
         if ($name === null) {
-            return $this->redirectToRoute('kmj_toolkit_document_viewhidden', [
-                'document' => $document->getId(),
-                'name' => $document->getName(),
-            ]);
+            return $this->redirectToRoute(
+                'kmj_toolkit_document_viewhidden',
+                [
+                    'document' => $document->getId(),
+                    'name' => $document->getName(),
+                ]
+            );
         }
 
         $response = new Response();
@@ -158,20 +181,5 @@ class DocumentController extends Controller
         $response->setContent(file_get_contents($document->getAbsolutePath()));
 
         return $response;
-    }
-
-    /**
-     * Gets the decrypted document as a string.
-     *
-     * @param BaseDocument $document
-     *
-     * @return string the decrypted document
-     */
-    private function getDecryptedDocument(BaseDocument $document)
-    {
-        $toolkit = $this->get('toolkit');
-        $document->setKey($toolkit->getEncKey());
-
-        return $document->decrypt();
     }
 }

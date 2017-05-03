@@ -28,35 +28,62 @@ class ContactType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('firstName', TextType::class, [
+        $builder->add(
+            'firstName',
+            TextType::class,
+            [
                 'label' => 'kmjtoolkit.contact.form.firstname.label',
-            ])
-            ->add('lastName', TextType::class, [
-                'label' => 'kmjtoolkit.contact.form.lastname.label',
-            ]);
+            ]
+        )
+            ->add(
+                'lastName',
+                TextType::class,
+                [
+                    'label' => 'kmjtoolkit.contact.form.lastname.label',
+                ]
+            );
 
         if ($options['include_company']) {
-            $builder->add('companyName', TextType::class, [
-                'label' => 'kmjtoolkit.contact.form.companyname.label',
-                'required' => false,
-            ]);
+            $builder->add(
+                'companyName',
+                TextType::class,
+                [
+                    'label' => 'kmjtoolkit.contact.form.companyname.label',
+                    'required' => false,
+                ]
+            );
         }
 
-        $builder->add('phoneNumber', PhoneNumberType::class, [
+        $builder->add(
+            'phoneNumber',
+            PhoneNumberType::class,
+            [
                 'label' => 'kmjtoolkit.contact.form.phonenumber.label',
                 'default_region' => 'US',
                 'format' => PhoneNumberFormat::NATIONAL,
                 'required' => false,
-            ])
-            ->add('email', EmailType::class, [
-                'label' => 'kmjtoolkit.contact.form.email.label',
-                'required' => false,
-            ]);
+            ]
+        )
+            ->add(
+                'email',
+                EmailType::class,
+                [
+                    'label' => 'kmjtoolkit.contact.form.email.label',
+                    'required' => false,
+                ]
+            );
 
         if ($options['include_address']) {
-            $builder->add('address', AddressType::class, array_merge([
-                'label' => 'kmjtoolkit.contact.form.address.label',
-                    ], $options['address_options']));
+            $builder->add(
+                'address',
+                AddressType::class,
+                array_merge(
+                    [
+                        'label' => 'kmjtoolkit.contact.form.address.label',
+                    ],
+                    $options['address_options']
+                )
+            );
         }
     }
 
@@ -65,12 +92,14 @@ class ContactType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => Contact::class,
-            'include_address' => true,
-            'include_company' => true,
-            'address_options' => [],
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => Contact::class,
+                'include_address' => true,
+                'include_company' => true,
+                'address_options' => [],
+            ]
+        );
 
         $resolver->setAllowedTypes('include_address', ['boolean']);
         $resolver->setAllowedTypes('address_options', ['array']);

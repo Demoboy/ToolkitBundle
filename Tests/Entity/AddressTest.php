@@ -19,7 +19,12 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address = $this->getAddress();
         $this->assertNull($address->getStreet());
         $address->setStreet('123 Elm St SE');
-        $this->assertTrue($address->getStreet() === '123 Elm St SE');
+        $this->assertSame($address->getStreet(), '123 Elm St SE');
+    }
+
+    protected function getAddress()
+    {
+        return new \KMJ\ToolkitBundle\Entity\Address();
     }
 
     public function testUnit()
@@ -27,7 +32,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address = $this->getAddress();
         $this->assertNull($address->getUnit());
         $address->setUnit('Unit 3B');
-        $this->assertTrue($address->getUnit() === 'Unit 3B');
+        $this->assertSame($address->getUnit(), 'Unit 3B');
     }
 
     public function testCity()
@@ -35,7 +40,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address = $this->getAddress();
         $this->assertNull($address->getCity());
         $address->setCity('Seattle');
-        $this->assertTrue($address->getCity() === 'Seattle');
+        $this->assertSame($address->getCity(), 'Seattle');
     }
 
     /**
@@ -46,7 +51,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address = $this->getAddress();
         $this->assertNull($address->getState());
         $address->setState(new \KMJ\ToolkitBundle\Entity\State());
-        $this->assertTrue($address->getState() instanceof \KMJ\ToolkitBundle\Entity\State);
+        $this->assertInstanceOf(\KMJ\ToolkitBundle\Entity\State::class, $address->getState());
         $address->setState(null);
         $this->assertNull($address->getState());
     }
@@ -59,7 +64,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address = $this->getAddress();
         $this->assertNull($address->getCountry());
         $address->setCountry(new \KMJ\ToolkitBundle\Entity\Country());
-        $this->assertTrue($address->getCountry() instanceof \KMJ\ToolkitBundle\Entity\Country);
+        $this->assertInstanceOf(\KMJ\ToolkitBundle\Entity\Country::class, $address->getCountry());
         $address->setCountry(null);
         $this->assertNull($address->getCountry());
     }
@@ -69,15 +74,15 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address = $this->getAddress();
         $this->assertNull($address->getZipcode());
         $address->setZipcode('98012');
-        $this->assertTrue($address->getZipcode() === '98012');
+        $this->assertSame($address->getZipcode(), '98012');
     }
 
     public function testName()
     {
         $address = $this->getAddress();
-        $this->assertTrue($address->getName() === 'Default');
+        $this->assertSame($address->getName(), 'Default');
         $address->setName('Seattle Address');
-        $this->assertTrue($address->getName() === 'Seattle Address');
+        $this->assertSame($address->getName(), 'Seattle Address');
     }
 
     public function testLongitude()
@@ -85,7 +90,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address = $this->getAddress();
         $this->assertNull($address->getLongitude());
         $address->setLongitude(38.3452);
-        $this->assertTrue($address->getLongitude() === 38.3452);
+        $this->assertSame($address->getLongitude(), 38.3452);
     }
 
     public function testLatitude()
@@ -93,7 +98,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address = $this->getAddress();
         $this->assertNull($address->getLatitude());
         $address->setLatitude(-38.3452);
-        $this->assertTrue($address->getLatitude() === -38.3452);
+        $this->assertSame($address->getLatitude(), -38.3452);
     }
 
     /**
@@ -108,7 +113,7 @@ class AddressTest extends PHPUnit_Framework_TestCase
             ->setCity('Seattle')
             ->setZipcode('98002');
 
-        $this->assertTrue($address->__toString() === '123 Elm Street SE Seattle 98002', 'no country and state');
+        $this->assertSame($address->__toString(), '123 Elm Street SE Seattle 98002', 'no country and state');
 
         $state = new \KMJ\ToolkitBundle\Entity\State();
         $state->setName('Washington')
@@ -121,11 +126,11 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $address->setState($state)
             ->setCountry($country);
 
-        $this->assertTrue($address->__toString() === '123 Elm Street SE Seattle, WA US 98002');
+        $this->assertSame($address->__toString(), '123 Elm Street SE Seattle, WA US 98002');
 
         $address->setUnit('Unit 3B');
 
-        $this->assertTrue($address->__toString() === '123 Elm Street SE Unit 3B Seattle, WA US 98002');
+        $this->assertSame($address->__toString(), '123 Elm Street SE Unit 3B Seattle, WA US 98002');
     }
 
     public function testResidential()
@@ -197,10 +202,5 @@ class AddressTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($address->isValid());
         $address->setStreet('123 Elm st');
         $this->assertTrue($address->isValid());
-    }
-
-    protected function getAddress()
-    {
-        return new \KMJ\ToolkitBundle\Entity\Address();
     }
 }

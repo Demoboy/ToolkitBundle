@@ -7,10 +7,10 @@
 
 namespace KMJ\ToolkitBundle\Tests\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use KMJ\ToolkitBundle\Entity\Role;
 use KMJ\ToolkitBundle\Entity\User;
 use PHPUnit_Framework_TestCase;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Test class.
@@ -26,6 +26,14 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->assertNull($user->getFirstName());
         $user->setFirstName('Tony');
         $this->assertEquals('Tony', $user->getFirstName());
+    }
+
+    /**
+     * @return User
+     */
+    protected function getUser()
+    {
+        return $this->getMockForAbstractClass('KMJ\ToolkitBundle\Entity\User');
     }
 
     public function testLastName()
@@ -89,13 +97,5 @@ class UserTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue(is_array($user->getRoles()));
         $this->assertTrue($user->getUserRoles() instanceof ArrayCollection);
-    }
-
-    /**
-     * @return User
-     */
-    protected function getUser()
-    {
-        return $this->getMockForAbstractClass('KMJ\ToolkitBundle\Entity\User');
     }
 }

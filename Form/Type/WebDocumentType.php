@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 class WebDocumentType extends BaseDocumentType
 {
@@ -23,10 +23,12 @@ class WebDocumentType extends BaseDocumentType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setDefaults([
-            'empty_data' => null,
-            'data_class' => WebDocument::class,
-        ]);
+        $resolver->setDefaults(
+            [
+                'empty_data' => null,
+                'data_class' => WebDocument::class,
+            ]
+        );
     }
 
     /**

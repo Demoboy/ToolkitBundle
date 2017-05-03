@@ -7,7 +7,7 @@ namespace KMJ\ToolkitBundle\Traits;
  *
  * @author Kaelin Jacobson <kaelin@supercru.com>
  *
- * @since 1.0
+ * @since  1.0
  */
 trait SlugifyTrait
 {

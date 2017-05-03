@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 abstract class BaseDocumentType extends AbstractType
 {
@@ -38,17 +38,25 @@ abstract class BaseDocumentType extends AbstractType
     {
         $includeName = $options['include_name'];
 
-        $builder->add('file', FileType::class, [
-            'label' => 'kmjtoolkit.document.form.file.label',
-            'required' => false,
-            'invalid_message' => 'kmjtoolkit.document.form.file.invalid',
-        ]);
+        $builder->add(
+            'file',
+            FileType::class,
+            [
+                'label' => 'kmjtoolkit.document.form.file.label',
+                'required' => false,
+                'invalid_message' => 'kmjtoolkit.document.form.file.invalid',
+            ]
+        );
 
         if ($includeName) {
-            $builder->add('name', TextType::class, [
-                'label' => 'kmjtoolkit.document.form.name.label',
-                'required' => false,
-            ]);
+            $builder->add(
+                'name',
+                TextType::class,
+                [
+                    'label' => 'kmjtoolkit.document.form.name.label',
+                    'required' => false,
+                ]
+            );
         }
     }
 }

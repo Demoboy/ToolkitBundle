@@ -16,7 +16,7 @@
 
 {% block label %}
     {%- if item.extras.icon is defined -%}
-        <i class="{{item.extras.icon}}"></i>
+        <i class="{{ item.extras.icon }}"></i>
     {%- endif -%}
     <span>{{ item.label }}</span>
     {%- if item.extras.label is defined -%}

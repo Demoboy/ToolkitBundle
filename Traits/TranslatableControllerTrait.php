@@ -16,18 +16,34 @@ use KMJ\ToolkitBundle\Controller\CrudController;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 trait TranslatableControllerTrait
 {
     /**
-     * Gets the english name of the entity.
-     *
-     * @return string The description of the entity. Used to load default english translations
+     * {@inheritdoc}
      */
-    public static function getEntityEnglishName()
+    public static function getTranslationMessages()
     {
-        return 'Unknown';
+        $className = get_class();
+        $pos = strrpos($className, '\\');
+        $class = str_replace('controller', '', strtolower(substr($className, $pos + 1)));
+        $messages = [];
+
+        $actions = self::getActions();
+        $statuses = self::getStatuses();
+
+        foreach ($actions as $action => $actionTrans) {
+            foreach ($statuses as $status => $statusTrans) {
+                $message = new Message(sprintf('%s.crud.%s.%s', $class, $action, $status));
+
+                $message->setDesc(sprintf('%s was %s %s', self::getEntityEnglishName(), $actionTrans, $statusTrans));
+                $message->addSource(new FileSource(__FILE__, __LINE__));
+                $messages[] = $message;
+            }
+        }
+
+        return $messages;
     }
 
     /**
@@ -64,28 +80,12 @@ trait TranslatableControllerTrait
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the english name of the entity.
+     *
+     * @return string The description of the entity. Used to load default english translations
      */
-    public static function getTranslationMessages()
+    public static function getEntityEnglishName()
     {
-        $className = get_class();
-        $pos = strrpos($className, '\\');
-        $class = str_replace('controller', '', strtolower(substr($className, $pos + 1)));
-        $messages = [];
-
-        $actions = self::getActions();
-        $statuses = self::getStatuses();
-
-        foreach ($actions as $action => $actionTrans) {
-            foreach ($statuses as $status => $statusTrans) {
-                $message = new Message(sprintf('%s.crud.%s.%s', $class, $action, $status));
-
-                $message->setDesc(sprintf('%s was %s %s', self::getEntityEnglishName(), $actionTrans, $statusTrans));
-                $message->addSource(new FileSource(__FILE__, __LINE__));
-                $messages[] = $message;
-            }
-        }
-
-        return $messages;
+        return 'Unknown';
     }
 }

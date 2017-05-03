@@ -20,7 +20,7 @@ use KMJ\ToolkitBundle\Service\ToolkitService;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 class WebDocument extends BaseDocument
 {
@@ -35,14 +35,6 @@ class WebDocument extends BaseDocument
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getUploadDir()
-    {
-        return 'uploads/documents';
-    }
-
-    /**
      * Gets the path for file visible from the web directory.
      *
      * @return string|null The path from the web directory
@@ -50,6 +42,14 @@ class WebDocument extends BaseDocument
     public function getWebPath()
     {
         return null === $this->path ? null : $this->getUploadDir().'/'.$this->path;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUploadDir()
+    {
+        return 'uploads/documents';
     }
 
     /**

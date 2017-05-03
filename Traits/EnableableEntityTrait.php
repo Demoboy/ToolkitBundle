@@ -12,7 +12,7 @@ namespace KMJ\ToolkitBundle\Traits;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 trait EnableableEntityTrait
 {
@@ -23,6 +23,11 @@ trait EnableableEntityTrait
      */
     protected $enabled = true;
 
+    public function isEnabled()
+    {
+        return $this->enabled;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -31,11 +36,6 @@ trait EnableableEntityTrait
         $this->enabled = $enabled;
 
         return $this;
-    }
-
-    public function isEnabled()
-    {
-        return $this->enabled;
     }
 
     public function isDisabled()

@@ -18,7 +18,7 @@ use Zend\Filter\Encrypt;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
- * @since 1.2
+ * @since  1.2
  */
 class EncryptedTextType extends Type
 {
@@ -53,12 +53,18 @@ class EncryptedTextType extends Type
         return sprintf('%s;%s', $encryptedText, $this->getSalt());
     }
 
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    /**
+     * Set the value of The salt to use to encrypt the text with.
+     *
+     * @param string salt
+     *
+     * @return self
+     */
+    public function setSalt($salt)
     {
-        list($encryptedText, $this->salt) = explode(';', $value);
-        $zend = new Decrypt($this->getEncryptionOptions());
+        $this->salt = $salt;
 
-        return $zend->filter($encryptedText);
+        return $this;
     }
 
     /**
@@ -90,17 +96,11 @@ class EncryptedTextType extends Type
         return $this->salt;
     }
 
-    /**
-     * Set the value of The salt to use to encrypt the text with.
-     *
-     * @param string salt
-     *
-     * @return self
-     */
-    public function setSalt($salt)
+    public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        $this->salt = $salt;
+        list($encryptedText, $this->salt) = explode(';', $value);
+        $zend = new Decrypt($this->getEncryptionOptions());
 
-        return $this;
+        return $zend->filter($encryptedText);
     }
 }

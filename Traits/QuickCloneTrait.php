@@ -11,7 +11,7 @@ use ReflectionClass;
  *
  * @author Kaelin Jacobson <kaelin@kaelinjacobson.com>
  *
- * @since 1.1
+ * @since  1.1
  */
 trait QuickCloneTrait
 {
@@ -25,25 +25,24 @@ trait QuickCloneTrait
     public function __clone()
     {
         if ($this->id || $this->allowClone) {
+            $class = $this;
             //entity is initalized you can preform a clone on the object data
             if ($this instanceof Proxy) {
                 $class = ClassUtils::getRealClass(get_class($this));
-            } else {
-                $class = $this;
             }
 
             $rc = new ReflectionClass($class);
 
             foreach ($rc->getProperties() as $prop) {
-                if (in_array($prop->getName(), $this->ignoreClonedProperties()) ||
-                    substr($prop->getName(), 0, 2) === '__'
+                if (substr($prop->getName(), 0, 2) === '__'
+                    || in_array($prop->getName(), $this->ignoreClonedProperties(), true)
                 ) {
                     continue;
                 }
 
                 $prop->setAccessible(true);
 
-                if (in_array($prop->getName(), $this->nullClonedProperties())) {
+                if (in_array($prop->getName(), $this->nullClonedProperties(), true)) {
                     $prop->setValue($this, null);
                 }
 

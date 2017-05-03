@@ -135,36 +135,6 @@ abstract class BaseDocument
     }
 
     /**
-     * Get file.
-     *
-     * @return UploadedFile
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    /**
-     * Get name.
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Get uploadedDate.
-     *
-     * @return DateTime
-     */
-    public function getUploadedDate()
-    {
-        return $this->uploadedDate;
-    }
-
-    /**
      * Set path.
      *
      * @param string $path
@@ -179,38 +149,13 @@ abstract class BaseDocument
     }
 
     /**
-     * Set file.
+     * Get uploadedDate.
      *
-     * @param UploadedFile $file
-     *
-     * @return Document
+     * @return DateTime
      */
-    public function setFile(UploadedFile $file)
+    public function getUploadedDate()
     {
-        $this->file = $file;
-        $this->mimeType = $file->getMimeType();
-        $this->checksum = md5(file_get_contents($file->getRealPath()));
-        $this->extension = $file->guessExtension();
-
-        if ($this->extension === null) {
-            $this->extension = $file->getClientOriginalExtension();
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set name.
-     *
-     * @param string $name
-     *
-     * @return Document
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
+        return $this->uploadedDate;
     }
 
     /**
@@ -244,15 +189,23 @@ abstract class BaseDocument
     }
 
     /**
+     * Get file.
+     *
+     * @return UploadedFile
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
      * Gets the root directory where uploads should be placed.
      *
      * @return string
      */
     public function getUploadRootDir()
     {
-        $path = $this->rootPath().$this->getUploadDir();
-
-        return $path;
+        return $this->rootPath().$this->getUploadDir();
     }
 
     /**
@@ -266,6 +219,27 @@ abstract class BaseDocument
      * @return string
      */
     abstract public function getUploadDir();
+
+    /**
+     * Set file.
+     *
+     * @param UploadedFile $file
+     *
+     * @return Document
+     */
+    public function setFile(UploadedFile $file)
+    {
+        $this->file = $file;
+        $this->mimeType = $file->getMimeType();
+        $this->checksum = md5(file_get_contents($file->getRealPath()));
+        $this->extension = $file->guessExtension();
+
+        if ($this->extension === null) {
+            $this->extension = $file->getClientOriginalExtension();
+        }
+
+        return $this;
+    }
 
     /**
      * Gets the absolute path to the file.
@@ -294,6 +268,30 @@ abstract class BaseDocument
                 $this->name = $this->file->getClientOriginalName();
             }
         }
+    }
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set name.
+     *
+     * @param string $name
+     *
+     * @return Document
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
