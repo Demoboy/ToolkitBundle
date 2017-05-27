@@ -308,6 +308,16 @@ abstract class CrudController extends Controller
     }
 
     /**
+     * Gets the form options to use when creating the form
+     * @param $action
+     *
+     * @return array
+     */
+    protected function getFormOptions($action, $entity) {
+        return [];
+    }
+
+    /**
      * Creates and handles the entity's form. If the submitted form is valid, the entity is persisted.
      * the $form varaible is passed as reference so that a boolean value could be returned,
      * but still be able to access the form to pass to the view.
@@ -322,7 +332,7 @@ abstract class CrudController extends Controller
     protected function handleEntityForm(Request $request, $entity, $action, FormInterface &$form = null)
     {
         if ($form === null) {
-            $form = $this->createForm($this->getFormType($action), $entity);
+            $form = $this->createForm($this->getFormType($action), $entity, $this->getFormOptions($action, $entity));
         }
 
         $form->handleRequest($request);
@@ -435,7 +445,7 @@ abstract class CrudController extends Controller
      *
      * @param string $action The actions that is being performed
      * @param string $status The status of the request
-     * @param string $entity The entity that has had the action performed on it
+     * @param mixed $entity The entity that has had the action performed on it
      *
      * @return RedirectResponse A redirect response for the action
      */
@@ -795,12 +805,14 @@ abstract class CrudController extends Controller
      * Shows all non-hidden entites.
      *
      * @param Request $request The symfony request
+     * @param array   $filter
+     * @param bool    $showFilter
      * @param int     $page
      *
      * @return Response
      * @Route("/view/{page}")
      */
-    public function viewAction(Request $request, $page = 1)
+    public function viewAction(Request $request, array $filter = [], bool $showFilter = true, int $page = 1)
     {
         $this->request = $request;
         $action = self::ACTION_VIEW;
@@ -831,7 +843,7 @@ abstract class CrudController extends Controller
                 //repo is correct to filter and form type is set
                 $filterForm = $this->createForm(
                     $this->getFilterForm(),
-                    null,
+                    $filter,
                     [
                         'method' => 'GET',
                         'action' => $this->generateUrl($request->get('_route')),
@@ -854,7 +866,7 @@ abstract class CrudController extends Controller
                     //no filter since form hasn't been submitted
                     //TODO allow injection of filter through request
                     if ($entitiesPerPage !== null) {
-                        $entityQb = $repo->getFilterQb([]);
+                        $entityQb = $repo->getFilterQb($filter);
                         $paginator = $this->get('knp_paginator');
                         $entities = $paginator->paginate($entityQb, $page, $entitiesPerPage);
                     } else {
@@ -896,6 +908,10 @@ abstract class CrudController extends Controller
         }
 
         $this->extraVars = array_merge($this->extraVars, $event->getExtraVars());
+
+        if (!$showFilter && $filterForm !== null) {
+            $filterForm = null;
+        }
 
         return $this->render(
             $this->determineTemplate($action),
