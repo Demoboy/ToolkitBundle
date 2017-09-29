@@ -1,0 +1,34 @@
+{% block select2_widget %}
+    {{ block('choice_widget') }}
+
+    {% if form.vars.include_source %}
+        {% include "@KMJToolkit/Form/select2_includes.html.twig" %}
+    {% endif %}
+
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $("#{{ form.vars.id }}").select2({
+                tags: {{ form.vars.tags ? "true" : "false" }},
+                minimumInputLength: {{ form.vars.minimum_input }},
+                theme: '{{ form.vars.theme }}',
+                ajax: {
+                    url: "{{ path(form.vars.route) }}",
+                    delay: 250,
+                    dataType: 'json',
+                    type: 'post',
+                    data: {% autoescape false %}{{ form.vars.handle_data }}{% endautoescape %},
+                    processResults: {% autoescape false %}{{ form.vars.process_results }}{% endautoescape %},
+                },
+                {% if form.vars.tags %}
+                createTag: function (tag) {
+                    return {
+                        id: tag.term,
+                        text: tag.term + " (create new)",
+                        isTag: true,
+                    };
+                }
+                {% endif %}
+            });
+        });
+    </script>
+{% endblock select2_widget %}

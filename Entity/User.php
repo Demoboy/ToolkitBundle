@@ -1,29 +1,37 @@
 <?php
-
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
+
 namespace KMJ\ToolkitBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use KMJ\ToolkitBundle\Interfaces\DeleteableEntityInterface;
+use KMJ\ToolkitBundle\Interfaces\EnableableEntityInterface;
+use KMJ\ToolkitBundle\Interfaces\HideableEntityInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Mapped superclass for a basic user. 
+ * Mapped superclass for a basic user.
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  *
  * @ORM\MappedSuperclass
  * @UniqueEntity(fields="email", message="That email is already in use. Please enter another one")
  */
-abstract class User extends BaseUser {
+abstract class User extends BaseUser implements DeleteableEntityInterface, HideableEntityInterface, EnableableEntityInterface
+{
+    use \KMJ\ToolkitBundle\Traits\HideableEntityTrait;
 
     /**
-     * Id
-     * @var integer
+     * Id.
+     *
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -32,7 +40,7 @@ abstract class User extends BaseUser {
     protected $id;
 
     /**
-     * The roles for the user
+     * The roles for the user.
      *
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="KMJ\ToolkitBundle\Entity\Role")
@@ -42,7 +50,7 @@ abstract class User extends BaseUser {
     protected $userRoles;
 
     /**
-     * The user's first name
+     * The user's first name.
      *
      * @var string
      *
@@ -52,7 +60,7 @@ abstract class User extends BaseUser {
     protected $firstName;
 
     /**
-     * The user's last name
+     * The user's last name.
      *
      * @var string
      * @ORM\Column(name="lastName", type="string", length=75, nullable=true)
@@ -62,18 +70,55 @@ abstract class User extends BaseUser {
 
     /**
      * Determines whether the user needs to reset their password. True if so.
-     * @var boolean
+     *
+     * @var bool
      * @ORM\Column(name="passwordReset", type="boolean")
      */
     protected $passwordReset;
 
     /**
-     * {@inheritDoc}
-     *
-     * @param Role $role The role to add
-     * @return \KMJ\ToolkitBundle\Entity\User
+     * Basic constructor.
      */
-    public function addRole(Role $role) {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->userRoles = new ArrayCollection();
+        $this->assignedLocations = new ArrayCollection();
+        $this->setPasswordReset(false);
+        $this->enabled = true;
+    }
+
+    /**
+     * Set the value of Determines whether the user needs to reset their password. True if so.
+     *
+     * @param bool $value passwordReset
+     *
+     * @return self
+     */
+    public function setPasswordReset($value)
+    {
+        $this->passwordReset = $value;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isDisabled()
+    {
+        return !$this->enabled;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param mixed $role The role to add
+     *
+     * @return self
+     */
+    public function addRole($role)
+    {
         //make sure user doesn't already have the role
         if (!$this->hasRole($role)) {
             $this->userRoles->add($role);
@@ -83,39 +128,73 @@ abstract class User extends BaseUser {
     }
 
     /**
-     * Gets the user roles as an array
+     * Determines if a user has a specified role.
+     *
+     * @param mixed $role The role to check against
+     *
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        foreach ($this->userRoles as $userRole) {
+            if ($userRole === $role) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Removes a users role by role.
+     *
+     * @param Role $role
+     */
+    public function removeUserRole(Role $role)
+    {
+        foreach ($this->userRoles as $k => $r) {
+            if ($r->getId() === $role->getId()) {
+                $this->userRoles->remove($k);
+            }
+        }
+    }
+
+    /**
+     * Removes a users role by name.
+     *
+     * @param string $role
+     */
+    public function removeUserRoleByName($role)
+    {
+        foreach ($this->userRoles as $key => $r) {
+            if ($r->getName() === $role) {
+                $this->userRoles->remove($key);
+            }
+        }
+    }
+
+    /**
+     * Gets the user roles as an array.
      *
      * @return array
      */
-    public function getRoles() {
+    public function getRoles()
+    {
         return $this->userRoles->toArray();
     }
 
     /**
-     * Determines if a user has a specified role
-     * @param Role $role The role to check against
-     * @return boolean
-     */
-    public function hasRole(Role $role) {
-        foreach ($this->userRoles as $userRole) {
-            if ($userRole == $role) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Determines if user has a specified role
-     * by comparing role names
+     * by comparing role names.
      *
      * @param string $role The role name to check against
-     * @return boolean
+     *
+     * @return bool
      */
-    public function hasRoleByName($role) {
+    public function hasRoleByName($role)
+    {
         foreach ($this->userRoles as $userRole) {
-            if ($userRole->getName() == $role) {
+            if ($userRole->getName() === $role) {
                 return true;
             }
         }
@@ -124,137 +203,136 @@ abstract class User extends BaseUser {
     }
 
     /**
-     * Basic constructor
-     */
-    public function __construct() {
-        parent::__construct();
-        $this->userRoles = new ArrayCollection();
-        $this->assignedLocations = new ArrayCollection();
-        $this->setPasswordReset(false);
-    }
-
-    /**
-     * Translates the user into a string
+     * Translates the user into a string.
      *
      * @return string
      */
-    public function __toString() {
-        return $this->getFirstName() . ' ' . $this->getLastName();
+    public function __toString()
+    {
+        return $this->getFirstName().' '.$this->getLastName();
     }
 
     /**
-     * Builds a random but unique username
-     */
-    public function buildUsername() {
-        if ($this->firstName != "" && $this->lastName != "") {
-            $this->username = md5($this->firstName . $this->lastName . time());
-        }
-    }
-
-    /**
-     * Does the user need to reset password
-     *
-     * @return boolean
-     */
-    public function isPasswordReset() {
-        return $this->getPasswordReset();
-    }
-
-    /**
-     * Get the value of Id
-     *
-     * @return integer
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * Get the value of The roles for the user
-     *
-     * @return ArrayCollection
-     */
-    public function getUserRoles() {
-        return $this->userRoles;
-    }
-
-    /**
-     * Set the value of The roles for the user
-     *
-     * @param ArrayCollection $value userRoles
-     *
-     * @return self
-     */
-    public function setUserRoles(ArrayCollection $value) {
-        $this->userRoles = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of The user's first name
+     * Get the value of The user's first name.
      *
      * @return string
      */
-    public function getFirstName() {
+    public function getFirstName()
+    {
         return $this->firstName;
     }
 
     /**
-     * Set the value of The user's first name
+     * Get the value of The user's last name.
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set the value of The user's first name.
      *
      * @param string $value firstName
      *
      * @return self
      */
-    public function setFirstName($value) {
+    public function setFirstName($value)
+    {
         $this->firstName = $value;
+        $this->buildUsername();
 
         return $this;
     }
 
     /**
-     * Get the value of The user's last name
-     *
-     * @return string
-     */
-    public function getLastName() {
-        return $this->lastName;
-    }
-
-    /**
-     * Set the value of The user's last name
+     * Set the value of The user's last name.
      *
      * @param string $value lastName
      *
      * @return self
      */
-    public function setLastName($value) {
+    public function setLastName($value)
+    {
         $this->lastName = $value;
+        $this->buildUsername();
 
         return $this;
+    }
+
+    /**
+     * Builds a random but unique username.
+     */
+    public function buildUsername()
+    {
+        if ($this->firstName != '' && $this->lastName != '') {
+            $this->username = md5($this->firstName.$this->lastName.time());
+        }
+    }
+
+    /**
+     * Does the user need to reset password.
+     *
+     * @return bool
+     */
+    public function isPasswordReset()
+    {
+        return $this->getPasswordReset();
     }
 
     /**
      * Get the value of Determines whether the user needs to reset their password. True if so.
      *
-     * @return boolean
+     * @return bool
      */
-    public function getPasswordReset() {
+    public function getPasswordReset()
+    {
         return $this->passwordReset;
     }
 
     /**
-     * Set the value of Determines whether the user needs to reset their password. True if so.
+     * Get the value of Id.
      *
-     * @param boolean $value passwordReset
+     * @codeCoverageIgnore
      *
-     * @return self
+     * @return int
      */
-    public function setPasswordReset($value) {
-        $this->passwordReset = $value;
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get the value of The roles for the user.
+     *
+     * @return ArrayCollection
+     */
+    public function getUserRoles()
+    {
+        return $this->userRoles;
+    }
+
+    /**
+     * Sets the user roles.
+     *
+     * @param ArrayCollection $userRoles
+     *
+     * @return \KMJ\ToolkitBundle\Entity\User
+     */
+    public function setUserRoles($userRoles)
+    {
+        $this->userRoles = $userRoles;
 
         return $this;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function removeRelated()
+    {
+        return [];
+    }
 }

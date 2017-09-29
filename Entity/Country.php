@@ -1,7 +1,7 @@
 <?php
-
 /**
- * This file is part of the KMJToolkitBundle
+ * This file is part of the KMJToolkitBundle.
+ *
  * @copyright (c) 2014, Kaelin Jacobson
  */
 
@@ -11,17 +11,17 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Entity class that holds country information.
- * 
+ *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  * @ORM\Table(name="kmj_toolkit_countries")
  * @ORM\Entity
  */
-class Country {
-
+class Country
+{
     /**
-     * Id
+     * Id.
      *
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -30,7 +30,7 @@ class Country {
     protected $id;
 
     /**
-     * Name of the country
+     * Name of the country.
      *
      * @var string
      *
@@ -39,7 +39,7 @@ class Country {
     protected $name;
 
     /**
-     * Two letter country code
+     * Two letter country code.
      *
      * @var string
      *
@@ -50,83 +50,95 @@ class Country {
     /**
      * Determines if a zipcode is required for the country. True if it is needed.
      *
-     * @var boolean
+     * @var bool
      *
      * @ORM\Column(name="zipCodeRequired", type="boolean")
      */
     protected $zipCodeRequired;
 
     /**
-     * States in the country
+     * States in the country.
      *
      * @ORM\OneToMany(targetEntity="State", mappedBy="country")
+     *
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $states;
 
     /**
-     * Basic constructor
+     * Basic constructor.
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->states = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->zipCodeRequired = false;
     }
 
     /**
-     * Translates the class into a string
+     * Translates the class into a string.
+     *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getName();
     }
 
     /**
-     * Get the value of Id
-     *
-     * @return integer
-     */
-    public function getId() {
-        return $this->id;
-    }
-
-    /**
-     * Get the value of Name of the country
+     * Get the value of Name of the country.
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
     /**
-     * Set the value of Name of the country
+     * Set the value of Name of the country.
      *
      * @param string $value name
      *
      * @return self
      */
-    public function setName($value) {
+    public function setName($value)
+    {
         $this->name = $value;
 
         return $this;
     }
 
     /**
-     * Get the value of Two letter country code
+     * Get the value of Id.
+     *
+     * @codeCoverageIgnore
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get the value of Two letter country code.
      *
      * @return string
      */
-    public function getCode() {
+    public function getCode()
+    {
         return $this->code;
     }
 
     /**
-     * Set the value of Two letter country code
+     * Set the value of Two letter country code.
      *
      * @param string $value code
      *
      * @return self
      */
-    public function setCode($value) {
+    public function setCode($value)
+    {
         $this->code = $value;
 
         return $this;
@@ -135,45 +147,34 @@ class Country {
     /**
      * Get the value of Determines if a zipcode is required for the country. True if it is needed.
      *
-     * @return boolean
+     * @return bool
      */
-    public function getZipCodeRequired() {
+    public function isZipCodeRequired()
+    {
         return $this->zipCodeRequired;
     }
 
     /**
      * Set the value of Determines if a zipcode is required for the country. True if it is needed.
      *
-     * @param boolean $value zipCodeRequired
+     * @param bool $value zipCodeRequired
      *
      * @return self
      */
-    public function setZipCodeRequired($value) {
+    public function setZipCodeRequired($value)
+    {
         $this->zipCodeRequired = $value;
 
         return $this;
     }
 
     /**
-     * Get the value of States in the country
+     * Get the value of States in the country.
      *
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getStates() {
+    public function getStates()
+    {
         return $this->states;
     }
-
-    /**
-     * Set the value of States in the country
-     *
-     * @param \Doctrine\Common\Collections\ArrayCollection $value states
-     *
-     * @return self
-     */
-    public function setStates(\Doctrine\Common\Collections\ArrayCollection $value) {
-        $this->states = $value;
-
-        return $this;
-    }
-
 }

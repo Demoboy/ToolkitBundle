@@ -1,0 +1,83 @@
+kmjtoolkit:
+    address:
+        form:
+            city:
+                # Desc: City
+                label: City   
+
+            country:
+                # Desc: Please select a country
+                empty_value: 'Please select a country'   
+
+                # Desc: Country
+                label: Country   
+
+            state:
+                # Desc: Please select a state
+                empty_value: 'Please select a state'   
+
+                # Desc: State/Providence
+                label: State/Providence   
+
+            street:
+                # Desc: Street
+                label: Street   
+
+            unit:
+                # Desc: Address (line 2)
+                label: 'Address (line 2)'   
+
+            zipcode:
+                # Desc: Zipcode
+                label: Zipcode   
+
+    contact:
+        form:
+            address:
+                # Desc: Address
+                label: Address   
+
+            companyname:
+                # Desc: Company Name
+                label: 'Company Name'   
+
+            firstname:
+                # Desc: First Name
+                label: 'First Name'   
+
+            lastname:
+                # Desc: Last Name
+                label: 'Last Name'   
+
+            phonenumber:
+                # Desc: Phone Number
+                label: 'Phone Number'   
+
+            email:
+                # Desc: Email address
+                label: 'Email address'
+    document:
+        form:
+            file:
+                # Desc: File
+                label: File   
+
+            name:
+                # Desc: Name
+                label: Name   
+
+    note:
+        form:
+            text:
+                # Desc: Note
+                label: Note   
+
+    user:
+        form:
+            firstname:
+                # Desc: First Name
+                label: 'First Name'   
+
+            lastname:
+                # Desc: Last Name
+                label: 'Last Name'   

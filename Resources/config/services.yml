@@ -1,0 +1,54 @@
+services:
+    kmj_toolkit.form.select2type:
+        class: KMJ\ToolkitBundle\Form\Type\Select2Type
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: form.type }
+
+    kmj_toolkit.subscriber.password_reset:
+        class: KMJ\ToolkitBundle\Subscriber\PasswordResetSubscriber
+        arguments:
+            - "@security.token_storage"
+            - "@router"
+            - "@session"
+            - "%kmj.toolkit.service.parameters%"
+        tags:
+            - { name: kernel.event_subscriber }
+
+    kmj_toolkit.service:
+        class: KMJ\ToolkitBundle\Service\ToolkitService
+        arguments:
+            - "%kmj.toolkit.service.parameters%"
+            - "@fos_user.user_manager"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            
+    toolkit:
+        alias: kmj_toolkit.service
+        
+    kmj_toolkit.twig.address_formatter:
+        class: KMJ\ToolkitBundle\TwigExtension\AddressFormatExtension
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    kmj_toolkit.form.type.deep_linked_entity_filter:
+      class: KMJ\ToolkitBundle\Form\Type\DeepLinkedEntityFilterType
+      arguments:
+        - "@doctrine.orm.entity_manager"
+      tags:
+        - { name: form.type }
+        
+    kmj_toolkit.form.type.address:
+        class: KMJ\ToolkitBundle\Form\Type\AddressType
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type }
+        
+    security.role_hierarchy:
+        class: KMJ\ToolkitBundle\Hierarchy\RoleHierarchy
+        arguments:
+            - "%security.role_hierarchy.roles%"
+            - "@doctrine.orm.entity_manager"
