@@ -9,7 +9,7 @@ namespace KMJ\ToolkitBundle\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\Role\RoleInterface;
+use Symfony\Component\Security\Core\Role\Role as BaseRole;
 
 /**
  * Entity class that handles roles for users.
@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Role\RoleInterface;
  * @ORM\Table(name="kmj_toolkit_roles")
  * @ORM\Entity()
  */
-class Role implements RoleInterface
+class Role extends BaseRole
 {
     /**
      * Id.
