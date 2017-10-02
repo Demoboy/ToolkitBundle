@@ -20,7 +20,7 @@
     "zendframework/zend-filter": "~2.6",
     "knplabs/knp-paginator-bundle": "~2.5",
     "friendsofsymfony/user-bundle": "~2.0@dev",
-    "symfony/symfony": "^3.3",
+    "symfony/symfony": "~2.7|~3.0",
     "doctrine/orm": "^2.5"
   },
   "require-dev": {
