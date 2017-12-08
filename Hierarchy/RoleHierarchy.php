@@ -42,6 +42,9 @@ class RoleHierarchy extends SymfonyRoleHierarchy
     {
         $this->entityManager = $entityManager;
         $this->existingHierarchy = $hierarchy;
+        $this->map = [];
+
+        parent::__construct($hierarchy);
     }
 
     public function getReachableRoles(array $roles)
