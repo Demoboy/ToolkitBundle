@@ -10,6 +10,7 @@ namespace KMJ\ToolkitBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
 use KMJ\ToolkitBundle\Constraints\TranslatableCallback;
+use KMJ\ToolkitBundle\Traits\JsonSerializableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
@@ -22,6 +23,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class Address implements JsonSerializable
 {
+    use JsonSerializableTrait;
     /**
      * id for the address.
      *

@@ -8,6 +8,8 @@
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
+use KMJ\ToolkitBundle\Traits\JsonSerializableTrait;
 
 /**
  * Entity class that holds information about states.
@@ -17,8 +19,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="kmj_toolkit_states")
  * @ORM\Entity
  */
-class State
+class State implements JsonSerializable
 {
+
+    use JsonSerializableTrait;
+
     /**
      * Id.
      *

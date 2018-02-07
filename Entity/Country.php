@@ -8,6 +8,8 @@
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
+use KMJ\ToolkitBundle\Traits\JsonSerializableTrait;
 
 /**
  * Entity class that holds country information.
@@ -16,8 +18,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="kmj_toolkit_countries")
  * @ORM\Entity
  */
-class Country
+class Country implements JsonSerializable
 {
+    use JsonSerializableTrait;
+
     /**
      * Id.
      *

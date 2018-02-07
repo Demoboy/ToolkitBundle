@@ -8,6 +8,8 @@
 namespace KMJ\ToolkitBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
+use KMJ\ToolkitBundle\Traits\JsonSerializableTrait;
 use libphonenumber\PhoneNumber;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -20,8 +22,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="kmj_toolkit_contacts")
  * @ORM\Entity()
  */
-class Contact
+class Contact implements JsonSerializable
 {
+    use JsonSerializableTrait;
+
     /**
      * id for the contact.
      *
