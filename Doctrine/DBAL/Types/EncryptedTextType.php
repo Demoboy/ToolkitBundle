@@ -53,6 +53,18 @@ class EncryptedTextType extends Type
         return sprintf('%s;%s', $encryptedText, $this->getSalt());
     }
 
+    public function convertToPHPValue($value, AbstractPlatform $platform)
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        list($encryptedText, $this->salt) = explode(';', $value);
+        $zend = new Decrypt($this->getEncryptionOptions());
+
+        return $zend->filter($encryptedText);
+    }
+
     /**
      * Set the value of The salt to use to encrypt the text with.
      *
@@ -75,10 +87,10 @@ class EncryptedTextType extends Type
     private function getEncryptionOptions()
     {
         return [
-            'adapter' => 'BlockCipher',
-            'vector' => $this->getSalt(),
+            'adapter'   => 'BlockCipher',
+            'vector'    => $this->getSalt(),
             'algorithm' => 'twofish',
-            'key' => ToolkitService::getInstance()->getEncKey(),
+            'key'       => ToolkitService::getInstance()->getEncKey(),
         ];
     }
 
@@ -94,13 +106,5 @@ class EncryptedTextType extends Type
         }
 
         return $this->salt;
-    }
-
-    public function convertToPHPValue($value, AbstractPlatform $platform)
-    {
-        list($encryptedText, $this->salt) = explode(';', $value);
-        $zend = new Decrypt($this->getEncryptionOptions());
-
-        return $zend->filter($encryptedText);
     }
 }
