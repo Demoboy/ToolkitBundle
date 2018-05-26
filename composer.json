@@ -15,12 +15,11 @@
     }
   ],
   "require": {
-    "php": ">=7.2.5",
+    "php": "^7.2.5",
     "zendframework/zend-crypt": "~2.6",
     "zendframework/zend-filter": "~2.6",
     "knplabs/knp-paginator-bundle": "~2.5",
     "friendsofsymfony/user-bundle": "^2.1",
-    "symfony/symfony": "^3.0|^4.0",
     "doctrine/orm": "^2.5"
   },
   "require-dev": {
