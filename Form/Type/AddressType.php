@@ -194,6 +194,8 @@ class AddressType extends AbstractType
                             ->setParameter('country', $country);
                     }
 
+                    $queryBuilder->orderBy('s.name', 'ASC');
+
                     return $queryBuilder;
                 },
             ]

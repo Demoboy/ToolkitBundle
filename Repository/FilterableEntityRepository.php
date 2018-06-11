@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace KMJ\ToolkitBundle\Repository;
 
@@ -17,11 +17,7 @@ use Traversable;
 abstract class FilterableEntityRepository extends EntityRepository
 {
 
-    public function filter(array $filter)
-    {
-        return $this->getFilterQb($filter)->getQuery()->getResult();
-    }
-
+//<editor-fold desc="Getters and Setters">
     public function getFilterQb(array $filter): QueryBuilder
     {
         $qb = $this->createQueryBuilder('a');
@@ -59,13 +55,16 @@ abstract class FilterableEntityRepository extends EntityRepository
             }
         }
 
-        $qb->orderBy('a.id', 'DESC');
+        $this->addFilterOrderBy($qb);
 
         return $qb;
     }
-    private function filterPlain(QueryBuilder $qb, $property, $value) {
-        $qb->andWhere($qb->expr()->eq('a.'.$property, ':option_'.$property));
-        $qb->setParameter('option_'.$property, $value);
+
+//</editor-fold>
+
+    public function filter(array $filter)
+    {
+        return $this->getFilterQb($filter)->getQuery()->getResult();
     }
 
     abstract protected function configureFilter(): OptionsResolver;
@@ -73,6 +72,22 @@ abstract class FilterableEntityRepository extends EntityRepository
     protected function defaultJoins(QueryBuilder $qb)
     {
         return null;
+    }
+
+    protected function orderByFields()
+    {
+        return [];
+    }
+
+    private function addFilterOrderBy(QueryBuilder $qb)
+    {
+        $orderByFields = $this->orderByFields();
+
+        if (\count($orderByFields) !== 0) {
+            foreach ($orderByFields as $field => $order) {
+                $qb->orderBy('a.'.$field, $order);
+            }
+        }
     }
 
     /**
@@ -88,7 +103,7 @@ abstract class FilterableEntityRepository extends EntityRepository
                 if (method_exists($option, 'getId')) {
                     $inArray[] = $option->getId();
                 } else {
-                    $inArray[] = (string)$option;
+                    $inArray[] = (string) $option;
                 }
             } else {
                 $inArray[] = $option;
@@ -134,7 +149,7 @@ abstract class FilterableEntityRepository extends EntityRepository
                     if (method_exists($opt, "getId")) {
                         $inArray[] = $opt->getId();
                     } else {
-                        $inArray[] = (string)$opt;
+                        $inArray[] = (string) $opt;
                     }
                 } else {
                     $inArray[] = $opt;
@@ -149,5 +164,11 @@ abstract class FilterableEntityRepository extends EntityRepository
         }
 
         $qb->andWhere($qb->expr()->in($option->getTableAlias().'.id', $inArray));
+    }
+
+    private function filterPlain(QueryBuilder $qb, $property, $value)
+    {
+        $qb->andWhere($qb->expr()->eq('a.'.$property, ':option_'.$property));
+        $qb->setParameter('option_'.$property, $value);
     }
 }

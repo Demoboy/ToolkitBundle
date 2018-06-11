@@ -24,8 +24,10 @@ use Twig_SimpleFunction;
 class AddressFormatExtension extends Twig_Extension
 {
     const INTERNATIONAL = 'INTERNATIONAL';
-    const NATIONAL = 'NATIONAL';
+    const NATIONAL      = 'NATIONAL';
+    const STRING        = 'STRING';
 
+//<editor-fold desc="Getters and Setters">
     /**
      * Declare the asset_url function.
      */
@@ -35,6 +37,15 @@ class AddressFormatExtension extends Twig_Extension
             new Twig_SimpleFunction('address_format', [$this, 'addressFormat'], ['is_safe' => ['html']]),
         ];
     }
+
+    /**
+     * Set a name for the extension.
+     */
+    public function getName()
+    {
+        return 'address_format_extension';
+    }
+//</editor-fold>
 
     public function addressFormat(Address $address = null, $format = self::INTERNATIONAL)
     {
@@ -51,6 +62,18 @@ class AddressFormatExtension extends Twig_Extension
             }
             $format = constant(self::class.'::'.$format);
         }
+
+        if ($format === self::STRING) {
+            return sprintf(
+                '%s %s %s %s, %s',
+                $address->getStreet(),
+                $address->getUnit(),
+                $address->getCity(),
+                $address->getState() ?? '',
+                $address->getZipcode()
+            );
+        }
+
 
         $zipcode = strip_tags($address->getZipcode());
         $state = null;
@@ -91,13 +114,5 @@ class AddressFormatExtension extends Twig_Extension
         $string .= $zipcode;
 
         return $string;
-    }
-
-    /**
-     * Set a name for the extension.
-     */
-    public function getName()
-    {
-        return 'address_format_extension';
     }
 }

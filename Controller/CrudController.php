@@ -839,6 +839,7 @@ abstract class CrudController extends Controller
 
         if ($event->getEntities() === null) {
             $entitiesPerPage = $this->getEntityResultsPerPage();
+
             if ($repo instanceof FilterableEntityRepository && $this->getFilterForm() !== null) {
                 //repo is correct to filter and form type is set
                 $filterForm = $this->createForm(
@@ -870,7 +871,7 @@ abstract class CrudController extends Controller
                         $paginator = $this->get('knp_paginator');
                         $entities = $paginator->paginate($entityQb, $page, $entitiesPerPage);
                     } else {
-                        $entities = $repo->filter([]);
+                        $entities = $repo->filter($filter);
                     }
                 }
             } else {
