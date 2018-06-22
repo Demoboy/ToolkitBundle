@@ -39,7 +39,7 @@ class DateTimeBetweenFilterType extends AbstractType
 
         $builder
             ->add(
-                "start",
+                'start',
                 $type,
                 [
                     'widget' => 'single_text',
@@ -70,8 +70,8 @@ class DateTimeBetweenFilterType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                "type" => 'date',
-                'required' => true,
+                'type'       => 'date',
+                'required'   => false,
                 'data_class' => DateTimeBetweenFilter::class,
             ]
         );

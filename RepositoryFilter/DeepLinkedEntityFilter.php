@@ -1,11 +1,4 @@
 <?php
-/**
- *
- * This file is part of the BarcodeBundle
- *
- * @copyright (c) 2017, Electronic Responsible Recyclers
- *
- */
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,23 +10,14 @@
 namespace KMJ\ToolkitBundle\RepositoryFilter;
 
 
-class DeepLinkedEntityFilter
+class DeepLinkedEntityFilter extends DeepLinkedFilter
 {
     /**
      * @var mixed|null
      */
     private $entity;
 
-    /**
-     * @var callable|null
-     */
-    private $mappingQbCallback;
-
-    /**
-     * @var string|null
-     */
-    private $tableAlias;
-
+//<editor-fold desc="Getters and Setters">
     /**
      * @return mixed|null
      */
@@ -53,46 +37,7 @@ class DeepLinkedEntityFilter
 
         return $this;
     }
-
-    /**
-     * @return callable|null
-     */
-    public function getMappingQbCallback()
-    {
-        return $this->mappingQbCallback;
-    }
-
-    /**
-     * @param callable|null $mappingQbCallback
-     *
-     * @return DeepLinkedEntityFilter
-     */
-    public function setMappingQbCallback($mappingQbCallback)
-    {
-        $this->mappingQbCallback = $mappingQbCallback;
-
-        return $this;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getTableAlias()
-    {
-        return $this->tableAlias;
-    }
-
-    /**
-     * @param null|string $tableAlias
-     *
-     * @return DeepLinkedEntityFilter
-     */
-    public function setTableAlias($tableAlias)
-    {
-        $this->tableAlias = $tableAlias;
-
-        return $this;
-    }
+//</editor-fold>
 
 
 }

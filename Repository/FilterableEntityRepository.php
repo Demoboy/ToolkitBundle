@@ -8,7 +8,9 @@ namespace KMJ\ToolkitBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use KMJ\ToolkitBundle\RepositoryFilter\DateTimeBetweenFilter;
+use KMJ\ToolkitBundle\RepositoryFilter\DeepLinkedDateTimeBetweenFilter;
 use KMJ\ToolkitBundle\RepositoryFilter\DeepLinkedEntityFilter;
+use KMJ\ToolkitBundle\RepositoryFilter\DeepLinkedFilter;
 use ReflectionClass;
 use ReflectionException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,7 +34,7 @@ abstract class FilterableEntityRepository extends EntityRepository
         $this->defaultJoins($qb);
 
         foreach ($options as $key => $option) {
-            if (!$option instanceof DeepLinkedEntityFilter) {
+            if (!$option instanceof DeepLinkedFilter) {
                 try {
                     $reflectionClass->getProperty($key);
                 } catch (ReflectionException $exc) {
@@ -50,6 +52,8 @@ abstract class FilterableEntityRepository extends EntityRepository
                 $this->filterDateTime($qb, $key, $option);
             } elseif ($option instanceof DeepLinkedEntityFilter) {
                 $this->filterDeepLinkedEntity($qb, $option);
+            } elseif ($option instanceof DeepLinkedDateTimeBetweenFilter) {
+                $this->filterDeepLinkedDateTimeBetween($qb, $key, $option);
             } elseif ($option !== null) {
                 $this->filterPlain($qb, $key, $option);
             }
@@ -59,12 +63,24 @@ abstract class FilterableEntityRepository extends EntityRepository
 
         return $qb;
     }
-
 //</editor-fold>
 
     public function filter(array $filter)
     {
         return $this->getFilterQb($filter)->getQuery()->getResult();
+    }
+
+    /**
+     * @param QueryBuilder $qb
+     * @param              $option
+     */
+    public function filterDeepLinkedDateTimeBetween(
+        QueryBuilder $qb,
+        string $property,
+        DeepLinkedDateTimeBetweenFilter $option
+    ): void {
+        $option->getMappingQbCallback()($qb);
+        $this->filterDateTime($qb, $property, $option->getDates(), $option->getTableAlias());
     }
 
     abstract protected function configureFilter(): OptionsResolver;
@@ -116,22 +132,23 @@ abstract class FilterableEntityRepository extends EntityRepository
     /**
      * Handles filtering a DateTimeBetweenFilter to insert a query statement for the provided property
      *
-     * @param QueryBuilder          $qb
-     * @param string                $property
+     * @param QueryBuilder $qb
+     * @param string $property
      * @param DateTimeBetweenFilter $option
+     * @param string $alias
      */
-    private function filterDateTime(QueryBuilder $qb, string $property, DateTimeBetweenFilter $option)
+    private function filterDateTime(QueryBuilder $qb, string $property, DateTimeBetweenFilter $option, $alias = 'a')
     {
         if ($option->getStart() !== null && $option->getEnd() !== null) {
-            $qb->andWhere($qb->expr()->between('a.'.$property, ':start_date_'.$property, ':end_date_'.$property));
+            $qb->andWhere($qb->expr()->between($alias.'.'.$property, ':start_date_'.$property, ':end_date_'.$property));
             $qb->setParameter('start_date_'.$property, $option->getStart()->format('Y-m-d'));
             $qb->setParameter('end_date_'.$property, $option->getEnd()->format('Y-m-d'));
         } elseif ($option->getStart() !== null && $option->getEnd() === null
         ) {  //start date is not empty but end date is
-            $qb->andWhere($qb->expr()->gte('a.'.$property, ":start_date_".$property));
+            $qb->andWhere($qb->expr()->gte($alias.'.'.$property, ":start_date_".$property));
             $qb->setParameter('start_date_'.$property, $option->getStart()->format('Y-m-d'));
         } elseif ($option->getStart() === null && $option->getEnd() !== null) {
-            $qb->andWhere($qb->expr()->lte('a.'.$property, ":end_date_".$property));
+            $qb->andWhere($qb->expr()->lte($alias.'.'.$property, ":end_date_".$property));
             $qb->setParameter('end_date_'.$property, $option->getEnd()->format('Y-m-d'));
         }
     }

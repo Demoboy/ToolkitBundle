@@ -1,10 +1,10 @@
 <?php
 /**
+ * Proprietary and confidential
+ * Copyright (c) ReviveIT 2018 - All Rights Reserved.
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
  *
- * This file is part of the BarcodeBundle
- *
- * @copyright (c) 2017, Electronic Responsible Recyclers
- *
+ * @copyright 2018
  */
 declare(strict_types = 1);
 /**
@@ -16,20 +16,23 @@ declare(strict_types = 1);
 
 namespace KMJ\ToolkitBundle\Form\Type;
 
+use KMJ\ToolkitBundle\RepositoryFilter\DateTimeBetweenFilter;
+use KMJ\ToolkitBundle\RepositoryFilter\DeepLinkedDateTimeBetweenFilter;
 use KMJ\ToolkitBundle\RepositoryFilter\DeepLinkedEntityFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class DeepLinkedEntityFilterType extends AbstractType
+class DeepLinkedDateTimeBetweenType extends AbstractType
 {
+
     use DeepLinkedTypeTrait;
 
 //<editor-fold desc="Getters and Setters">
     public function getParent()
     {
-        return EntityType::class;
+        return DateTimeBetweenFilterType::class;
     }
 //</editor-fold>
 
@@ -40,21 +43,21 @@ class DeepLinkedEntityFilterType extends AbstractType
 
         $builder->addModelTransformer(
             new CallbackTransformer(
-                function ($deepLinkedEntity) {
-                    if ($deepLinkedEntity === null) {
+                function (?DeepLinkedDateTimeBetweenFilter $deepLinkedDateTimeBetween) {
+                    if ($deepLinkedDateTimeBetween === null) {
                         return null;
                     }
 
-                    return $deepLinkedEntity->getEntity();
+                    return $deepLinkedDateTimeBetween->getDates();
                 },
-                function ($model) use ($mappingCallback, $tableAlias) {
-                    if ($model === null || count($model) === 0) {
+                function (?DateTimeBetweenFilter $model) use ($mappingCallback, $tableAlias) {
+                    if ($model === null) {
                         return null;
                     }
 
-                    $deepLinkedEntity = new DeepLinkedEntityFilter();
+                    $deepLinkedEntity = new DeepLinkedDateTimeBetweenFilter();
 
-                    $deepLinkedEntity->setEntity($model)
+                    $deepLinkedEntity->setDates($model)
                         ->setMappingQbCallback($mappingCallback)
                         ->setTableAlias($tableAlias);
 

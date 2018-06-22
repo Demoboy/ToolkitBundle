@@ -7,6 +7,7 @@
 
 namespace KMJ\ToolkitBundle\Controller;
 
+use DeepCopy\Filter\Filter;
 use InvalidArgumentException;
 use KMJ\ToolkitBundle\Events\CrudEvent;
 use KMJ\ToolkitBundle\Interfaces\DeleteableEntityInterface;
@@ -841,6 +842,10 @@ abstract class CrudController extends Controller
             $entitiesPerPage = $this->getEntityResultsPerPage();
 
             if ($repo instanceof FilterableEntityRepository && $this->getFilterForm() !== null) {
+                /** @var FilterableEntityRepository $repo */
+                //use the default filter if no filter is provided
+                $filter = $repo->configureFilter()->resolve($filter);
+
                 //repo is correct to filter and form type is set
                 $filterForm = $this->createForm(
                     $this->getFilterForm(),
