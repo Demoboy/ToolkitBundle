@@ -6,7 +6,7 @@
  * @copyright (c) 2017, Electronic Responsible Recyclers
  *
  */
-declare(strict_types=1);
+declare(strict_types = 1);
 /**
  * Created by IntelliJ IDEA.
  * User: kaelin
@@ -42,11 +42,12 @@ class DateTimeBetweenFilterType extends AbstractType
                 'start',
                 $type,
                 [
-                    'widget' => 'single_text',
-                    'format' => 'MM/dd/yyyy',
-                    'html5' => false,
+                    'label'    => $options['start_label'],
+                    'widget'   => 'single_text',
+                    'format'   => 'MM/dd/yyyy',
+                    'html5'    => false,
                     'required' => $options['required'],
-                    'attr' => [
+                    'attr'     => [
                         'class' => 'date-picker',
                     ],
                 ]
@@ -55,11 +56,12 @@ class DateTimeBetweenFilterType extends AbstractType
                 'end',
                 $type,
                 [
-                    'widget' => 'single_text',
-                    'format' => 'MM/dd/yyyy',
-                    'html5' => false,
+                    'label'    => $options['end_label'],
+                    'widget'   => 'single_text',
+                    'format'   => 'MM/dd/yyyy',
+                    'html5'    => false,
                     'required' => $options['required'],
-                    'attr' => [
+                    'attr'     => [
                         'class' => 'date-picker',
                     ],
                 ]
@@ -70,9 +72,11 @@ class DateTimeBetweenFilterType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'type'       => 'date',
-                'required'   => false,
-                'data_class' => DateTimeBetweenFilter::class,
+                'type'        => 'date',
+                'required'    => false,
+                'data_class'  => DateTimeBetweenFilter::class,
+                'start_label' => 'Start date',
+                'end_label'   => 'End date',
             ]
         );
 
