@@ -61,6 +61,12 @@ abstract class FilterableEntityRepository extends EntityRepository
 
         $this->addFilterOrderBy($qb);
 
+        $maxResults = $this->maxResults();
+
+        if ($maxResults !== null) {
+            $qb->setMaxResults($maxResults);
+        }
+
         return $qb;
     }
 //</editor-fold>
@@ -187,5 +193,9 @@ abstract class FilterableEntityRepository extends EntityRepository
     {
         $qb->andWhere($qb->expr()->eq('a.'.$property, ':option_'.$property));
         $qb->setParameter('option_'.$property, $value);
+    }
+
+    protected function maxResults() {
+        return null;
     }
 }
