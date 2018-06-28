@@ -393,7 +393,7 @@ abstract class CrudController extends Controller
      *
      * @throws InvalidArgumentException Only thrown if there is an invalid result of createRedirectResponse
      */
-    private function setFlashAndRedirect($action, $entity)
+    protected function setFlashAndRedirect($action, $entity)
     {
         $this->addFlash(
             $this->getFlashKey(
