@@ -136,6 +136,10 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
      */
     public function hasRole($role)
     {
+        if ($this->userRoles === null) {
+            $this->userRoles = new ArrayCollection();
+        }
+
         foreach ($this->userRoles as $userRole) {
             if ($userRole === $role) {
                 return true;

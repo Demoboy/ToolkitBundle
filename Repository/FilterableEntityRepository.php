@@ -89,7 +89,7 @@ abstract class FilterableEntityRepository extends EntityRepository
         $this->filterDateTime($qb, $property, $option->getDates(), $option->getTableAlias());
     }
 
-    abstract protected function configureFilter(): OptionsResolver;
+    abstract public function configureFilter(): OptionsResolver;
 
     protected function defaultJoins(QueryBuilder $qb)
     {
