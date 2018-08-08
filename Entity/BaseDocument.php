@@ -262,10 +262,12 @@ abstract class BaseDocument
             $date = date('Y-m-d');
             @mkdir($this->getUploadRootDir().'/'.$date, 0777, true);
 
-            $this->path = $date.'/'.$filename.'.'.$this->getFile()->guessExtension();
+            $extension = pathinfo($this->file->getRealPath(), PATHINFO_EXTENSION);
+
+            $this->path = $date.'/'.$filename.'.'.$extension;
 
             if ($this->getName() === null) {
-                $this->name = $this->file->getClientOriginalName();
+                $this->name = $this->file->getFileName();
             }
         }
     }
