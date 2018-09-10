@@ -29,7 +29,7 @@ kmjtoolkit:
 
             zipcode:
                 # Desc: Zipcode
-                label: Zipcode   
+                label: Zip code
 
     contact:
         form:
