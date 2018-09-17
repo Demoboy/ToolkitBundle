@@ -24,7 +24,7 @@ trait QuickCloneTrait
 
     public function __clone()
     {
-        if ($this->id || $this->allowClone) {
+        if ($this->getId() || $this->allowClone) {
             $class = $this;
             //entity is initalized you can preform a clone on the object data
             if ($this instanceof Proxy) {
