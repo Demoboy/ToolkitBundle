@@ -69,7 +69,10 @@ abstract class FilterableEntityRepository extends EntityRepository
 
         return $qb;
     }
+
 //</editor-fold>
+
+    abstract public function configureFilter(): OptionsResolver;
 
     public function filter(array $filter)
     {
@@ -89,9 +92,12 @@ abstract class FilterableEntityRepository extends EntityRepository
         $this->filterDateTime($qb, $property, $option->getDates(), $option->getTableAlias());
     }
 
-    abstract public function configureFilter(): OptionsResolver;
-
     protected function defaultJoins(QueryBuilder $qb)
+    {
+        return null;
+    }
+
+    protected function maxResults()
     {
         return null;
     }
@@ -132,16 +138,19 @@ abstract class FilterableEntityRepository extends EntityRepository
             }
         }
 
-        $qb->andWhere($qb->expr()->in('a.'.$property, $inArray));
+        $paramKey = $this->parameterKey();
+
+        $qb->andWhere($qb->expr()->in('a.'.$property, ":array_{$paramKey}"))
+            ->setParameter("array_{$paramKey}", $inArray);
     }
 
     /**
      * Handles filtering a DateTimeBetweenFilter to insert a query statement for the provided property
      *
-     * @param QueryBuilder $qb
-     * @param string $property
+     * @param QueryBuilder          $qb
+     * @param string                $property
      * @param DateTimeBetweenFilter $option
-     * @param string $alias
+     * @param string                $alias
      */
     private function filterDateTime(QueryBuilder $qb, string $property, DateTimeBetweenFilter $option, $alias = 'a')
     {
@@ -186,7 +195,10 @@ abstract class FilterableEntityRepository extends EntityRepository
             }
         }
 
-        $qb->andWhere($qb->expr()->in($option->getTableAlias().'.id', $inArray));
+        $paramKey = $this->parameterKey();
+
+        $qb->andWhere($qb->expr()->in($option->getTableAlias().'.id', ":de_array_{$paramKey}"))
+            ->setParameter("de_array_{$paramKey}", $inArray);
     }
 
     private function filterPlain(QueryBuilder $qb, $property, $value)
@@ -195,7 +207,8 @@ abstract class FilterableEntityRepository extends EntityRepository
         $qb->setParameter('option_'.$property, $value);
     }
 
-    protected function maxResults() {
-        return null;
+    private function parameterKey()
+    {
+        return substr(md5(microtime()), 0, 5);
     }
 }

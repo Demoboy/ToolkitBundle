@@ -841,43 +841,35 @@ abstract class CrudController extends Controller
         if ($event->getEntities() === null) {
             $entitiesPerPage = $this->getEntityResultsPerPage();
 
-            if ($repo instanceof FilterableEntityRepository && $this->getFilterForm() !== null) {
+            if ($repo instanceof FilterableEntityRepository) {
                 /** @var FilterableEntityRepository $repo */
                 //use the default filter if no filter is provided
                 $filter = $repo->configureFilter()->resolve($filter);
 
-                //repo is correct to filter and form type is set
-                $filterForm = $this->createForm(
-                    $this->getFilterForm(),
-                    $filter,
-                    [
-                        'method' => 'GET',
-                        'action' => $this->generateUrl($request->get('_route')),
-                    ]
-                );
+                if ($this->getFilterForm() !== null) {
+                    //repo is correct to filter and form type is set
+                    $filterForm = $this->createForm(
+                        $this->getFilterForm(),
+                        $filter,
+                        [
+                            'method' => 'GET',
+                            'action' => $this->generateUrl($request->get('_route')),
+                        ]
+                    );
 
-                $filterForm->handleRequest($request);
+                    $filterForm->handleRequest($request);
 
-                if ($filterForm->isSubmitted() && $filterForm->isValid()) {
-                    $filter = $filterForm->getData();
-
-                    if ($entitiesPerPage !== null) {
-                        $entityQb = $repo->getFilterQb($filter);
-                        $paginator = $this->get('knp_paginator');
-                        $entities = $paginator->paginate($entityQb, $page, $entitiesPerPage);
-                    } else {
-                        $entities = $repo->filter($filter);
+                    if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+                        $filter = $filterForm->getData();
                     }
+                }
+
+                if ($entitiesPerPage !== null) {
+                    $entityQb = $repo->getFilterQb($filter);
+                    $paginator = $this->get('knp_paginator');
+                    $entities = $paginator->paginate($entityQb, $page, $entitiesPerPage);
                 } else {
-                    //no filter since form hasn't been submitted
-                    //TODO allow injection of filter through request
-                    if ($entitiesPerPage !== null) {
-                        $entityQb = $repo->getFilterQb($filter);
-                        $paginator = $this->get('knp_paginator');
-                        $entities = $paginator->paginate($entityQb, $page, $entitiesPerPage);
-                    } else {
-                        $entities = $repo->filter($filter);
-                    }
+                    $entities = $repo->filter($filter);
                 }
             } else {
                 if ($entity instanceof HideableEntityInterface) {
