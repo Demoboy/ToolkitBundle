@@ -262,7 +262,11 @@ abstract class BaseDocument
             $date = date('Y-m-d');
             @mkdir($this->getUploadRootDir().'/'.$date, 0777, true);
 
-            $extension = pathinfo($this->file->getRealPath(), PATHINFO_EXTENSION);
+            if ($this->file instanceof UploadedFile) {
+                $extension = $this->file->guessExtension();
+            } else {
+                $extension = pathinfo($this->file->getRealPath(), PATHINFO_EXTENSION);
+            }
 
             $this->path = $date.'/'.$filename.'.'.$extension;
 
