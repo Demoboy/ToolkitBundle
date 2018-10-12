@@ -113,7 +113,11 @@ abstract class FilterableEntityRepository extends EntityRepository
 
         if (\count($orderByFields) !== 0) {
             foreach ($orderByFields as $field => $order) {
-                $qb->orderBy('a.'.$field, $order);
+                if (strpos($field, '.') === false) {
+                    $field = "a.".$field;
+                }
+
+                $qb->orderBy($field, $order);
             }
         }
     }
