@@ -271,7 +271,7 @@ abstract class User extends BaseUser implements DeleteableEntityInterface, Hidea
      */
     public function buildUsername()
     {
-        if ($this->firstName != '' && $this->lastName != '') {
+        if ($this->username === null && $this->firstName != '' && $this->lastName != '') {
             $this->username = md5($this->firstName.$this->lastName.time());
         }
     }
