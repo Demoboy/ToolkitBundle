@@ -48,7 +48,7 @@ trait QuickCloneTrait
 
                 $value = $prop->getValue($this);
 
-                if (is_array($value)) {
+                if (is_iterable($value)) {
                     $newValue = [];
 
                     foreach ($value as $v) {

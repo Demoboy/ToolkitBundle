@@ -853,7 +853,6 @@ abstract class CrudController extends Controller
                         $filter,
                         [
                             'method' => 'GET',
-                            'action' => $this->generateUrl($request->get('_route')),
                         ]
                     );
 

@@ -39,6 +39,17 @@ class AddressType extends AbstractType
         $this->entityManager = $entityManager;
     }
 
+//<editor-fold desc="Getters and Setters">
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'kmj_toolkitbundle_address';
+    }
+//</editor-fold>
+
     /**
      * {@inheritdoc}
      */
@@ -56,7 +67,7 @@ class AddressType extends AbstractType
             'street',
             null,
             [
-                'label' => 'kmjtoolkit.address.form.street.label',
+                'label'    => 'kmjtoolkit.address.form.street.label',
                 'required' => $options['required'],
             ]
         )
@@ -64,7 +75,7 @@ class AddressType extends AbstractType
                 'unit',
                 null,
                 [
-                    'label' => 'kmjtoolkit.address.form.unit.label',
+                    'label'    => 'kmjtoolkit.address.form.unit.label',
                     'required' => false,
                 ]
             )
@@ -72,7 +83,7 @@ class AddressType extends AbstractType
                 'city',
                 null,
                 [
-                    'label' => 'kmjtoolkit.address.form.city.label',
+                    'label'    => 'kmjtoolkit.address.form.city.label',
                     'required' => $options['required'],
                 ]
             )
@@ -80,9 +91,9 @@ class AddressType extends AbstractType
                 'country',
                 EntityType::class,
                 [
-                    'label' => 'kmjtoolkit.address.form.country.label',
-                    'class' => 'KMJToolkitBundle:Country',
-                    'required' => $options['required'],
+                    'label'       => 'kmjtoolkit.address.form.country.label',
+                    'class'       => 'KMJToolkitBundle:Country',
+                    'required'    => $options['required'],
                     'placeholder' => 'kmjtoolkit.address.form.country.empty_value',
                 ]
             )
@@ -90,83 +101,26 @@ class AddressType extends AbstractType
                 'zipcode',
                 null,
                 [
-                    'label' => 'kmjtoolkit.address.form.zipcode.label',
+                    'label'    => 'kmjtoolkit.address.form.zipcode.label',
                     'required' => (!$options['include_country'] || $options['required']) ? false : true,
                 ]
             );
 
         $builder->get('country')->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmit']);
 
+        if ($options['default_country'] !== null) {
+            $country = $this->entityManager->getRepository(Country::class)
+                ->findOneBy(
+                    [
+                        'code' => $options['default_country'],
+                    ]
+                );
+
+            $builder->get('country')->setData($country);
+        }
+
         if (!$options['include_country']) {
             $builder->remove('country');
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(
-            [
-                'data_class' => Address::class,
-                'required' => true,
-                'default_country' => null,
-                'include_country' => true,
-            ]
-        );
-
-        $resolver->setAllowedTypes('include_country', 'boolean');
-        $resolver->setAllowedTypes('required', 'boolean');
-        $resolver->setAllowedTypes('default_country', ['null', 'string']);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'kmj_toolkitbundle_address';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function onPreSetData(FormEvent $event)
-    {
-        $country = null;
-        $data = $event->getData();
-        $form = $event->getForm();
-
-        if ($data instanceof Address) {
-            $country = $data->getCountry();
-
-            if ($country === null && $data->getState() !== null) {
-                $country = $data->getState()->getCountry();
-            }
-        }
-
-        if ($country === null) {
-            $defaultCountry = $form->getConfig()->getOption('default_country');
-
-            if ($defaultCountry !== null) {
-                $country = $this->entityManager->getRepository('KMJToolkitBundle:Country')
-                    ->findOneByCode($defaultCountry);
-            }
-        }
-
-        if ($country === null) {
-            $form->add(
-                'state',
-                ChoiceType::class,
-                [
-                    'label' => 'kmjtoolkit.address.form.state.label',
-                    'choices' => [],
-                    'placeholder' => 'kmjtoolkit.address.form.state.empty_value',
-                ]
-            );
-        } else {
-            $this->buildStateField($form, $country);
         }
     }
 
@@ -182,10 +136,10 @@ class AddressType extends AbstractType
             'state',
             EntityType::class,
             [
-                'label' => 'kmjtoolkit.address.form.state.label',
-                'placeholder' => 'kmjtoolkit.address.form.state.empty_value',
-                'class' => 'KMJToolkitBundle:State',
-                'required' => false,
+                'label'         => 'kmjtoolkit.address.form.state.label',
+                'placeholder'   => 'kmjtoolkit.address.form.state.empty_value',
+                'class'         => 'KMJToolkitBundle:State',
+                'required'      => false,
                 'query_builder' => function (EntityRepository $repository) use ($country) {
                     $queryBuilder = $repository->createQueryBuilder('s');
 
@@ -205,6 +159,25 @@ class AddressType extends AbstractType
     /**
      * {@inheritdoc}
      */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(
+            [
+                'data_class'      => Address::class,
+                'required'        => true,
+                'default_country' => null,
+                'include_country' => true,
+            ]
+        );
+
+        $resolver->setAllowedTypes('include_country', 'boolean');
+        $resolver->setAllowedTypes('required', 'boolean');
+        $resolver->setAllowedTypes('default_country', ['null', 'string']);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function onPostSubmit(FormEvent $event)
     {
         $country = $event->getForm()->getData();
@@ -219,5 +192,38 @@ class AddressType extends AbstractType
         }
 
         $this->buildStateField($form, $country);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function onPreSetData(FormEvent $event)
+    {
+        $country = null;
+        $data = $event->getData();
+        $form = $event->getForm();
+
+        if ($data instanceof Address) {
+            $country = $data->getCountry();
+
+            if ($country === null && $data->getState() !== null) {
+                $country = $data->getState()->getCountry();
+            }
+        }
+
+
+        if ($country === null) {
+            $form->add(
+                'state',
+                ChoiceType::class,
+                [
+                    'label'       => 'kmjtoolkit.address.form.state.label',
+                    'choices'     => [],
+                    'placeholder' => 'kmjtoolkit.address.form.state.empty_value',
+                ]
+            );
+        } else {
+            $this->buildStateField($form, $country);
+        }
     }
 }
