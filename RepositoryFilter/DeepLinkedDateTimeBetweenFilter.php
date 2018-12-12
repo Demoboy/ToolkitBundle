@@ -12,6 +12,11 @@ class DeepLinkedDateTimeBetweenFilter extends DeepLinkedFilter
      */
     private $dates;
 
+    public function __construct()
+    {
+        $this->dates = new DateTimeBetweenFilter();
+    }
+
     /**
      * @return DateTimeBetweenFilter|null
      */

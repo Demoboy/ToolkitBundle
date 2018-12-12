@@ -31,6 +31,6 @@ trait DeepLinkedTypeTrait
         );
 
         $resolver->setAllowedTypes('query_builder_mapping', ['callable']);
-        $resolver->setAllowedTypes('table_alias', ['string']);
+        $resolver->setAllowedTypes('table_alias', ['string', 'null']);
     }
 }
