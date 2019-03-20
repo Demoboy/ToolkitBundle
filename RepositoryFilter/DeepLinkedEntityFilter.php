@@ -17,6 +17,7 @@ class DeepLinkedEntityFilter extends DeepLinkedFilter
      */
     private $entity;
 
+
 //<editor-fold desc="Getters and Setters">
     /**
      * @return mixed|null
