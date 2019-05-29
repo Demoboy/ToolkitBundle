@@ -27,8 +27,17 @@ abstract class BaseDocumentType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('include_name', true);
+        $resolver->setDefaults(
+            [
+                'include_name' => true,
+                'file_label' => 'kmjtoolkit.document.form.file.label',
+                'name_label' => 'kmjtoolkit.document.form.name.label',
+            ]
+        );
+        
         $resolver->setAllowedTypes('include_name', ['bool']);
+        $resolver->setAllowedTypes('file_label', ['string']);
+        $resolver->setAllowedTypes('name_label', ['string']);
     }
 
     /**
@@ -42,8 +51,8 @@ abstract class BaseDocumentType extends AbstractType
             'file',
             FileType::class,
             [
-                'label' => 'kmjtoolkit.document.form.file.label',
-                'required' => false,
+                'label'           => $options['file_label'],
+                'required'        => $options['required'],
                 'invalid_message' => 'kmjtoolkit.document.form.file.invalid',
             ]
         );
@@ -53,8 +62,8 @@ abstract class BaseDocumentType extends AbstractType
                 'name',
                 TextType::class,
                 [
-                    'label' => 'kmjtoolkit.document.form.name.label',
-                    'required' => false,
+                    'label'    => $options['name_label'],
+                    'required' => $options['required'],
                 ]
             );
         }
