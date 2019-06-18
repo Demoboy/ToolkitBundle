@@ -33,7 +33,19 @@ trait QuickCloneTrait
 
             $rc = new ReflectionClass($class);
 
-            foreach ($rc->getProperties() as $prop) {
+            if (!$rc->getParentClass()) {
+                $properties = $rc->getProperties();
+            } else {
+                $addProperties = [];
+                while ($rc->getParentClass()) {
+                     $rc = $rc->getParentClass();
+                     $addProperties[] = $rc->getProperties();
+                }
+                $properties = array_merge(...$addProperties);
+            }
+
+            /** @var \ReflectionProperty $prop */
+            foreach ($properties as $prop) {
                 if (substr($prop->getName(), 0, 2) === '__'
                     || in_array($prop->getName(), $this->ignoreClonedProperties(), true)
                 ) {
