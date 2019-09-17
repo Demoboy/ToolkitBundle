@@ -222,7 +222,7 @@ class Role extends BaseRole
      *
      * @return self
      */
-    public function setParent(Role $value)
+    public function setParent(?Role $value)
     {
         $this->parent = $value;
 
