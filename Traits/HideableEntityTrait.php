@@ -34,6 +34,16 @@ trait HideableEntityTrait
     }
 
     /**
+     * Determines of the class is visible
+     *
+     * @return bool
+     */
+    public function isVisible()
+    {
+        return !$this->hidden;
+    }
+
+    /**
      * Sets the hidden var.
      *
      * @param bool $hidden Whether the entity is hidden or not
