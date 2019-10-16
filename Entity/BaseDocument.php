@@ -383,10 +383,7 @@ abstract class BaseDocument
         $text = preg_replace('~[^\\pL\d]+~u', '-', $this->name);
         // trim
         $text = trim($text, '-');
-        // transliterate
-        if (function_exists('iconv')) {
-            $text = @iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        }
+
         // lowercase
         $text = strtolower($text);
         // remove unwanted characters
