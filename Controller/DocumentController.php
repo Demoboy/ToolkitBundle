@@ -13,7 +13,7 @@ use KMJ\ToolkitBundle\Entity\HiddenDocument;
 use KMJ\ToolkitBundle\Entity\S3EncryptedDocument;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Kaelin Jacobson <kaelinjacobson@gmail.com>
  */
-class DocumentController extends Controller
+class DocumentController extends AbstractController
 {
     /**
      * Provides a response to download a HiddenDocument.
@@ -101,7 +101,7 @@ class DocumentController extends Controller
         $s3Client->getObject(
             [
                 'Bucket' => $this->getParameter('kmj_aws.s3.bucket'),
-                'Key' => $document->getFileKey(),
+                'Key'    => $document->getFileKey(),
                 'SaveAs' => $document->getAbsolutePath(),
             ]
         );
@@ -136,7 +136,7 @@ class DocumentController extends Controller
                 'kmj_toolkit_document_viewencrypted',
                 [
                     'document' => $document->getId(),
-                    'name' => $document->getName(),
+                    'name'     => $document->getName(),
                 ]
             );
         }
@@ -168,7 +168,7 @@ class DocumentController extends Controller
                 'kmj_toolkit_document_viewhidden',
                 [
                     'document' => $document->getId(),
-                    'name' => $document->getName(),
+                    'name'     => $document->getName(),
                 ]
             );
         }

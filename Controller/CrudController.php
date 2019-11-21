@@ -15,7 +15,7 @@ use KMJ\ToolkitBundle\Interfaces\EnableableEntityInterface;
 use KMJ\ToolkitBundle\Interfaces\HideableEntityInterface;
 use KMJ\ToolkitBundle\Repository\FilterableEntityRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +33,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  *
  * @since  1.1
  */
-abstract class CrudController extends Controller
+abstract class CrudController extends AbstractController
 {
     /**
      * Action constant for hideAction method.
@@ -238,7 +238,7 @@ abstract class CrudController extends Controller
      * Determines if the action can be executed. Throws exceptions if not.
      *
      * @param string $action
-     * @param mixed  $entity
+     * @param mixed $entity
      *
      * @throws NotFoundHttpException
      * @throws AccessDeniedException
@@ -286,7 +286,7 @@ abstract class CrudController extends Controller
      * Generates a token to use when calling an event.
      *
      * @param string $action The action being applied
-     * @param string $time   The time in function processing that the event is being dispatched
+     * @param string $time The time in function processing that the event is being dispatched
      *
      * @return string
      */
@@ -309,24 +309,14 @@ abstract class CrudController extends Controller
     }
 
     /**
-     * Gets the form options to use when creating the form
-     * @param $action
-     *
-     * @return array
-     */
-    protected function getFormOptions($action, $entity) {
-        return [];
-    }
-
-    /**
      * Creates and handles the entity's form. If the submitted form is valid, the entity is persisted.
      * the $form varaible is passed as reference so that a boolean value could be returned,
      * but still be able to access the form to pass to the view.
      *
      * @param Request $request The http request
-     * @param mixed   $entity  The entity
-     * @param string  $action  The action being performed
-     * @param null    $form    Passed by reference to allow accessing the form
+     * @param mixed $entity The entity
+     * @param string $action The action being performed
+     * @param null $form Passed by reference to allow accessing the form
      *
      * @return bool True if the form was valid and persisted to the db
      */
@@ -383,11 +373,22 @@ abstract class CrudController extends Controller
     abstract protected function getFormType($action);
 
     /**
+     * Gets the form options to use when creating the form
+     * @param $action
+     *
+     * @return array
+     */
+    protected function getFormOptions($action, $entity)
+    {
+        return [];
+    }
+
+    /**
      * Sets a flash message reguarding a successful action, then creates
      * a redirect response and returns it.
      *
      * @param string $action The action that was being preformed
-     * @param mixed  $entity The entity the action was preformed on
+     * @param mixed $entity The entity the action was preformed on
      *
      * @return RedirectResponse The response
      *
@@ -432,7 +433,7 @@ abstract class CrudController extends Controller
      *
      * @param string $action The action being preformed
      * @param string $status The status of the action
-     * @param string $class  The class name
+     * @param string $class The class name
      *
      * @return string
      */
@@ -638,7 +639,7 @@ abstract class CrudController extends Controller
      * Removes the specified task from the db.
      *
      * @param Request $request The symfony request
-     * @param int     $id      The id of the entity to hide
+     * @param int $id The id of the entity to hide
      *
      * @return RedirectResponse|Response
      * @throws NotFoundHttpException
@@ -691,7 +692,7 @@ abstract class CrudController extends Controller
      * Provides an edit function of a task.
      *
      * @param Request $request The http request
-     * @param int     $id      The task to edit
+     * @param int $id The task to edit
      * @Route("/edit/{id}", requirements={"id" = "\d+"})
      *
      * @return Response
@@ -742,7 +743,7 @@ abstract class CrudController extends Controller
             array_merge(
                 $this->extraVars,
                 [
-                    'form' => $form->createView(),
+                    'form'                     => $form->createView(),
                     $this->getTwigEntityName() => $entity,
                 ]
             )
@@ -763,7 +764,7 @@ abstract class CrudController extends Controller
      * Provides a detailed output of the task.
      *
      * @param Request $request The symfony request
-     * @param int     $id      The entity to view
+     * @param int $id The entity to view
      *
      * @return Response
      * @Route("/details/{id}",  requirements={"id" = "\d+"})
@@ -806,9 +807,9 @@ abstract class CrudController extends Controller
      * Shows all non-hidden entites.
      *
      * @param Request $request The symfony request
-     * @param array   $filter
-     * @param bool    $showFilter
-     * @param int     $page
+     * @param array $filter
+     * @param bool $showFilter
+     * @param int $page
      *
      * @return Response
      * @Route("/view/{page}")
@@ -916,7 +917,7 @@ abstract class CrudController extends Controller
                 $this->extraVars,
                 [
                     $this->getTwigEntityName(true) => $entities,
-                    'filterForm' => $filterForm !== null ? $filterForm->createView() : null,
+                    'filterForm'                   => $filterForm !== null ? $filterForm->createView() : null,
                 ]
             )
         );
