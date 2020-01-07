@@ -130,7 +130,7 @@ class Role extends BaseRole
      *
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->getDisplayName();
     }
