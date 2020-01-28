@@ -65,7 +65,7 @@ class MenuExtension extends Twig_Extension
     {
         $options = array_merge(
             [
-                'template' => 'KMJToolkitBundle:Menu:menu.html.twig',
+                'template' => '@KMJToolkit/Menu/menu.html.twig',
                 'currentClass' => 'active',
                 'ancestorClass' => 'active',
                 'childrenClasses' => 'dropdown-menu',
