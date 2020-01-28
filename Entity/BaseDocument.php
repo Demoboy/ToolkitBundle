@@ -229,6 +229,10 @@ abstract class BaseDocument
      */
     public function setFile(UploadedFile $file)
     {
+        if ($file->getError() !== 0) {
+            return $this;
+        }
+
         $this->file = $file;
         $this->mimeType = $file->getMimeType();
         $this->checksum = md5(file_get_contents($file->getRealPath()));

@@ -1,4 +1,10 @@
 services:
+    kmj_toolkit.controller.crud:
+      class: KMJ\ToolkitBundle\Controller\CrudController
+      arguments:
+        - "@event_dispatcher"
+        - "@knp_paginator"
+
     kmj_toolkit.form.select2type:
         class: KMJ\ToolkitBundle\Form\Type\Select2Type
         arguments:
