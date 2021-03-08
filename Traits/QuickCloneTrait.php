@@ -2,6 +2,8 @@
 
 namespace KMJ\ToolkitBundle\Traits;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Persistence\Proxy;
 use Doctrine\Common\Util\ClassUtils;
 use ReflectionClass;
@@ -70,6 +72,10 @@ trait QuickCloneTrait
                             }
                             $newValue[] = clone $v;
                         }
+                    }
+
+                    if ($value instanceof Collection) {
+                        $newValue = new ArrayCollection($newValue);
                     }
 
                     $prop->setValue($this, $newValue);
