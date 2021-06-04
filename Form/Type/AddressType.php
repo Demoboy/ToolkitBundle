@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityRepository;
 use InvalidArgumentException;
 use KMJ\ToolkitBundle\Entity\Address;
 use KMJ\ToolkitBundle\Entity\Country;
+use KMJ\ToolkitBundle\Entity\State;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -92,7 +93,7 @@ class AddressType extends AbstractType
                 EntityType::class,
                 [
                     'label'       => 'kmjtoolkit.address.form.country.label',
-                    'class'       => 'KMJToolkitBundle:Country',
+                    'class'       => Country::class,
                     'required'    => $options['required'],
                     'placeholder' => 'kmjtoolkit.address.form.country.empty_value',
                 ]
@@ -102,7 +103,7 @@ class AddressType extends AbstractType
                 null,
                 [
                     'label'    => 'kmjtoolkit.address.form.zipcode.label',
-                    'required' => (!$options['include_country'] || $options['required']) ? false : true,
+                    'required' => (!$options['include_country'] && !$options['required']) ? false : true,
                 ]
             );
 
@@ -138,8 +139,7 @@ class AddressType extends AbstractType
             [
                 'label'         => 'kmjtoolkit.address.form.state.label',
                 'placeholder'   => 'kmjtoolkit.address.form.state.empty_value',
-                'class'         => 'KMJToolkitBundle:State',
-                'required'      => false,
+                'class'         => State::class,
                 'query_builder' => function (EntityRepository $repository) use ($country) {
                     $queryBuilder = $repository->createQueryBuilder('s');
 
