@@ -59,6 +59,11 @@ trait QuickCloneTrait
                             $newValue[] = clone $v;
                         }
                     }
+                    
+                    
+                    if ($value instanceof Collection) {
+                        $newValue = new ArrayCollection($newValue);
+                    }
 
                     $prop->setValue($this, $newValue);
                 } elseif (is_object($value)) {
