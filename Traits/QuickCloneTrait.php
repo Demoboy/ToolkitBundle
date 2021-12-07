@@ -78,11 +78,6 @@ trait QuickCloneTrait
                         $newValue = new ArrayCollection($newValue);
                     }
                     
-                    
-                    if ($value instanceof Collection) {
-                        $newValue = new ArrayCollection($newValue);
-                    }
-
                     $prop->setValue($this, $newValue);
                 } elseif (is_object($value)) {
                     if ($this->allowClone && method_exists($value, 'allowClone')) {
