@@ -26,7 +26,7 @@ trait DeepLinkedTypeTrait
                     return $qb;
                 },
                 'table_alias'           => null,
-                'empty_data'            => null,
+                'empty_data'            => [],
             ]
         );
 
