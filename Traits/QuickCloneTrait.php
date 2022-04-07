@@ -71,6 +71,8 @@ trait QuickCloneTrait
                                 $v->allowClone(true);
                             }
                             $newValue[] = clone $v;
+                        } else {
+                            $newValue[] = $v;
                         }
                     }
 
